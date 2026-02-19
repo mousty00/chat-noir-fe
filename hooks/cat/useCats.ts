@@ -8,28 +8,37 @@ interface UseCatsReturn {
   pagination: PaginationData | null;
   loading: boolean;
   error: any;
+  success: boolean;
+  message: string;
   networkStatus: number;
   refetchCount: number;
   handleRefetch: () => void;
   handlePageChange: (newPage: number) => void;
 }
 
-export const useCats = (initialPage = 0, pageSize = 10): UseCatsReturn => {
+export const useCats = (
+  initialPage = 0,
+  pageSize = 10,
+  category?: string,
+  name?: string,
+): UseCatsReturn => {
   const [page, setPage] = useState(initialPage);
   const [refetchCount, setRefetchCount] = useState(0);
 
   const { data, loading, error, refetch, networkStatus } = useQuery<{
-    allCats: ApiResponse<PaginationData>;
+    cats: ApiResponse<PaginationData>;
   }>(GET_CATS, {
-    variables: { page, size: pageSize },
+    variables: { page, size: pageSize, category, name },
     notifyOnNetworkStatusChange: true,
     fetchPolicy: "cache-and-network",
     pollInterval: 5 * 60 * 1000,
   });
 
-  const response = data?.allCats;
+  const response = data?.cats;
   const cats = response?.data?.result || [];
   const pagination = response?.data || null;
+  const success = !!response?.success;
+  const message = response?.message || "";
 
   const handleRefetch = useCallback(() => {
     refetch();
@@ -49,6 +58,8 @@ export const useCats = (initialPage = 0, pageSize = 10): UseCatsReturn => {
     pagination,
     loading,
     error,
+    success,
+    message,
     networkStatus,
     refetchCount,
     handleRefetch,

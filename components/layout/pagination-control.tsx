@@ -28,7 +28,7 @@ export const PaginationControls = ({
                 <RiArrowLeftSLine className="h-4 w-4" />
             </Button>
 
-            <span className="text-sm text-gray-600 min-w-[80px] text-center">
+            <span className="text-sm text-gray-600 min-w-[40px] text-center">
                 {currentPage + 1} / {totalPages}
             </span>
 

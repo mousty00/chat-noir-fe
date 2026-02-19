@@ -39,7 +39,7 @@ export const CatCard = ({ cat, onDownload, onView, isDownloading }: CatCardProps
     : cat.image;
 
   return (
-    <Card className="relative border-0 mx-auto w-full max-w-sm pt-0 overflow-hidden group">
+    <Card className="relative border-0 p-0 w-full max-w-sm overflow-hidden group">
       <div className="relative w-full aspect-square">
         <img
           src={imageSrc}
@@ -79,10 +79,10 @@ export const CatCard = ({ cat, onDownload, onView, isDownloading }: CatCardProps
         </div>
       </div>
 
-      <CardHeader className="w-full flex items-center justify-between px-4">
-        <CardTitle className="text-lg md:text-xl">{cat.name}</CardTitle>
-        <CardDescription className="text-sm">
-          <Badge className="bg-violet-600 text-xs text-white">
+      <CardHeader className="absolute bottom-0 left-0 right-0 w-full flex-row items-center justify-between px-4 pb-4 pt-10 bg-linear-to-t from-black/80 to-transparent text-white translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+        <CardTitle className="text-base font-semibold">{cat.name}</CardTitle>
+        <CardDescription className="text-sm opacity-0 group-hover:opacity-100 transition-all duration-300">
+          <Badge className="bg-violet-600 border-0 text-xs text-white">
             {cat.category?.name || 'Unknown'}
           </Badge>
         </CardDescription>

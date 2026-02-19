@@ -4,15 +4,27 @@ import { useCats } from "@/hooks/cat/useCats";
 import { LoadingState } from "@/components/ui/loading-state";
 import { useCatMediaDownload } from "@/hooks/cat/useCatMediaDownload";
 import { ErrorState } from "@/components/ui/error-state";
-import { ApiErrorState } from "@/components/ui/api-error-state";
 import { CatGrid } from "@/components/cat/cat-grid";
 import { Header } from "@/components/layout/header";
 import { PaginationControls } from "@/components/layout/pagination-control";
 import { RefreshButton } from "@/components/layout/refresh-button";
 import { Stats } from "@/components/layout/stats";
+import { useState } from "react";
+import { CategorySelect } from "@/components/cat/category-select";
+import { NameSearch } from "@/components/cat/name-search";
 
 
 export default function Home() {
+  const [category, setCategory] = useState<string | undefined>(undefined);
+  const [name, setName] = useState<string | undefined>(undefined);
+
+  const handleCategoryChange = (newCategory: string) => {
+    setCategory(newCategory || undefined);
+  };
+
+  const handleNameChange = (newName: string) => {
+    setName(newName || undefined);
+  };
   const {
     cats,
     pagination,
@@ -22,7 +34,7 @@ export default function Home() {
     refetchCount,
     handleRefetch,
     handlePageChange,
-  } = useCats(0, 10);
+  } = useCats(0, 10, category, name);
 
   const {
     downloadMedia,
@@ -54,20 +66,6 @@ export default function Home() {
     );
   }
 
-  const response = cats.length > 0 ? { success: true } : { success: false, message: "No data", status: 404 };
-  if (!response.success) {
-    return (
-      <div className="main-layout">
-        <main className="main-container">
-          <ApiErrorState
-            message={response.message}
-            status={response.status}
-            onRetry={handleRefetch}
-          />
-        </main>
-      </div>
-    );
-  }
 
   return (
     <div className="main-layout">
@@ -84,6 +82,8 @@ export default function Home() {
             />
           )}
 
+          <NameSearch onSearch={handleNameChange} />
+
           <div className="flex gap-2">
             {pagination && (
               <PaginationControls
@@ -99,6 +99,13 @@ export default function Home() {
               onRefresh={handleRefetch}
               isRefreshing={networkStatus === 4}
             />
+
+
+            <CategorySelect
+              value={category}
+              onValueChange={handleCategoryChange}
+            />
+
           </div>
         </section>
 
@@ -116,7 +123,7 @@ export default function Home() {
         />
 
         {refetchCount > 0 && (
-          <p className="text-xs text-gray-400 mt-4 text-center">
+          <p className="text-xs text-gray-400 mt-4 text-center mt-auto">
             Refreshed {refetchCount} time{refetchCount !== 1 ? 's' : ''}
           </p>
         )}

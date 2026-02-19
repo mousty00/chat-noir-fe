@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_CATS = gql`
-  query GetCats($page: Int!, $size: Int!) {
-    allCats(page: $page, size: $size) {
+  query GetCats($page: Int!, $size: Int!, $category: String, $name: String) {
+    cats(page: $page, size: $size, category: $category, name: $name) {
       status
       error
       message
@@ -26,6 +26,22 @@ export const GET_CATS = gql`
         pageSize
         hasNext
         hasPrevious
+      }
+    }
+  }
+`;
+
+export const GET_CAT_CATEGORIES = gql`
+  query categories {
+    categories {
+      status
+      error
+      message
+      success
+      data {
+        id
+        name
+        mediaTypeHint
       }
     }
   }
