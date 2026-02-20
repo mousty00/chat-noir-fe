@@ -8,24 +8,32 @@ interface ErrorStateProps {
 }
 
 export const ErrorState = ({
-    title = "Something went wrong",
+    title = "System Error",
     message,
     onRetry
 }: ErrorStateProps) => {
     return (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md mx-auto text-center">
-            <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-            <h2 className="text-red-800 text-lg font-semibold mb-2">
-                {title}
+        <div className="bg-black border border-red-900/50 p-8 max-w-md mx-auto text-center font-mono">
+            <div className="relative inline-block mb-6">
+                <AlertCircle className="h-16 w-16 text-red-600 mx-auto" />
+                <div className="absolute inset-0 bg-red-600/20 blur-2xl rounded-full" />
+            </div>
+
+            <h2 className="text-white text-xl font-bold mb-4 uppercase tracking-[0.2em]">
+                {title.toUpperCase().replace(/\s/g, '_')}
             </h2>
-            <p className="text-red-600 mb-4">
-                {message}
+
+            <p className="text-muted-foreground mb-8 text-sm leading-relaxed border-t border-b border-border py-4">
+                ERRORCODE: 500<br />
+                MSG: {message}
             </p>
+
             <Button
                 onClick={onRetry}
-                variant="destructive"
+                variant="outline"
+                className="w-full h-12 rounded-none border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all uppercase tracking-widest font-bold"
             >
-                Try Again
+                Rescue_System
             </Button>
         </div>
     );

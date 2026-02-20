@@ -1,10 +1,15 @@
 export function SidebarTitleBar() {
     return (
-        <div className="w-full bg-[#000080] text-white px-2 py-1 flex items-center justify-between font-bold text-xs shrink-0">
-            <span>NAVIGATOR.SYS</span>
-            <div className="flex gap-0.5">
-                <div className="w-3 h-3 bg-[#c0c0c0] border border-white shadow-[0.5px_0.5px_black]" />
+        <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full animate-pulse bg-green-500" />
+                <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-white uppercase">
+                    Online
+                </span>
             </div>
+            <span className="text-[10px] font-mono text-muted-foreground">
+                [v1.0]
+            </span>
         </div>
     );
 }

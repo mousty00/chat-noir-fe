@@ -31,20 +31,24 @@ export function SidebarRoutes({ onNavigate }: SidebarRoutesProps) {
     const pathname = usePathname();
 
     return (
-        <nav className="flex flex-col gap-2 grow">
+        <nav className="flex flex-col gap-1 grow">
             {routes.map((route) => (
                 <Link
                     key={route.href}
                     href={route.href}
                     onClick={onNavigate}
                     className={cn(
-                        "flex items-center gap-3 px-4 py-3 font-bold transition-all text-sm uppercase tracking-tighter",
+                        "group flex items-center gap-3 px-3 py-2 transition-all duration-200 font-mono text-xs uppercase tracking-[0.1em]",
                         pathname === route.href
-                            ? "retro-bevel-inset bg-white text-black translate-x-1"
-                            : "retro-button hover:bg-[#d0d0d0] text-black"
+                            ? "text-secondary"
+                            : "text-muted-foreground hover:text-white"
                     )}
                 >
-                    <route.icon className={cn("w-5 h-5", pathname === route.href ? "text-violet-600" : "text-black")} />
+                    <div className={cn(
+                        "w-1 h-4 transition-all duration-300",
+                        pathname === route.href ? "bg-secondary" : "bg-transparent group-hover:bg-secondary/30"
+                    )} />
+                    <route.icon className={cn("w-4 h-4 transition-colors", pathname === route.href ? "text-secondary" : "text-muted-foreground group-hover:text-white")} />
                     <span>{route.label}</span>
                 </Link>
             ))}

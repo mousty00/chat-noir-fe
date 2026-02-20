@@ -1,12 +1,19 @@
 export function SidebarIdentity() {
     return (
-        <div className="retro-bevel-inset bg-white p-4 flex flex-col items-center gap-2 mb-4">
-            <div className="w-16 h-16 bg-violet-600/10 flex items-center justify-center retro-bevel">
-                <span className="text-2xl font-black text-black italic">CN</span>
+        <div className="flex flex-col items-start gap-3 mb-8 px-2">
+            <div className="group relative flex items-center gap-3">
+                <div className="w-12 h-12 bg-secondary rounded-md flex items-center justify-center transition-all duration-300 group-hover:bg-white">
+                    <span className="text-xl font-black text-black">CN</span>
+                </div>
+                <div className="flex flex-col">
+                    <span className="text-sm font-bold text-white uppercase tracking-[0.2em]">
+                        Chat Noir
+                    </span>
+                    <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest">
+                        System v1.0.4
+                    </span>
+                </div>
             </div>
-            <span className="text-xs font-bold text-black uppercase tracking-widest text-center">
-                Chat Noir Terminal
-            </span>
         </div>
     );
 }
