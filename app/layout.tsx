@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CHAT_NOIR.EXE // OS/2 Warp v4",
-  description: "Advanced Cat Observation & Retrieval Interface // 1995 Edition",
+  title: "Chat Noir API",
+  description: "Modern Cat API",
 };
 
 export default function RootLayout({
