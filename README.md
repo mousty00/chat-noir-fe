@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Chat Noir Front End
 
-## Getting Started
+**A modern web client for the Chat Noir API - Browse and download cat media with style**
 
-First, run the development server:
+---
+
+## Quick Start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/mousty00/chat-noir-fe.git
+cd chat-noir-fe
+bun install
+bun run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**App:** `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech Stack
 
-## Learn More
+| Component | Technology |
+|-----------|------------|
+| Framework | Next.js 15+ |
+| Language | TypeScript |
+| Styling | TailwindCSS |
+| API Client | Apollo Client (GraphQL) + TanStack Query |
+| UI Components | Shadcn UI |
+| Icons | React Icons |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Browse cats** - Paginated gallery of adorable cats
+- **Media preview** - View images directly in browser
+- **One-click download** - Save cat media to your device
+- **Responsive design** - Works on desktop & mobile
+- **GraphQL powered** - Efficient data fetching
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Screenshots
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<img width="1710" height="979" alt="Screenshot 2026-02-18 at 15 01 21" src="https://github.com/user-attachments/assets/98b9fcb3-9b5f-4125-a9f4-516ada148fd3" />
+
+---
+
+## Project Structure
+
+```
+chat-noir-fe/
+├── components/     # Reusable UI components
+│   └── cat/        # Cat-related components
+│   └── ui/         # Shadcdn UI components
+├── hooks/          # Custom React hooks
+├── lib/            # API clients & configs
+├── types/          # TypeScript definitions
+└── app/            # Next.js app router
+```
+
+---
+
+## Environment Variables
+
+Create a `.env.local` file:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8080
+```
+
+---
+
+## API Integration
+
+The client connects to the Chat Noir API using:
+
+- **GraphQL** for cat listings and metadata
+- **REST streaming** for direct media downloads
+
+```typescript
+// Example: Fetch cats with GraphQL
+const { data } = useQuery(GET_CATS, {
+  variables: { page: 0, size: 10 }
+});
+
+// Download media directly
+const handleDownload = (id: string) => {
+  window.open(`/api/cats/${id}/media/stream`, '_blank');
+};
+```
+
+---
+
+## UI Components
+
+- **CatCard** - Beautiful card layout with hover effects
+- **Download button** - One-click media download
+- **View button** - Preview images in new tab
+- **Pagination** - Browse through cat collection
+- **Loading states** - Smooth loading indicators
+
+---
+
+## Work in Progress
+
+- [ ] Search & filters
+- [ ] Favorites collection
+- [ ] User authentication
+- [ ] Dark mode toggle
+- [ ] Infinite scroll
+- [ ] Media type badges
+
+---
+
+## Available Scripts
+
+| Command | Description |
+|---------|-------------|
+| `bun dev` | Start dev server |
+| `bun build` | Build for production |
+| `bun start` | Start production server |
+| `bun lint` | Run ESLint |
+
+---
+
+## Connect with Backend
+
+This client is designed to work with the [Chat Noir API](https://github.com/mousty00/chat-noir-api) - make sure it's running locally or update the `NEXT_PUBLIC_API_URL` to point to an environment.
+
