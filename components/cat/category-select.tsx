@@ -22,8 +22,8 @@ export function CategorySelect({ value, onValueChange }: CategorySelectProps) {
 
     return (
         <Select value={value || "all"} onValueChange={(val) => onValueChange(val === "all" ? "" : val)}>
-            <SelectTrigger className="w-[180px] bg-violet-500 text-white">
-                <RiArrowDropDownLine className="mr-2 w-8 h-8 opacity-50 text-white" />
+            <SelectTrigger className="bg-[#c0c0c0] text-black font-bold retro-button">
+                <RiArrowDropDownLine className="mr-2 w-8 h-8 opacity-50 text-black" />
                 <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
@@ -43,6 +43,6 @@ export function CategorySelect({ value, onValueChange }: CategorySelectProps) {
                     )}
                 </SelectGroup>
             </SelectContent>
-        </Select>
+        </Select >
     );
 }

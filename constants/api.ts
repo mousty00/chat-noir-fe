@@ -1,5 +1,4 @@
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 export const API_PATH = "/api";
 export const API_URL = `${API_BASE_URL}${API_PATH}`;
 export const API_GRAPHQL_URL = `${API_URL}/graphql`;

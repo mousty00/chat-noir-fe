@@ -38,39 +38,51 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .main-layout {
   display: flex;
   min-height: 100vh;
   width: 100%;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
 }
 
 .main-container {
   display: flex;
   min-height: 100vh;
   width: 100%;
-  max-width: 1000px;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
-  padding: 32px 2rem;
-  background-color: transparent;
+  justify-content: flex-start;
+  padding: 64px 1rem 32px; 
+  flex-grow: 1;
+}
+
+@media (min-width: 1024px) {
+  .main-container {
+    padding: 0 2rem 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-container {
+    padding: 64px 0.75rem 32px;
+  }
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: rgb(28, 30, 33);
+  --radius: 0rem;
+  --background: rgb(60, 60, 135);
   --foreground: oklch(100% 0.00011 271.152);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -108,29 +120,104 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-mono;
+    image-rendering: pixelated;
   }
+}
+
+.crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.1) 50%
+  ),
+  linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 4px, 3px 100%;
+  pointer-events: none;
+  z-index: 9999;
+  animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+  0% { opacity: 0.95; }
+  50% { opacity: 1; }
+  100% { opacity: 0.95; }
 }
 
 .background-pattern {
   position: fixed;
-  inset: -100px;
+  inset: 0;
   z-index: -1;
   background-image: url("/images/logo.png");
   background-repeat: repeat;
-  background-size: 170px 170px;
-  opacity: 0.05;
-  filter: grayscale(1);
-  mix-blend-mode: overlay;
+  background-size: 100px 100px;
+  opacity: 0.12;
+  filter: grayscale(1) contrast(150%);
+  mix-blend-mode: soft-light;
   pointer-events: none;
   animation: move-background 10s linear infinite;
+  background-color: var(--background);
 }
 
 @keyframes move-background {
   from {
-    transform: translate(0, 0);
+    background-position: 0 0;
   }
   to {
-    transform: translate(150px, 150px);
+    background-position: 100px 100px;
   }
 }
+
+@layer utilities {
+  .retro-bevel {
+    border: 2px solid;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    background-color: #c0c0c0;
+    box-shadow: inset 1px 1px #dfdfdf, 1px 1px #000;
+  }
+
+  .retro-bevel-inset {
+    border: 2px solid;
+    border-top-color: #808080;
+    border-left-color: #808080;
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+    background-color: #ffffff;
+    box-shadow: inset 1px 1px #000, 1px 1px #dfdfdf;
+  }
+}
+
+.retro-button {
+  border: 2px solid;
+  border-top-color: #fff;
+  border-left-color: #fff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+  background-color: #c0c0c0;
+  box-shadow: inset 1px 1px #dfdfdf, 1px 1px #000;
+  @apply px-4 py-1 transition-all duration-75 text-black font-bold;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.retro-button:active {
+  border-top-color: #808080;
+  border-left-color: #808080;
+  border-right-color: #fff;
+  border-bottom-color: #fff;
+  background-color: #ffffff;
+  box-shadow: inset 1px 1px #000, 1px 1px #dfdfdf;
+  @apply translate-x-px translate-y-px;
+}
+

@@ -24,11 +24,12 @@ export const PaginationControls = ({
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={!hasPrevious}
                 aria-label="Previous page"
+                className="retro-button p-0 h-8 w-8 text-black"
             >
                 <RiArrowLeftSLine className="h-4 w-4" />
             </Button>
 
-            <span className="text-sm text-gray-600 min-w-[40px] text-center">
+            <span className="text-sm min-w-[40px] text-center">
                 {currentPage + 1} / {totalPages}
             </span>
 
@@ -38,6 +39,7 @@ export const PaginationControls = ({
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={!hasNext}
                 aria-label="Next page"
+                className="retro-button p-0 h-8 w-8 text-black"
             >
                 <RiArrowRightSLine className="h-4 w-4" />
             </Button>

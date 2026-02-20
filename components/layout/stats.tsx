@@ -7,10 +7,9 @@ interface StatsProps {
 
 export const Stats = ({ itemCount, totalItems, currentPage, totalPages }: StatsProps) => {
     return (
-        <div className="text-sm text-gray-600">
+        <div className="retro-bevel-inset px-2 py-1 text-xs font-bold text-black bg-white min-w-[200px]">
             <span>
-                Showing {itemCount} of {totalItems} cats
-                {totalPages > 1 && ` (Page ${currentPage + 1} of ${totalPages})`}
+                STATUS: {itemCount}/{totalItems} ITEMS
             </span>
         </div>
     );
