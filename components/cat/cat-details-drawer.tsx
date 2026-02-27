@@ -21,7 +21,6 @@ import {
     RiLayout2Line,
     RiLoader4Line
 } from "react-icons/ri";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface CatDetailsDrawerProps {
     catId: string | null;
@@ -31,10 +30,9 @@ interface CatDetailsDrawerProps {
 
 export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerProps) => {
     const { cat, loading, error } = useCatById(catId);
-    const { downloadMedia, viewMedia, downloadingId } = useCatMediaDownload();
+    const { downloadMedia, downloadingId } = useCatMediaDownload();
 
     const handleDownload = () => cat && downloadMedia(cat.id);
-    const handleView = () => cat && viewMedia(cat.id);
 
     return (
         <Drawer open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -45,11 +43,8 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                     <DrawerHeader className="px-0">
                         <DrawerTitle className="text-2xl font-sans font-bold uppercase tracking-widest flex items-center gap-3">
                             <RiInformationLine className="text-secondary" />
-                            Archive Intelligence
+                            {cat?.name} Details
                         </DrawerTitle>
-                        <DrawerDescription className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
-                            Deep-level data inspection for feline entity
-                        </DrawerDescription>
                     </DrawerHeader>
 
                     <div className="flex-1 overflow-y-auto py-6 space-y-8 scrollbar-hide">
@@ -77,7 +72,7 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                                     ) : (
                                         <div className="w-full aspect-video flex flex-col items-center justify-center text-muted-foreground">
                                             <RiLayout2Line className="h-12 w-12 opacity-20 mb-2" />
-                                            <span className="text-[10px] font-mono uppercase tracking-widest opacity-50">No Visual Matrix Available</span>
+                                            <span className="text-[10px] font-mono uppercase tracking-widest opacity-50">No Media Available</span>
                                         </div>
                                     )}
                                     <div className="absolute top-4 left-4">
@@ -87,11 +82,11 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                                     </div>
                                 </div>
 
-                                {/* Data Matrix */}
+                                {/* Details */}
                                 <div className="space-y-6">
                                     <div className="flex items-center gap-2">
                                         <div className="h-4 w-1 bg-secondary rounded-full" />
-                                        <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-white">Neural Identification</h4>
+                                        <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-white">Details</h4>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -103,23 +98,22 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                                         />
                                         <DataPoint
                                             icon={<RiInformationLine />}
-                                            label="Designation"
+                                            label="Name"
                                             value={cat.name}
                                         />
                                         <DataPoint
                                             icon={<RiPaletteLine />}
-                                            label="Spectral Color"
+                                            label="Color"
                                             value={cat.color || "Undetermined"}
                                         />
                                         <DataPoint
                                             icon={<RiCompassDiscoverLine />}
-                                            label="Origin Source"
-                                            value={cat.sourceName || "Unknown Nexus"}
+                                            label="Created By"
+                                            value={cat.sourceName || "Unknown"}
                                         />
                                     </div>
                                 </div>
 
-                                {/* Classification Context */}
                                 <div className="space-y-4 pt-4">
                                     <div className="p-4 rounded-lg bg-secondary/5 border border-secondary/10 flex items-start gap-4">
                                         <div className="p-2 rounded bg-secondary/10 text-secondary">
@@ -128,7 +122,7 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                                         <div>
                                             <h5 className="text-[10px] font-mono uppercase text-secondary tracking-widest mb-1">Category Insights</h5>
                                             <p className="text-xs text-muted-foreground">
-                                                This entity is classified under <span className="text-white font-bold">{cat.category?.name}</span>.
+                                                This cat is classified under <span className="text-white font-bold">{cat.category?.name}</span>.
                                                 {cat.category?.mediaTypeHint && ` Metadata optimizations are tuned for ${cat.category.mediaTypeHint} stream protocols.`}
                                             </p>
                                         </div>
@@ -156,14 +150,6 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                         </Button>
                         <div className="flex-2 flex gap-3">
                             <Button
-                                className="flex-1 h-12 border border-white/10 bg-white/5 hover:bg-white/10 text-white font-mono uppercase tracking-widest text-[10px]"
-                                onClick={handleView}
-                                disabled={!cat || downloadingId === cat.id}
-                            >
-                                <RiEyeLine className="mr-2 h-4 w-4" />
-                                Inspect Stream
-                            </Button>
-                            <Button
                                 className="flex-1 h-12 bg-secondary text-white hover:bg-secondary/90 font-mono uppercase tracking-widest text-[10px] shadow-2xl shadow-secondary/20"
                                 onClick={handleDownload}
                                 disabled={!cat || downloadingId === cat.id}
@@ -173,7 +159,7 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                                 ) : (
                                     <RiDownload2Line className="mr-2 h-4 w-4" />
                                 )}
-                                Acquire Payload
+                                Download
                             </Button>
                         </div>
                     </div>

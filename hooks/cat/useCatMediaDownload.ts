@@ -5,7 +5,6 @@ import { useCallback, useState } from "react";
 
 interface UseCatMediaDownloadReturn {
   downloadMedia: (id: string, filename?: string) => Promise<void>;
-  viewMedia: (id: string) => Promise<void>;
   downloadingId: string | null;
   error: string | null;
 }
@@ -65,41 +64,8 @@ export const useCatMediaDownload = (): UseCatMediaDownloadReturn => {
     [fetchDownloadInfo, downloadFromUrl],
   );
 
-  const viewMedia = useCallback(
-    async (id: string) => {
-      setDownloadingId(id);
-      setError(null);
-
-      try {
-        const { data } = await fetchDownloadInfo({ variables: { id } });
-        const response = data?.catMediaDownloadInfo;
-
-        if (!response?.success) {
-          throw new Error(response?.message || "Failed to get media info");
-        }
-
-        const info = response.data;
-
-        if (info.viewable) {
-          window.open(info.streamUrl, "_blank");
-        } else {
-          downloadFromUrl(info.streamUrl, info.filename);
-        }
-      } catch (err) {
-        const errorMessage =
-          err instanceof Error ? err.message : "Failed to view media";
-        setError(errorMessage);
-        console.error("View error:", err);
-      } finally {
-        setDownloadingId(null);
-      }
-    },
-    [fetchDownloadInfo, downloadFromUrl],
-  );
-
   return {
     downloadMedia,
-    viewMedia,
     downloadingId,
     error,
   };

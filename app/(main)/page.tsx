@@ -45,7 +45,6 @@ export default function Home() {
 
   const {
     downloadMedia,
-    viewMedia,
     downloadingId,
     error: downloadError,
   } = useCatMediaDownload();
@@ -185,7 +184,7 @@ export default function Home() {
         <CatGrid
           cats={cats}
           onDownload={downloadMedia}
-          onView={viewMedia}
+          onView={handleDetails}
           onEdit={handleEdit}
           onDelete={handleDelete}
           onDetails={handleDetails}
