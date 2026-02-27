@@ -1,7 +1,7 @@
 import Providers from "@/provider/providers";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Sidebar } from "@/components/layout/sidebar";
+import { AuthGuard } from "@/provider/auth-guard";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -26,18 +26,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
       >
         <Providers>
-          <div className="main-layout ">
-            <Sidebar />
-            <main className="main-container">
-              {children}
-            </main>
-          </div>
-          <Toaster />
+          <AuthGuard>
+            {children}
+          </AuthGuard>
+          <Toaster position="top-center" richColors />
         </Providers>
       </body>
     </html>

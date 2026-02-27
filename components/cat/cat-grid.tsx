@@ -8,10 +8,11 @@ interface CatGridProps {
     onView: (id: string) => void;
     onEdit: (id: string) => void;
     onDelete: (id: string) => void;
+    onDetails: (id: string) => void;
     downloadingId: string | null;
 }
 
-export const CatGrid = ({ cats, onDownload, onView, onEdit, onDelete, downloadingId }: CatGridProps) => {
+export const CatGrid = ({ cats, onDownload, onView, onEdit, onDelete, onDetails, downloadingId }: CatGridProps) => {
     if (cats.length === 0) {
         return (
             <section className="flex flex-col items-center justify-center text-center py-20 animate-in fade-in zoom-in duration-300">
@@ -32,6 +33,7 @@ export const CatGrid = ({ cats, onDownload, onView, onEdit, onDelete, downloadin
                     onView={onView}
                     onEdit={onEdit}
                     onDelete={onDelete}
+                    onDetails={onDetails}
                     isDownloading={downloadingId === cat.id}
                 />
             ))}

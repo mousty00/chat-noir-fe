@@ -15,10 +15,11 @@ interface CatCardProps {
   onView: (id: string) => void;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
+  onDetails: (id: string) => void;
   isDownloading: boolean;
 }
 
-export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, isDownloading }: CatCardProps) => {
+export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, onDetails, isDownloading }: CatCardProps) => {
   const [imageError, setImageError] = useState(false);
 
   if (!cat) return <div>No cat</div>;
@@ -42,7 +43,10 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, isDownloadi
     : cat.image;
 
   return (
-    <div className="group flex flex-col gap-4 w-full max-w-sm rounded-xl p-2 transition-all hover:bg-white/2">
+    <div
+      className="group flex flex-col gap-4 w-full max-w-sm rounded-xl p-2 transition-all hover:bg-white/2 cursor-pointer"
+      onClick={() => onDetails(cat.id)}
+    >
       <div className="relative w-full aspect-square overflow-hidden bg-muted border border-border group-hover:border-secondary transition-all duration-500 rounded-lg">
         <img
           src={imageSrc}
@@ -58,7 +62,7 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, isDownloadi
               size="icon"
               variant="outline"
               className="h-12 w-12 rounded-full border-white/20 hover:border-secondary hover:bg-secondary hover:text-white transition-all text-white"
-              onClick={handleView}
+              onClick={(e) => { e.stopPropagation(); handleView(); }}
               disabled={isDownloading}
             >
               <RiEyeLine className="h-5 w-5" />
@@ -67,7 +71,7 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, isDownloadi
               size="icon"
               variant="outline"
               className="h-12 w-12 rounded-full border-white/20 hover:border-secondary hover:bg-secondary hover:text-white transition-all text-white"
-              onClick={handleEdit}
+              onClick={(e) => { e.stopPropagation(); handleEdit(); }}
             >
               <RiEdit2Line className="h-5 w-5" />
             </Button>
@@ -77,7 +81,7 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, isDownloadi
               size="icon"
               variant="outline"
               className="h-12 w-12 rounded-full border-white/20 hover:border-red-500 hover:bg-red-500 hover:text-white transition-all text-white"
-              onClick={handleDelete}
+              onClick={(e) => { e.stopPropagation(); handleDelete(); }}
             >
               <RiDeleteBin6Line className="h-5 w-5" />
             </Button>
@@ -85,7 +89,7 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, isDownloadi
               size="icon"
               variant="outline"
               className="h-12 w-12 rounded-full border-white/20 hover:border-secondary hover:bg-secondary hover:text-white transition-all text-white"
-              onClick={handleDownload}
+              onClick={(e) => { e.stopPropagation(); handleDownload(); }}
               disabled={isDownloading}
             >
               {isDownloading ? (

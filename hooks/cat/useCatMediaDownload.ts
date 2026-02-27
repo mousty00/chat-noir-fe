@@ -1,6 +1,6 @@
 import { useLazyQuery } from "@apollo/client/react";
 import { GET_CAT_MEDIA_DOWNLOAD_INFO } from "@/graphql/cat";
-import { ApiResponse, CatMediaDownloadInfo } from "@/types/cat";
+import { ApiResponse, CatMediaStreamInfo } from "@/types/cat";
 import { useCallback, useState } from "react";
 
 interface UseCatMediaDownloadReturn {
@@ -15,7 +15,7 @@ export const useCatMediaDownload = (): UseCatMediaDownloadReturn => {
   const [error, setError] = useState<string | null>(null);
 
   const [fetchDownloadInfo] = useLazyQuery<{
-    catMediaDownloadInfo: ApiResponse<CatMediaDownloadInfo>;
+    catMediaDownloadInfo: ApiResponse<CatMediaStreamInfo>;
   }>(GET_CAT_MEDIA_DOWNLOAD_INFO, {
     fetchPolicy: "network-only",
   });
