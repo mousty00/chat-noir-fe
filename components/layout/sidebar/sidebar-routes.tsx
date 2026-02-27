@@ -38,7 +38,7 @@ export function SidebarRoutes({ onNavigate }: SidebarRoutesProps) {
                     href={route.href}
                     onClick={onNavigate}
                     className={cn(
-                        "group flex items-center gap-3 px-3 py-2 transition-all duration-200 font-mono text-xs uppercase tracking-[0.1em]",
+                        "group flex items-center gap-3 px-3 py-2 transition-all duration-200 font-mono text-xs uppercase tracking-widest",
                         pathname === route.href
                             ? "text-secondary"
                             : "text-muted-foreground hover:text-white"

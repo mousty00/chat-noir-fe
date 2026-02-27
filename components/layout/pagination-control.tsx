@@ -31,7 +31,7 @@ export const PaginationControls = ({
 
             <div className="flex flex-col items-center">
                 <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest leading-none mb-0.5">
-                    Stage
+                    Page
                 </span>
                 <span className="text-xs font-mono font-bold text-white min-w-[40px] text-center">
                     {currentPage + 1} // {totalPages}

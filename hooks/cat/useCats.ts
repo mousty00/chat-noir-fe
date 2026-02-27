@@ -18,9 +18,11 @@ interface UseCatsReturn {
 
 export const useCats = (
   initialPage = 0,
-  pageSize = 10,
+  pageSize = 12,
   category?: string,
   name?: string,
+  color?: string,
+  source?: string,
 ): UseCatsReturn => {
   const [page, setPage] = useState(initialPage);
   const [refetchCount, setRefetchCount] = useState(0);
@@ -28,7 +30,7 @@ export const useCats = (
   const { data, loading, error, refetch, networkStatus } = useQuery<{
     cats: ApiResponse<PaginationData>;
   }>(GET_CATS, {
-    variables: { page, size: pageSize, category, name },
+    variables: { page, size: pageSize, category, name, color, source },
     notifyOnNetworkStatusChange: true,
     fetchPolicy: "cache-and-network",
     pollInterval: 5 * 60 * 1000,

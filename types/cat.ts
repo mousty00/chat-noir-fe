@@ -31,11 +31,11 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-export interface CatMediaDownloadInfo {
+export interface CatMediaStreamInfo {
   streamUrl: string;
   filename: string;
   contentType: string;
-  contentLength: number;
-  extension: string;
+  contentLength?: number;
+  extension?: string;
   viewable: boolean;
 }

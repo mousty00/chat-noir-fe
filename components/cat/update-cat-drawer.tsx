@@ -1,0 +1,257 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle
+} from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { useCategories } from "@/hooks/cat/useCategories";
+import { useDeleteCatMedia } from "@/hooks/cat/useDeleteCatMedia";
+import { useUpdateCat } from "@/hooks/cat/useUpdateCat";
+import { Cat } from "@/types/cat";
+import { useEffect, useState } from "react";
+import { RiCheckFill, RiCloseLine, RiEdit2Line, RiLoader4Line, RiUploadCloud2Line } from "react-icons/ri";
+import { Label } from "../ui/label";
+
+interface UpdateCatDrawerProps {
+    cat: Cat | null;
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) => {
+    const [name, setName] = useState("");
+    const [color, setColor] = useState("");
+    const [categoryId, setCategoryId] = useState("");
+    const [sourceName, setSourceName] = useState("");
+    const [mediaFile, setMediaFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+    const { categories } = useCategories();
+    const { updateCat, loading } = useUpdateCat();
+    const { deleteCatMedia } = useDeleteCatMedia();
+
+    useEffect(() => {
+        if (cat) {
+            setName(cat.name);
+            setColor(cat.color || "");
+            setCategoryId(cat.category?.id || "");
+            setSourceName(cat.sourceName || "");
+            setPreviewUrl(cat.image);
+        }
+    }, [cat]);
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setMediaFile(file);
+            const url = URL.createObjectURL(file);
+            setPreviewUrl(url);
+        }
+    };
+
+    const removeFile = async () => {
+        if (mediaFile) {
+            setMediaFile(null);
+            setPreviewUrl(cat?.image || null);
+        } else if (cat?.image) {
+            if (window.confirm("Are you sure you want to remove this media permanenty from the record?")) {
+                const success = await deleteCatMedia(cat.id);
+                if (success) {
+                    setPreviewUrl(null);
+                }
+            }
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!cat) return;
+
+        const success = await updateCat(
+            cat.id,
+            {
+                name,
+                color,
+                categoryId,
+                sourceName,
+            },
+            mediaFile
+        );
+
+        if (success) {
+            onClose();
+        }
+    };
+
+    return (
+        <Drawer open={isOpen} onOpenChange={(open) => !open && onClose()}>
+            <DrawerContent className="bg-black/95 backdrop-blur-2xl border-white/5 max-w-2xl mx-auto h-[90vh]">
+                <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-white/10 my-4" />
+
+                <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden px-6">
+                    <DrawerHeader className="px-0">
+                        <DrawerTitle className="text-2xl font-sans font-bold uppercase tracking-widest flex items-center gap-3">
+                            <RiEdit2Line className="text-secondary" />
+                            Edit Cat
+                        </DrawerTitle>
+                    </DrawerHeader>
+
+                    <div className="flex-1 overflow-y-auto py-6 space-y-8 scrollbar-hide">
+                        {/* Identity Group */}
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-2 mb-2">
+                                <div className="h-4 w-1 bg-secondary rounded-full" />
+                                <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-white">Core Identity</h4>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <Label htmlFor="name">Name</Label>
+                                    <Input
+                                        id="name"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        placeholder="E.G. NOIR_UNIT_01"
+                                        className="bg-white/5 border-white/10 h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
+                                        required
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="color">Color</Label>
+                                    <Input
+                                        id="color"
+                                        value={color}
+                                        onChange={(e) => setColor(e.target.value)}
+                                        placeholder="E.G. JET_BLACK"
+                                        className="bg-white/5 border-white/10 h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Categorization & Source */}
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-2 mb-2">
+                                <div className="h-4 w-1 bg-secondary rounded-full" />
+                                <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-white">Classification</h4>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <Label htmlFor="category">Category</Label>
+                                    <Select value={categoryId} onValueChange={setCategoryId}>
+                                        <SelectTrigger className="bg-white/5 border-white/10 h-11 font-mono uppercase text-xs">
+                                            <SelectValue placeholder="SELECT CLASSIFICATION" />
+                                        </SelectTrigger>
+                                        <SelectContent className="bg-[#0a0a0c] border-white/10">
+                                            {categories.map((cat) => (
+                                                <SelectItem key={cat.id} value={cat.id} className="font-mono text-xs uppercase hover:bg-secondary/20">
+                                                    {cat.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="source">Creator</Label>
+                                    <Input
+                                        id="source"
+                                        value={sourceName}
+                                        onChange={(e) => setSourceName(e.target.value)}
+                                        placeholder="E.G. ARCHIVE_X"
+                                        className="bg-white/5 border-white/10 h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Media Upload */}
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-2 mb-2">
+                                <div className="h-4 w-1 bg-secondary rounded-full" />
+                                <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-white">Media</h4>
+                            </div>
+
+                            <div className="relative border-2 border-dashed border-white/5 rounded-xl p-8 transition-all hover:border-secondary/30 bg-white/2 group">
+                                <input
+                                    type="file"
+                                    id="media"
+                                    className="hidden"
+                                    onChange={handleFileChange}
+                                    accept="image/*"
+                                />
+
+                                {previewUrl ? (
+                                    <div className="relative flex flex-col items-center gap-4">
+                                        <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-white/10 shadow-2xl">
+                                            <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
+                                            <button
+                                                type="button"
+                                                onClick={removeFile}
+                                                className="absolute top-2 right-2 p-1 bg-black/80 rounded-full text-white hover:text-red-500 transition-colors backdrop-blur-md border border-white/10"
+                                            >
+                                                <RiCloseLine className="h-4 w-4" />
+                                            </button>
+                                        </div>
+                                        {mediaFile && (
+                                            <span className="text-[10px] font-mono text-secondary uppercase tracking-widest animate-pulse">
+                                                Payload Ready: {mediaFile.name}
+                                            </span>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <Label
+                                        htmlFor="media"
+                                        className="flex flex-col items-center gap-4 cursor-pointer"
+                                    >
+                                        <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-secondary/10 group-hover:border-secondary/30 transition-all duration-500">
+                                            <RiUploadCloud2Line className="h-6 w-6 text-white/40 group-hover:text-secondary group-hover:scale-110 transition-all duration-500" />
+                                        </div>
+                                        <div className="text-center">
+                                            <p className="text-xs font-mono uppercase tracking-widest text-white mb-1">Select Update Payload</p>
+                                        </div>
+                                    </Label>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <DrawerFooter className="px-0 pb-8 pt-6 flex flex-row gap-3">
+                        <DrawerClose asChild>
+                            <Button variant="outline" className="flex-1 h-12 border-white/10 font-mono uppercase tracking-widest text-[10px] hover:bg-white/5">
+                                Abort
+                            </Button>
+                        </DrawerClose>
+                        <Button
+                            type="submit"
+                            className="flex-2 h-12 bg-secondary text-white hover:bg-secondary/90 font-mono uppercase tracking-widest text-[10px] group shadow-2xl shadow-secondary/20"
+                            disabled={loading}
+                        >
+                            {loading ? (
+                                <RiLoader4Line className="h-5 w-5 animate-spin" />
+                            ) : (
+                                <>
+                                    Commit Changes
+                                    <RiCheckFill className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                                </>
+                            )}
+                        </Button>
+                    </DrawerFooter>
+                </form>
+            </DrawerContent>
+        </Drawer>
+    );
+};
