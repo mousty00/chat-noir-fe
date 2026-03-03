@@ -45,11 +45,14 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
 
     useEffect(() => {
         if (cat) {
-            setName(cat.name);
-            setColor(cat.color || "");
-            setCategoryId(cat.category?.id || "");
-            setSourceName(cat.sourceName || "");
-            setPreviewUrl(cat.image);
+            const timeoutId = setTimeout(() => {
+                setName(cat.name);
+                setColor(cat.color || "");
+                setCategoryId(cat.category?.id || "");
+                setSourceName(cat.sourceName || "");
+                setPreviewUrl(cat.image);
+            }, 0);
+            return () => clearTimeout(timeoutId);
         }
     }, [cat]);
 
@@ -98,23 +101,23 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
 
     return (
         <Drawer open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DrawerContent className="bg-black/95 backdrop-blur-2xl border-white/5 max-w-2xl mx-auto h-[90vh]">
-                <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-white/10 my-4" />
+            <DrawerContent className="bg-background/95 backdrop-blur-2xl border-border max-w-2xl mx-auto h-[90vh]">
+                <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-muted my-4" />
 
                 <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden px-6">
                     <DrawerHeader className="px-0">
                         <DrawerTitle className="text-2xl font-sans font-bold uppercase tracking-widest flex items-center gap-3">
                             <RiEdit2Line className="text-secondary" />
-                            Edit Cat
+                            Edit Cat Details
                         </DrawerTitle>
                     </DrawerHeader>
 
                     <div className="flex-1 overflow-y-auto py-6 space-y-8 scrollbar-hide">
-                        {/* Identity Group */}
-                        <div className="space-y-6">
+                        <div>
+
                             <div className="flex items-center gap-2 mb-2">
                                 <div className="h-4 w-1 bg-secondary rounded-full" />
-                                <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-white">Core Identity</h4>
+                                <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-foreground">Basic Information</h4>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -125,7 +128,7 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         placeholder="E.G. NOIR_UNIT_01"
-                                        className="bg-white/5 border-white/10 h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
+                                        className="bg-muted/50 border-border h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
                                         required
                                     />
                                 </div>
@@ -136,27 +139,26 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
                                         value={color}
                                         onChange={(e) => setColor(e.target.value)}
                                         placeholder="E.G. JET_BLACK"
-                                        className="bg-white/5 border-white/10 h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
+                                        className="bg-muted/50 border-border h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        {/* Categorization & Source */}
                         <div className="space-y-6">
                             <div className="flex items-center gap-2 mb-2">
                                 <div className="h-4 w-1 bg-secondary rounded-full" />
-                                <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-white">Classification</h4>
+                                <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-foreground">Category</h4>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <Label htmlFor="category">Category</Label>
                                     <Select value={categoryId} onValueChange={setCategoryId}>
-                                        <SelectTrigger className="bg-white/5 border-white/10 h-11 font-mono uppercase text-xs">
-                                            <SelectValue placeholder="SELECT CLASSIFICATION" />
+                                        <SelectTrigger className="bg-muted/50 border-border h-11 font-mono uppercase text-xs text-foreground">
+                                            <SelectValue placeholder="SELECT CATEGORY" />
                                         </SelectTrigger>
-                                        <SelectContent className="bg-[#0a0a0c] border-white/10">
+                                        <SelectContent className="bg-popover border-border">
                                             {categories.map((cat) => (
                                                 <SelectItem key={cat.id} value={cat.id} className="font-mono text-xs uppercase hover:bg-secondary/20">
                                                     {cat.name}
@@ -166,26 +168,25 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
                                     </Select>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="source">Creator</Label>
+                                    <Label htmlFor="source">Source</Label>
                                     <Input
                                         id="source"
                                         value={sourceName}
                                         onChange={(e) => setSourceName(e.target.value)}
                                         placeholder="E.G. ARCHIVE_X"
-                                        className="bg-white/5 border-white/10 h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
+                                        className="bg-muted/50 border-border h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        {/* Media Upload */}
                         <div className="space-y-6">
                             <div className="flex items-center gap-2 mb-2">
                                 <div className="h-4 w-1 bg-secondary rounded-full" />
-                                <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-white">Media</h4>
+                                <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-foreground">Media</h4>
                             </div>
 
-                            <div className="relative border-2 border-dashed border-white/5 rounded-xl p-8 transition-all hover:border-secondary/30 bg-white/2 group">
+                            <div className="relative border-2 border-dashed border-border rounded-xl p-8 transition-all hover:border-secondary/30 bg-muted/20 group">
                                 <input
                                     type="file"
                                     id="media"
@@ -196,19 +197,19 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
 
                                 {previewUrl ? (
                                     <div className="relative flex flex-col items-center gap-4">
-                                        <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-white/10 shadow-2xl">
+                                        <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-border shadow-2xl">
                                             <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
                                             <button
                                                 type="button"
                                                 onClick={removeFile}
-                                                className="absolute top-2 right-2 p-1 bg-black/80 rounded-full text-white hover:text-red-500 transition-colors backdrop-blur-md border border-white/10"
+                                                className="absolute top-2 right-2 p-1 bg-background/80 rounded-full text-foreground hover:text-red-500 transition-colors backdrop-blur-md border border-border"
                                             >
                                                 <RiCloseLine className="h-4 w-4" />
                                             </button>
                                         </div>
                                         {mediaFile && (
                                             <span className="text-[10px] font-mono text-secondary uppercase tracking-widest animate-pulse">
-                                                Payload Ready: {mediaFile.name}
+                                                File Ready: {mediaFile.name}
                                             </span>
                                         )}
                                     </div>
@@ -217,11 +218,11 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
                                         htmlFor="media"
                                         className="flex flex-col items-center gap-4 cursor-pointer"
                                     >
-                                        <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-secondary/10 group-hover:border-secondary/30 transition-all duration-500">
-                                            <RiUploadCloud2Line className="h-6 w-6 text-white/40 group-hover:text-secondary group-hover:scale-110 transition-all duration-500" />
+                                        <div className="w-16 h-16 rounded-full bg-muted/20 border border-border flex items-center justify-center group-hover:bg-secondary/10 group-hover:border-secondary/30 transition-all duration-500">
+                                            <RiUploadCloud2Line className="h-6 w-6 text-foreground/40 group-hover:text-secondary group-hover:scale-110 transition-all duration-500" />
                                         </div>
                                         <div className="text-center">
-                                            <p className="text-xs font-mono uppercase tracking-widest text-white mb-1">Select Update Payload</p>
+                                            <p className="text-xs font-mono uppercase tracking-widest text-foreground mb-1">Select Media File</p>
                                         </div>
                                     </Label>
                                 )}
@@ -231,20 +232,20 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
 
                     <DrawerFooter className="px-0 pb-8 pt-6 flex flex-row gap-3">
                         <DrawerClose asChild>
-                            <Button variant="outline" className="flex-1 h-12 border-white/10 font-mono uppercase tracking-widest text-[10px] hover:bg-white/5">
-                                Abort
+                            <Button variant="outline" className="flex-1 h-12 border-border font-mono uppercase tracking-widest text-[10px] hover:bg-muted">
+                                Cancel
                             </Button>
                         </DrawerClose>
                         <Button
                             type="submit"
-                            className="flex-2 h-12 bg-secondary text-white hover:bg-secondary/90 font-mono uppercase tracking-widest text-[10px] group shadow-2xl shadow-secondary/20"
+                            className="flex-2 h-12 bg-secondary text-primary-foreground hover:bg-secondary/90 font-mono uppercase tracking-widest text-[10px] group shadow-2xl shadow-secondary/20"
                             disabled={loading}
                         >
                             {loading ? (
                                 <RiLoader4Line className="h-5 w-5 animate-spin" />
                             ) : (
                                 <>
-                                    Commit Changes
+                                    Save Changes
                                     <RiCheckFill className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                                 </>
                             )}

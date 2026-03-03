@@ -17,7 +17,7 @@ export const PaginationControls = ({
     onPageChange,
 }: PaginationControlsProps) => {
     return (
-        <div className="flex items-center gap-4 bg-black/40 border border-border px-3 py-1 rounded-md">
+        <div className="flex items-center gap-4 bg-muted/40 border border-border px-3 py-1 rounded-md">
             <Button
                 variant="ghost"
                 size="icon"
@@ -33,8 +33,8 @@ export const PaginationControls = ({
                 <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest leading-none mb-0.5">
                     Page
                 </span>
-                <span className="text-xs font-mono font-bold text-white min-w-[40px] text-center">
-                    {currentPage + 1} // {totalPages}
+                <span className="text-xs font-mono font-bold text-foreground min-w-[40px] text-center">
+                    {currentPage + 1} / {totalPages}
                 </span>
             </div>
 

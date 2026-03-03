@@ -1,9 +1,9 @@
 export const Header = () => {
     return (
-        <header className="w-full mb-16 flex flex-col items-center justify-center border-b border-border py-16 bg-black">
+        <header className="w-full mb-16 flex flex-col items-center justify-center border-b border-border py-16 bg-background">
             <div className="flex flex-col items-center gap-4">
                 <div className="relative">
-                    <h1 className="relative text-5xl md:text-6xl font-sans font-bold tracking-tight text-white uppercase text-center leading-none">
+                    <h1 className="relative text-5xl md:text-6xl font-sans font-bold tracking-tight text-foreground uppercase text-center leading-none">
                         CHAT<span className="text-secondary">NOIR</span>
                     </h1>
                 </div>

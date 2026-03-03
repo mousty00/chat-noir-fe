@@ -27,7 +27,7 @@ export function NameSearch({ onSearch, placeholder = "SEARCH_COLLECTION...", ini
             <Input
                 type="search"
                 placeholder={placeholder.toUpperCase()}
-                className="pl-10 h-10 bg-black border border-border text-white font-mono text-xs uppercase tracking-widest placeholder:text-muted-foreground/50 focus:border-secondary focus:ring-1 focus:ring-secondary/50 transition-all rounded-md"
+                className="pl-10 h-10 bg-background border border-border text-foreground font-mono text-xs uppercase tracking-widest placeholder:text-muted-foreground/50 focus:border-secondary focus:ring-1 focus:ring-secondary/50 transition-all rounded-md"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
             />

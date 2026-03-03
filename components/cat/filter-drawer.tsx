@@ -70,7 +70,7 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
             <DrawerTrigger asChild>
-                <Button variant="outline" className="relative h-11 border-white/10 bg-black/40 backdrop-blur-sm font-mono text-[10px] uppercase tracking-[0.2em] px-6 transition-all hover:border-secondary group">
+                <Button variant="outline" className="relative h-11 border-border bg-background/40 backdrop-blur-sm font-mono text-[10px] uppercase tracking-[0.2em] px-6 transition-all hover:border-secondary group">
                     <RiFilter3Line className="mr-2 h-4 w-4 group-hover:rotate-180 transition-transform duration-500" />
                     Filter
                     {activeFiltersCount > 0 && (
@@ -80,14 +80,14 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
                     )}
                 </Button>
             </DrawerTrigger>
-            <DrawerContent className="bg-black/95 backdrop-blur-2xl border-white/5 max-w-xl mx-auto h-[70vh]">
-                <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-white/10 my-4" />
+            <DrawerContent className="bg-background/95 backdrop-blur-2xl border-border max-w-xl mx-auto h-[70vh]">
+                <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-muted my-4" />
 
                 <div className="flex flex-col h-full overflow-hidden px-8">
                     <DrawerHeader className="px-0">
                         <DrawerTitle className="text-xl font-sans font-bold uppercase tracking-widest flex items-center gap-3">
                             <RiFilter3Line className="text-secondary" />
-                            Advanced Search
+                            Filters
                         </DrawerTitle>
                     </DrawerHeader>
 
@@ -102,7 +102,7 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
                                         placeholder="enter cat name..."
                                         value={name || ""}
                                         onChange={(e) => setName(e.target.value || undefined)}
-                                        className="bg-white/5 border-white/10 h-11 pl-10 focus:border-secondary transition-all font-mono text-xs"
+                                        className="bg-muted/50 border-border h-11 pl-10 focus:border-secondary transition-all font-mono text-xs"
                                     />
                                 </div>
                             </div>
@@ -115,17 +115,17 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
                                         placeholder="black/white..."
                                         value={color || ""}
                                         onChange={(e) => setColor(e.target.value || undefined)}
-                                        className="bg-white/5 border-white/10 h-11 focus:border-secondary transition-all font-mono text-xs"
+                                        className="bg-muted/50 border-border h-11 focus:border-secondary transition-all font-mono text-xs"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="filter-source">Creator / Source</Label>
+                                    <Label htmlFor="filter-source">Source</Label>
                                     <Input
                                         id="filter-source"
                                         placeholder="..."
                                         value={source || ""}
                                         onChange={(e) => setSource(e.target.value || undefined)}
-                                        className="bg-white/5 border-white/10 h-11 focus:border-secondary transition-all font-mono text-xs"
+                                        className="bg-muted/50 border-border h-11 focus:border-secondary transition-all font-mono text-xs"
                                     />
                                 </div>
                             </div>
@@ -133,10 +133,10 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
                             <div className="space-y-2">
                                 <Label htmlFor="filter-category">Category</Label>
                                 <Select value={category || "all"} onValueChange={(val) => setCategory(val === "all" ? undefined : val)}>
-                                    <SelectTrigger id="filter-category" className="bg-white/5 border-white/10 h-11 font-mono text-xs">
-                                        <SelectValue placeholder="ALL CLASSIFICATIONS" />
+                                    <SelectTrigger id="filter-category" className="bg-muted/50 border-border h-11 font-mono text-xs text-foreground">
+                                        <SelectValue placeholder="ALL CATEGORIES" />
                                     </SelectTrigger>
-                                    <SelectContent className="bg-[#0a0a0c] border-white/10">
+                                    <SelectContent className="bg-popover border-border">
                                         <SelectItem value="all" className="font-mono text-xs cursor-pointer">All Categories</SelectItem>
                                         {categories.map((c) => (
                                             <SelectItem key={c.id} value={c.id} className="font-mono text-xs cursor-pointer hover:bg-secondary/20 transition-colors">
@@ -153,7 +153,7 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
                         <Button
                             variant="outline"
                             onClick={handleReset}
-                            className="flex-1 h-12 border-white/10 font-mono uppercase tracking-widest text-[10px] hover:bg-white/5 group"
+                            className="flex-1 h-12 border-border font-mono uppercase tracking-widest text-[10px] hover:bg-muted group"
                         >
                             <RiRestartLine className="mr-2 h-4 w-4 group-hover:rotate-180 transition-transform duration-500" />
                             Reset

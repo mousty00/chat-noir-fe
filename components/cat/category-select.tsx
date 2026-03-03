@@ -22,20 +22,20 @@ export function CategorySelect({ value, onValueChange }: CategorySelectProps) {
 
     return (
         <Select value={value || "all"} onValueChange={(val) => onValueChange(val === "all" ? "" : val)}>
-            <SelectTrigger className="w-[180px] bg-black border border-border text-white font-mono uppercase tracking-widest hover:border-secondary transition-colors focus:ring-secondary/50 rounded-md">
+            <SelectTrigger className="w-[180px] bg-background border border-border text-foreground font-mono uppercase tracking-widest hover:border-secondary transition-colors focus:ring-secondary/50 rounded-md">
                 <SelectValue placeholder="SORT BY" />
             </SelectTrigger>
-            <SelectContent className="bg-black border border-border text-white font-mono">
+            <SelectContent className="bg-background border border-border text-foreground font-mono">
                 <SelectGroup>
                     <SelectLabel className="text-secondary text-[10px] tracking-widest">CATEGORIES</SelectLabel>
-                    <SelectItem value="all" className="focus:bg-secondary focus:text-white">ALL_ARCHIVE</SelectItem>
+                    <SelectItem value="all" className="focus:bg-secondary focus:text-primary-foreground">ALL_ARCHIVE</SelectItem>
                     {loading ? (
                         <SelectItem value="loading" disabled className="text-muted-foreground">
                             FETCHING...
                         </SelectItem>
                     ) : (
                         categories.map((category) => (
-                            <SelectItem key={category.id} value={category.name} className="focus:bg-secondary focus:text-white uppercase">
+                            <SelectItem key={category.id} value={category.name} className="focus:bg-secondary focus:text-primary-foreground uppercase">
                                 {category.name}
                             </SelectItem>
                         ))

@@ -26,11 +26,11 @@ export function Sidebar() {
 
             <aside
                 className={cn(
-                    "fixed lg:sticky top-0 left-0 z-40 h-screen w-64 transition-transform duration-300 lg:translate-x-0 bg-black border-r border-border flex flex-col gap-0 overflow-hidden",
+                    "fixed lg:sticky top-0 left-0 z-40 h-screen w-64 transition-transform duration-300 lg:translate-x-0 bg-sidebar border-r border-border flex flex-col gap-0 overflow-hidden",
                     isOpen ? "translate-x-0" : "-translate-x-full"
                 )}
             >
-                <div className="flex flex-col h-full bg-black">
+                <div className="flex flex-col h-full bg-sidebar">
                     <div className="p-4 border-b border-border">
                         <SidebarTitleBar />
                     </div>

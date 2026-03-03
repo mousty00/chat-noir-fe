@@ -12,7 +12,7 @@ export const RefreshButton = ({ onRefresh, isRefreshing }: RefreshButtonProps) =
             variant="secondary"
             onClick={onRefresh}
             disabled={isRefreshing}
-            className="uppercase tracking-[0.2em] px-6 py-3 h-auto flex items-center gap-2 text-white font-mono hover:text-secondary group transition-all"
+            className="uppercase tracking-[0.2em] px-6 py-3 h-auto flex items-center gap-2 text-foreground font-mono hover:text-secondary group transition-all"
             title={isRefreshing ? "Refreshing..." : "Refresh"}
         >
             {isRefreshing ? (

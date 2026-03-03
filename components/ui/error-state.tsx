@@ -13,13 +13,13 @@ export const ErrorState = ({
     onRetry
 }: ErrorStateProps) => {
     return (
-        <div className="bg-black border border-red-900/50 p-8 max-w-md mx-auto text-center font-mono">
+        <div className="bg-background border border-red-900/50 p-8 max-w-md mx-auto text-center font-mono">
             <div className="relative inline-block mb-6">
                 <AlertCircle className="h-16 w-16 text-red-600 mx-auto" />
                 <div className="absolute inset-0 bg-red-600/20 blur-2xl rounded-full" />
             </div>
 
-            <h2 className="text-white text-xl font-bold mb-4 uppercase tracking-[0.2em]">
+            <h2 className="text-foreground text-xl font-bold mb-4 uppercase tracking-[0.2em]">
                 {title.toUpperCase().replace(/\s/g, '_')}
             </h2>
 

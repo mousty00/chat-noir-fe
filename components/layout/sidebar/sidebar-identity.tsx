@@ -23,7 +23,7 @@ export function SidebarIdentity() {
                     )}
                 </div>
                 <div className="flex flex-col flex-1 min-w-0">
-                    <span className="text-xs font-bold text-white uppercase tracking-widest truncate">
+                    <span className="text-xs font-bold text-foreground uppercase tracking-widest truncate">
                         {user.username}
                     </span>
                     <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest truncate">

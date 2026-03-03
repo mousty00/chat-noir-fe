@@ -82,13 +82,13 @@ export function CreateCatDrawer() {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
-                <Button className="bg-secondary text-white hover:bg-secondary/80 border-none font-mono uppercase tracking-[0.2em] px-6 py-3 h-auto transition-all group">
+                <Button className="bg-secondary text-primary-foreground hover:bg-secondary/80 border-none font-mono uppercase tracking-[0.2em] px-6 py-3 h-auto transition-all group">
                     <RiAddLine className="mr-2 h-5 w-5 group-hover:rotate-90 transition-transform duration-300" />
                     New Cat
                 </Button>
             </DrawerTrigger>
-            <DrawerContent className="bg-black/95 backdrop-blur-2xl border-white/5 max-w-2xl mx-auto h-[90vh]">
-                <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-white/10 my-4" />
+            <DrawerContent className="bg-background/95 backdrop-blur-2xl border-border max-w-2xl mx-auto h-[90vh]">
+                <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-muted my-4" />
 
                 <form onSubmit={handleSubmit} className="flex flex-col h-full overflow-hidden px-8">
                     <DrawerHeader className="px-0">
@@ -97,7 +97,7 @@ export function CreateCatDrawer() {
                             Create New Cat
                         </DrawerTitle>
                         <DrawerDescription className="text-xs font-mono uppercase tracking-widest text-muted-foreground mr-auto">
-                            Compile data to register a new cat.
+                            Enter the cat's details below to register it.
                         </DrawerDescription>
                     </DrawerHeader>
 
@@ -110,7 +110,7 @@ export function CreateCatDrawer() {
                                     placeholder="e.g. Shadow"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    className="bg-white/5 border-white/10 h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
+                                    className="bg-muted/50 border-border h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
                                     disabled={creating}
                                 />
                             </div>
@@ -121,7 +121,7 @@ export function CreateCatDrawer() {
                                     placeholder="e.g. Midnight Black"
                                     value={color}
                                     onChange={(e) => setColor(e.target.value)}
-                                    className="bg-white/5 border-white/10 h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
+                                    className="bg-muted/50 border-border h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
                                     disabled={creating}
                                 />
                             </div>
@@ -131,10 +131,10 @@ export function CreateCatDrawer() {
                             <div className="space-y-2">
                                 <Label htmlFor="create-category">Category</Label>
                                 <Select value={categoryId} onValueChange={setCategoryId} disabled={creating}>
-                                    <SelectTrigger id="create-category" className="bg-white/5 border-white/10 h-11 font-mono uppercase text-xs">
+                                    <SelectTrigger id="create-category" className="bg-muted/50 border-border h-11 font-mono uppercase text-xs">
                                         <SelectValue placeholder="Select Category" />
                                     </SelectTrigger>
-                                    <SelectContent className="bg-[#0a0a0c] border-white/10">
+                                    <SelectContent className="bg-popover border-border">
                                         {categoriesLoading ? (
                                             <SelectItem value="loading" disabled>Syncing...</SelectItem>
                                         ) : (
@@ -148,27 +148,27 @@ export function CreateCatDrawer() {
                                 </Select>
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="create-source">Creator / Source</Label>
+                                <Label htmlFor="create-source">Source</Label>
                                 <Input
                                     id="create-source"
                                     placeholder="e.g. Neural Link"
                                     value={sourceName}
                                     onChange={(e) => setSourceName(e.target.value)}
-                                    className="bg-white/5 border-white/10 h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
+                                    className="bg-muted/50 border-border h-11 focus:border-secondary transition-all font-mono uppercase text-xs"
                                     disabled={creating}
                                 />
                             </div>
                         </div>
 
                         <div className="space-y-4">
-                            <Label>Media Attachment</Label>
+                            <Label>Media Upload</Label>
                             <div
                                 onClick={() => !creating && fileInputRef.current?.click()}
                                 className={`
-                                    border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all bg-white/2
-                                    ${mediaFile ? 'border-secondary bg-secondary/5' : 'border-white/5 hover:border-secondary/50 hover:bg-white/5'}
-                                    ${creating ? 'opacity-50 cursor-not-allowed' : ''}
-                                `}
+                                        border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center gap-3 cursor-pointer transition-all bg-muted/20
+                                        ${mediaFile ? 'border-secondary bg-secondary/5' : 'border-border hover:border-secondary/50 hover:bg-muted/50'}
+                                        ${creating ? 'opacity-50 cursor-not-allowed' : ''}
+                                    `}
                             >
                                 <input
                                     type="file"
@@ -179,10 +179,10 @@ export function CreateCatDrawer() {
                                 />
                                 {mediaFile ? (
                                     <>
-                                        <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center text-white">
+                                        <div className="h-10 w-10 rounded-full bg-secondary flex items-center justify-center text-primary-foreground">
                                             <RiCheckLine className="h-6 w-6" />
                                         </div>
-                                        <p className="text-sm font-mono text-white text-center break-all">{mediaFile.name}</p>
+                                        <p className="text-sm font-mono text-foreground text-center break-all">{mediaFile.name}</p>
                                         <button
                                             type="button"
                                             onClick={(e) => {
@@ -208,13 +208,13 @@ export function CreateCatDrawer() {
 
                     <DrawerFooter className="px-0 pb-10 pt-6 flex flex-row gap-4">
                         <DrawerClose asChild>
-                            <Button variant="outline" className="flex-1 font-mono uppercase tracking-widest h-12 border-white/10 hover:bg-white/5" disabled={creating}>
-                                Abort
+                            <Button variant="outline" className="flex-1 font-mono uppercase tracking-widest h-12 border-border hover:bg-muted" disabled={creating}>
+                                Cancel
                             </Button>
                         </DrawerClose>
                         <Button
                             type="submit"
-                            className="flex-2 bg-secondary text-white hover:bg-secondary/80 font-mono uppercase tracking-[0.2em] h-12 shadow-lg shadow-secondary/20"
+                            className="flex-2 bg-secondary text-primary-foreground hover:bg-secondary/80 font-mono uppercase tracking-[0.2em] h-12 shadow-lg shadow-secondary/20"
                             disabled={creating}
                         >
                             {creating ? (

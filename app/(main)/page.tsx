@@ -100,7 +100,7 @@ export default function Home() {
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm("Are you sure you want to remove this entry from the archive?")) {
+    if (window.confirm("Are you sure you want to delete this cat?")) {
       const success = await deleteCat(id);
       if (success) {
         handleRefetch();
@@ -117,8 +117,8 @@ export default function Home() {
           {(pagination || loading) && (
             <div className="w-full xl:w-auto">
               {loading ? (
-                <div className="flex items-center gap-4 px-4 py-2 border border-border bg-black/40 backdrop-blur-sm rounded-md h-[42px] w-[280px]">
-                  <div className="h-4 w-full bg-white/5 animate-pulse rounded" />
+                <div className="flex items-center gap-4 px-4 py-2 border border-border bg-background/40 backdrop-blur-sm rounded-md h-[42px] w-[280px]">
+                  <div className="h-4 w-full bg-muted/50 animate-pulse rounded" />
                 </div>
               ) : (
                 <Stats
@@ -213,7 +213,7 @@ export default function Home() {
 
       {refetchCount > 0 && (
         <p className="text-xs text-secondary/50 font-mono uppercase tracking-[0.2em] text-center mt-auto pb-4">
-          Session Identity Refresh #{refetchCount}
+          Data Synchronized #{refetchCount}
         </p>
       )}
     </>

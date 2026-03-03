@@ -36,8 +36,8 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
 
     return (
         <Drawer open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DrawerContent className="bg-black/95 backdrop-blur-2xl border-white/5 max-w-2xl mx-auto h-[90vh]">
-                <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-white/10 my-4" />
+            <DrawerContent className="bg-background/95 backdrop-blur-2xl border-border max-w-2xl mx-auto h-[90vh]">
+                <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-muted my-4" />
 
                 <div className="flex flex-col h-full overflow-hidden px-6">
                     <DrawerHeader className="px-0">
@@ -50,19 +50,19 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                     <div className="flex-1 overflow-y-auto py-6 space-y-8 scrollbar-hide">
                         {loading ? (
                             <div className="space-y-8 animate-pulse">
-                                <div className="w-full aspect-video bg-white/5 rounded-xl" />
+                                <div className="w-full aspect-video bg-muted/50 rounded-xl" />
                                 <div className="space-y-4">
-                                    <div className="h-4 w-1/3 bg-white/5 rounded" />
+                                    <div className="h-4 w-1/3 bg-muted/50 rounded" />
                                     <div className="grid grid-cols-2 gap-4">
-                                        <div className="h-20 bg-white/5 rounded-lg" />
-                                        <div className="h-20 bg-white/5 rounded-lg" />
+                                        <div className="h-20 bg-muted/50 rounded-lg" />
+                                        <div className="h-20 bg-muted/50 rounded-lg" />
                                     </div>
                                 </div>
                             </div>
                         ) : cat ? (
                             <>
-                                {/* Visual Representation */}
-                                <div className="relative group rounded-xl overflow-hidden border border-white/5 bg-white/2 shadow-2xl">
+
+                                <div className="relative group rounded-xl overflow-hidden border border-border bg-muted/20 shadow-2xl">
                                     {cat.image ? (
                                         <img
                                             src={cat.image}
@@ -82,17 +82,17 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                                     </div>
                                 </div>
 
-                                {/* Details */}
+
                                 <div className="space-y-6">
                                     <div className="flex items-center gap-2">
                                         <div className="h-4 w-1 bg-secondary rounded-full" />
-                                        <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-white">Details</h4>
+                                        <h4 className="text-[10px] font-mono uppercase tracking-[0.2em] text-foreground">Details</h4>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <DataPoint
                                             icon={<RiHashtag />}
-                                            label="Identity Code"
+                                            label="ID"
                                             value={cat.id}
                                             mono
                                         />
@@ -108,7 +108,7 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                                         />
                                         <DataPoint
                                             icon={<RiCompassDiscoverLine />}
-                                            label="Created By"
+                                            label="Source"
                                             value={cat.sourceName || "Unknown"}
                                         />
                                     </div>
@@ -120,10 +120,10 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                                             <RiLayout2Line className="h-5 w-5" />
                                         </div>
                                         <div>
-                                            <h5 className="text-[10px] font-mono uppercase text-secondary tracking-widest mb-1">Category Insights</h5>
+                                            <h5 className="text-[10px] font-mono uppercase text-secondary tracking-widest mb-1">Category Info</h5>
                                             <p className="text-xs text-muted-foreground">
-                                                This cat is classified under <span className="text-white font-bold">{cat.category?.name}</span>.
-                                                {cat.category?.mediaTypeHint && ` Metadata optimizations are tuned for ${cat.category.mediaTypeHint} stream protocols.`}
+                                                This cat is in the <span className="text-foreground font-bold">{cat.category?.name}</span> category.
+                                                {cat.category?.mediaTypeHint && ` Optimized for ${cat.category.mediaTypeHint} media.`}
                                             </p>
                                         </div>
                                     </div>
@@ -134,7 +134,7 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                                 <div className="text-red-500 mb-4 opacity-50">
                                     <RiInformationLine className="h-12 w-12" />
                                 </div>
-                                <p className="text-sm font-mono uppercase text-red-500/80">Transmission Error</p>
+                                <p className="text-sm font-mono uppercase text-red-500/80">Loading Error</p>
                                 <p className="text-[10px] font-mono text-muted-foreground mt-2">{error.message}</p>
                             </div>
                         ) : null}
@@ -144,13 +144,13 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                         <Button
                             variant="outline"
                             onClick={onClose}
-                            className="flex-1 h-12 border-white/10 font-mono uppercase tracking-widest text-[10px] hover:bg-white/5"
+                            className="flex-1 h-12 border-border font-mono uppercase tracking-widest text-[10px] hover:bg-muted"
                         >
                             Close
                         </Button>
                         <div className="flex-2 flex gap-3">
                             <Button
-                                className="flex-1 h-12 bg-secondary text-white hover:bg-secondary/90 font-mono uppercase tracking-widest text-[10px] shadow-2xl shadow-secondary/20"
+                                className="flex-1 h-12 bg-secondary text-primary-foreground hover:bg-secondary/90 font-mono uppercase tracking-widest text-[10px] shadow-2xl shadow-secondary/20"
                                 onClick={handleDownload}
                                 disabled={!cat || downloadingId === cat.id}
                             >
@@ -170,14 +170,14 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
 };
 
 const DataPoint = ({ icon, label, value, mono = false }: { icon: React.ReactNode, label: string, value: string, mono?: boolean }) => (
-    <div className="p-4 rounded-xl border border-white/5 bg-white/2 hover:bg-white/5 transition-colors group">
+    <div className="p-4 rounded-xl border border-border bg-muted/20 hover:bg-muted/40 transition-colors group">
         <div className="flex items-center gap-2 mb-2">
             <div className="text-secondary/50 group-hover:text-secondary transition-colors">
                 {icon}
             </div>
             <span className="text-[9px] font-mono uppercase tracking-widest text-secondary">{label}</span>
         </div>
-        <p className={`text-xs uppercase tracking-wide truncate ${mono ? 'font-mono text-[10px]' : 'font-bold text-white'}`}>
+        <p className={`text-xs uppercase tracking-wide truncate ${mono ? 'font-mono text-[10px]' : 'font-bold text-foreground'}`}>
             {value}
         </p>
     </div>

@@ -35,7 +35,7 @@ export const FilterChips = ({
             {name && (
                 <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20 h-7 px-3 gap-2 hover:bg-secondary/20 transition-all font-mono text-[10px] uppercase group">
                     Name: {name}
-                    <button onClick={() => onRemove("name")} className="hover:text-white transition-colors">
+                    <button onClick={() => onRemove("name")} className="hover:text-foreground transition-colors">
                         <RiCloseLine className="h-3 w-3" />
                     </button>
                 </Badge>
@@ -44,7 +44,7 @@ export const FilterChips = ({
             {category && (
                 <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20 h-7 px-3 gap-2 hover:bg-secondary/20 transition-all font-mono text-[10px] uppercase group">
                     Category: {activeCategory?.name || category}
-                    <button onClick={() => onRemove("category")} className="hover:text-white transition-colors">
+                    <button onClick={() => onRemove("category")} className="hover:text-foreground transition-colors">
                         <RiCloseLine className="h-3 w-3" />
                     </button>
                 </Badge>
@@ -53,7 +53,7 @@ export const FilterChips = ({
             {color && (
                 <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20 h-7 px-3 gap-2 hover:bg-secondary/20 transition-all font-mono text-[10px] uppercase group">
                     Color: {color}
-                    <button onClick={() => onRemove("color")} className="hover:text-white transition-colors">
+                    <button onClick={() => onRemove("color")} className="hover:text-foreground transition-colors">
                         <RiCloseLine className="h-3 w-3" />
                     </button>
                 </Badge>
@@ -62,7 +62,7 @@ export const FilterChips = ({
             {source && (
                 <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20 h-7 px-3 gap-2 hover:bg-secondary/20 transition-all font-mono text-[10px] uppercase group">
                     Source: {source}
-                    <button onClick={() => onRemove("source")} className="hover:text-white transition-colors">
+                    <button onClick={() => onRemove("source")} className="hover:text-foreground transition-colors">
                         <RiCloseLine className="h-3 w-3" />
                     </button>
                 </Badge>

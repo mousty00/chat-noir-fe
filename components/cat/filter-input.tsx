@@ -18,7 +18,7 @@ export const FilterInput = ({ value, onSearch, placeholder, icon }: FilterInputP
             </div>
             <Input
                 placeholder={placeholder}
-                className="bg-black/40 backdrop-blur-sm border-border h-11 pl-10 pr-4 w-full focus:border-secondary transition-all duration-300 font-mono text-[10px] uppercase tracking-widest placeholder:text-muted-foreground/50"
+                className="bg-background/40 backdrop-blur-sm border-border h-11 pl-10 pr-4 w-full focus:border-secondary transition-all duration-300 font-mono text-[10px] uppercase tracking-widest placeholder:text-muted-foreground/50"
                 value={value || ""}
                 onChange={(e) => onSearch(e.target.value)}
             />
