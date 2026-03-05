@@ -64,7 +64,7 @@ export function CreateCatDrawer() {
             {
                 name,
                 color,
-                categoryId,
+                category: categoryId,
                 sourceName,
             },
             mediaFile
@@ -82,7 +82,7 @@ export function CreateCatDrawer() {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
-                <Button className="bg-secondary text-primary-foreground hover:bg-secondary/80 border-none font-mono uppercase tracking-[0.2em] px-6 py-3 h-auto transition-all group">
+                <Button className="bg-secondary hover:bg-secondary/80 border-none font-mono uppercase tracking-[0.2em] px-6 py-3 h-auto transition-all group">
                     <RiAddLine className="mr-2 h-5 w-5 group-hover:rotate-90 transition-transform duration-300" />
                     New Cat
                 </Button>

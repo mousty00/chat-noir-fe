@@ -1,13 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { useAuthStore } from "@/hooks/useAuthStore";
 import { Cat } from "@/types/cat";
-import { RiDownload2Fill, RiEyeLine, RiEdit2Line, RiDeleteBin6Line } from "react-icons/ri";
 import { useState } from "react";
+import { RiDeleteBin6Line, RiDownload2Fill, RiEdit2Line, RiEyeLine } from "react-icons/ri";
 
 interface CatCardProps {
   cat: Cat;
@@ -19,10 +15,19 @@ interface CatCardProps {
   isDownloading: boolean;
 }
 
+interface ButtonAction {
+  icon: React.ReactNode;
+  action: () => void;
+  hidden?: boolean;
+  disabled?: boolean;
+  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | "danger";
+}
+
 export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, onDetails, isDownloading }: CatCardProps) => {
   const [imageError, setImageError] = useState(false);
+  const { user } = useAuthStore();
 
-  if (!cat) return <div>No cat</div>;
+  if (!cat) return <div>No cat</div>; 3
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -33,14 +38,20 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, onDetails, 
   const handleView = () => onView(cat.id);
   const handleEdit = () => onEdit(cat.id);
   const handleDelete = () => onDelete(cat.id);
+  const handleImageError = () => setImageError(true);
 
-  const handleImageError = () => {
-    setImageError(true);
-  };
+  const iconSize: string = "h-5 w-5";
+  const buttonSize: string = "h-12 w-12";
 
-  const imageSrc = imageError || !cat.image
-    ? '/images/no-image.png'
-    : cat.image;
+  const canEdit = user?.isAdmin;
+  const imageSrc = imageError || !cat.image ? '/images/no-image.png' : cat.image;
+
+  const buttonActions: ButtonAction[] = [
+    { icon: <RiEyeLine className={iconSize} />, action: handleView, variant: "default" },
+    { icon: <RiDownload2Fill className={iconSize} />, action: handleDownload, disabled: isDownloading, variant: "default" },
+    { icon: <RiEdit2Line className={iconSize} />, action: handleEdit, hidden: !canEdit, variant: "default" },
+    { icon: <RiDeleteBin6Line className={iconSize} />, action: handleDelete, hidden: !canEdit, variant: "danger" },
+  ];
 
   return (
     <div
@@ -56,48 +67,22 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, onDetails, 
           onContextMenu={handleContextMenu}
         />
 
-        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-6">
+        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-wrap items-center justify-center gap-6">
           <div className="flex gap-4">
-            <Button
-              size="icon"
-              variant="outline"
-              className="h-12 w-12 rounded-full border-border hover:border-secondary hover:bg-secondary hover:text-primary-foreground transition-all text-foreground"
-              onClick={(e) => { e.stopPropagation(); handleView(); }}
-              disabled={isDownloading}
-            >
-              <RiEyeLine className="h-5 w-5" />
-            </Button>
-            <Button
-              size="icon"
-              variant="outline"
-              className="h-12 w-12 rounded-full border-border hover:border-secondary hover:bg-secondary hover:text-primary-foreground transition-all text-foreground"
-              onClick={(e) => { e.stopPropagation(); handleEdit(); }}
-            >
-              <RiEdit2Line className="h-5 w-5" />
-            </Button>
-          </div>
-          <div className="flex gap-4">
-            <Button
-              size="icon"
-              variant="outline"
-              className="h-12 w-12 rounded-full border-border hover:border-destructive hover:bg-destructive hover:text-destructive-foreground transition-all text-foreground"
-              onClick={(e) => { e.stopPropagation(); handleDelete(); }}
-            >
-              <RiDeleteBin6Line className="h-5 w-5" />
-            </Button>
-            <Button
-              size="icon"
-              variant="outline"
-              className="h-12 w-12 rounded-full border-border hover:border-secondary hover:bg-secondary hover:text-primary-foreground transition-all text-foreground"
-              onClick={(e) => { e.stopPropagation(); handleDownload(); }}
-              disabled={isDownloading}
-            >
-              {isDownloading ? (
-                <div className="h-5 w-5 border-2 border-foreground border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <RiDownload2Fill className="h-5 w-5" />
-              )}
-            </Button>
+            {buttonActions.map((action, index) => (
+              <Button
+                key={index}
+                size="icon"
+                rounded
+                className={buttonSize}
+                onClick={(e) => { e.stopPropagation(); action.action(); }}
+                hidden={action.hidden}
+                disabled={action.disabled}
+                variant={action.variant}
+              >
+                {action.icon}
+              </Button>
+            ))}
           </div>
         </div>
 

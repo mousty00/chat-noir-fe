@@ -9,7 +9,7 @@ import { useAuthStore } from "../useAuthStore";
 interface CatRequestInput {
   name: string;
   color?: string;
-  categoryId?: string;
+  category?: string;
   image?: string;
   sourceName?: string;
 }
@@ -66,7 +66,7 @@ export const useCreateCat = (): UseCreateCatReturn => {
             cat: {
               name: input.name,
               color: input.color || null,
-              categoryId: input.categoryId || null,
+              category: input.category || null,
               image: input.image || null,
               sourceName: input.sourceName || null,
             },

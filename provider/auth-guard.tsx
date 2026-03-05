@@ -21,7 +21,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         const isPublicPath = publicPaths.includes(pathname);
 
         if (!isAuthenticated && !isPublicPath) {
-            router.push("/login");
+            router.back();
         }
     }, [isAuthenticated, isHydrated, pathname, router]);
 

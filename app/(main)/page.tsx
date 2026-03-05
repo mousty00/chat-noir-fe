@@ -215,7 +215,7 @@ export default function Home() {
 
       {refetchCount > 0 && (
         <p className="text-xs text-secondary/50 font-mono uppercase tracking-[0.2em] text-center mt-auto pb-4">
-          Data Synchronized #{refetchCount}
+          refreshed {refetchCount} {refetchCount > 1 ? "times" : "time"}
         </p>
       )}
     </>

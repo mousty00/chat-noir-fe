@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Chat Noir API",
-  description: "Modern Cat API",
+  description: "Purfect Cat API",
 };
 
 export default function RootLayout({

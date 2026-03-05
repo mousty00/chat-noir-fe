@@ -20,7 +20,7 @@ import {
 import { useCategories } from "@/hooks/cat/useCategories";
 import { useDeleteCatMedia } from "@/hooks/cat/useDeleteCatMedia";
 import { useUpdateCat } from "@/hooks/cat/useUpdateCat";
-import { Cat } from "@/types/cat";
+import { Cat, Category } from "@/types/cat";
 import { useEffect, useState } from "react";
 import { RiCheckFill, RiCloseLine, RiEdit2Line, RiLoader4Line, RiUploadCloud2Line } from "react-icons/ri";
 import { Label } from "../ui/label";
@@ -34,7 +34,7 @@ interface UpdateCatDrawerProps {
 export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) => {
     const [name, setName] = useState("");
     const [color, setColor] = useState("");
-    const [categoryId, setCategoryId] = useState("");
+    const [category, setCategory] = useState<Category>();
     const [sourceName, setSourceName] = useState("");
     const [mediaFile, setMediaFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -48,7 +48,7 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
             const timeoutId = setTimeout(() => {
                 setName(cat.name);
                 setColor(cat.color || "");
-                setCategoryId(cat.category?.id || "");
+                setCategory(cat.category);
                 setSourceName(cat.sourceName || "");
                 setPreviewUrl(cat.image);
             }, 0);
@@ -88,7 +88,7 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
             {
                 name,
                 color,
-                categoryId,
+                category: category,
                 sourceName,
             },
             mediaFile
@@ -154,7 +154,7 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <Label htmlFor="category">Category</Label>
-                                    <Select value={categoryId} onValueChange={setCategoryId}>
+                                    <Select value={category?.id} onValueChange={(value) => setCategory(categories.find((cat) => cat.id === value))}>
                                         <SelectTrigger className="bg-muted/50 border-border h-11 font-mono uppercase text-xs text-foreground">
                                             <SelectValue placeholder="SELECT CATEGORY" />
                                         </SelectTrigger>
