@@ -1,12 +1,31 @@
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { useAuth } from "@/hooks/useAuth";
-import { RiLogoutCircleLine } from "react-icons/ri";
+import { RiLoginBoxLine, RiLogoutCircleLine } from "react-icons/ri";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export function SidebarIdentity() {
     const { user } = useAuthStore();
     const { logout } = useAuth();
 
-    if (!user) return null;
+    if (!user) return (
+        <>
+            <div className="flex flex-col items-start gap-3 mb-8 px-2">
+                <div className="group relative flex items-center gap-3 w-full">
+                    <Button
+                        className="p-2 text-white bg-secondary hover:bg-secondary/80 w-full transition-colors"
+                        title="Login"
+                    >
+                        <Link href="/login" className="flex items-center gap-2">
+                            <p>Login</p>
+                            <RiLoginBoxLine className="h-4 w-4" />
+                        </Link>
+                    </Button>
+                </div>
+                <div className="h-px w-full bg-border/50 mt-2" />
+            </div>
+        </>
+    );
 
     const initials = user.username
         ? user.username.substring(0, 2).toUpperCase()

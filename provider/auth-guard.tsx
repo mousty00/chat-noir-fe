@@ -17,19 +17,17 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (!isHydrated) return;
 
-        const publicPaths = ["/login", "/register"];
+        const publicPaths = ["/login", "/register", "/", "/categories", "/docs", "/settings"];
         const isPublicPath = publicPaths.includes(pathname);
 
         if (!isAuthenticated && !isPublicPath) {
             router.push("/login");
-        } else if (isAuthenticated && isPublicPath) {
-            router.push("/");
         }
     }, [isAuthenticated, isHydrated, pathname, router]);
 
     if (!isHydrated) return null;
 
-    const publicPaths = ["/login", "/register"];
+    const publicPaths = ["/login", "/register", "/", "/categories", "/docs", "/settings"];
     const isPublicPath = publicPaths.includes(pathname);
 
     if (!isAuthenticated && !isPublicPath) {

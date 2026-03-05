@@ -22,7 +22,7 @@ export default function DocsPage() {
     const [activeSection, setActiveSection] = useState("overview");
 
     return (
-        <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+        <div className="w-full overflow-x-hidden max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
 
             <aside className="lg:w-64 flex flex-col gap-2 shrink-0">
                 <div className="px-5 py-10 mb-6 border-l-2 border-secondary/20 bg-secondary/5 rounded-r-2xl">
@@ -53,12 +53,6 @@ export default function DocsPage() {
                         </button>
                     ))}
                 </nav>
-
-                <div className="mt-10 px-5 opacity-40 hover:opacity-100 transition-opacity">
-                    <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-tighter leading-relaxed">
-                        Secure archival access. All handshakes recorded.
-                    </p>
-                </div>
             </aside>
 
 

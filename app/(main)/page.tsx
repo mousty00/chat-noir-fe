@@ -17,8 +17,9 @@ import { useCategories } from "@/hooks/cat/useCategories";
 import { useCatMediaDownload } from "@/hooks/cat/useCatMediaDownload";
 import { useCats } from "@/hooks/cat/useCats";
 import { useDeleteCat } from "@/hooks/cat/useDeleteCat";
+import { useAuthStore } from "@/hooks/useAuthStore";
 import { Cat } from "@/types/cat";
-import { useState } from "react";
+import { Activity, useState } from "react";
 
 export default function Home() {
   const [category, setCategory] = useState<string | undefined>(undefined);
@@ -30,6 +31,8 @@ export default function Home() {
   const [detailsId, setDetailsId] = useState<string | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
+
+  const { user } = useAuthStore();
   const { categories } = useCategories();
 
   const {
@@ -156,8 +159,7 @@ export default function Home() {
               onRefresh={handleRefetch}
               isRefreshing={networkStatus === 4 || (loading && networkStatus === 1)}
             />
-
-            <CreateCatDrawer />
+            {user?.isAdmin && <CreateCatDrawer />}
           </div>
         </div>
 

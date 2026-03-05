@@ -85,7 +85,7 @@ export const useAuth = () => {
   }, [registerMutation, setLoading, setError, router]);
 
   const loginWithGoogle = useCallback(() => {
-    // Note: Google login is usually handled via REST or a specific redirect
+    // Note: Gosogle login is usually handled via REST or a specific redirect
     // If the user wants to keep this, we might need a REST endpoint for it.
     // For now, I'll point to a placeholder URL
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
