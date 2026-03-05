@@ -40,8 +40,8 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, onDetails, 
   const handleDelete = () => onDelete(cat.id);
   const handleImageError = () => setImageError(true);
 
-  const iconSize: string = "h-5 w-5";
-  const buttonSize: string = "h-12 w-12";
+  const iconSize: string = "h-6 w-6 md:h-10 md:w-10";
+  const buttonSize: string = "h-10 w-10 md:h-16 md:w-16";
 
   const canEdit = user?.isAdmin;
   const imageSrc = imageError || !cat.image ? '/images/no-image.png' : cat.image;
@@ -68,7 +68,7 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, onDetails, 
         />
 
         <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-wrap items-center justify-center gap-6">
-          <div className="flex gap-4">
+          <div className="grid grid-cols-2 justify-center items-center gap-4">
             {buttonActions.map((action, index) => (
               <Button
                 key={index}
