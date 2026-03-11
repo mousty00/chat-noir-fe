@@ -6,6 +6,7 @@ import { useMutation } from "@apollo/client/react";
 import { LOGIN, REGISTER } from "@/graphql/auth";
 import { LoginResponse, User } from "@/types/auth";
 import { ApiResponse } from "@/types/cat";
+import { API_URL } from "@/constants/api";
 
 export const useAuth = () => {
   const { setUser, setToken, setLoading, setError, logout: clearStore, isLoading } = useAuthStore();
@@ -85,10 +86,7 @@ export const useAuth = () => {
   }, [registerMutation, setLoading, setError, router]);
 
   const loginWithGoogle = useCallback(() => {
-    // Note: Gosogle login is usually handled via REST or a specific redirect
-    // If the user wants to keep this, we might need a REST endpoint for it.
-    // For now, I'll point to a placeholder URL
-    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`;
+    window.location.href = `${API_URL}/oauth2/authorization/google`;
   }, []);
 
   const logout = useCallback(() => {
