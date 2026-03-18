@@ -1,9 +1,11 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/hooks/useAuthStore";
+import { useFavoriteStore } from "@/hooks/useFavoriteStore";
+import { useToggleFavorite } from "@/hooks/favorites/useToggleFavorite";
 import { Cat } from "@/types/cat";
 import { useState } from "react";
-import { RiDeleteBin6Line, RiDownload2Fill, RiEdit2Line, RiEyeLine } from "react-icons/ri";
+import { RiDeleteBin6Line, RiDownload2Fill, RiEdit2Line, RiEyeLine, RiHeartFill, RiHeartLine } from "react-icons/ri";
 
 interface CatCardProps {
   cat: Cat;
@@ -26,6 +28,8 @@ interface ButtonAction {
 export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, onDetails, isDownloading }: CatCardProps) => {
   const [imageError, setImageError] = useState(false);
   const { user } = useAuthStore();
+  const favorited = useFavoriteStore((s) => s.isFavorite(cat?.id ?? ""));
+  const { toggleFavorite, loading: toggling } = useToggleFavorite();
 
   if (!cat) return <div>No cat</div>; 3
 
@@ -49,6 +53,14 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, onDetails, 
   const buttonActions: ButtonAction[] = [
     { icon: <RiEyeLine className={iconSize} />, action: handleView, variant: "default" },
     { icon: <RiDownload2Fill className={iconSize} />, action: handleDownload, disabled: isDownloading, variant: "default" },
+    {
+      icon: favorited
+        ? <RiHeartFill className={iconSize} />
+        : <RiHeartLine className={iconSize} />,
+      action: () => toggleFavorite(cat.id),
+      disabled: toggling,
+      variant: favorited ? "danger" : "default",
+    },
     { icon: <RiEdit2Line className={iconSize} />, action: handleEdit, hidden: !canEdit, variant: "default" },
     { icon: <RiDeleteBin6Line className={iconSize} />, action: handleDelete, hidden: !canEdit, variant: "danger" },
   ];
@@ -91,6 +103,14 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, onDetails, 
             {cat.category?.name || 'Noir'}
           </Badge>
         </div>
+
+        {favorited && (
+          <div className="absolute top-3 right-3">
+            <div className="p-1.5 rounded-full bg-background/80 backdrop-blur-md border border-secondary/50">
+              <RiHeartFill className="h-3 w-3 text-secondary" />
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-1 px-1">

@@ -2,6 +2,8 @@
 
 import { useCatById } from "@/hooks/cat/useCatById";
 import { useCatMediaDownload } from "@/hooks/cat/useCatMediaDownload";
+import { useToggleFavorite } from "@/hooks/favorites/useToggleFavorite";
+import { useFavoriteStore } from "@/hooks/useFavoriteStore";
 import {
     Drawer,
     DrawerContent,
@@ -19,7 +21,9 @@ import {
     RiPaletteLine,
     RiCompassDiscoverLine,
     RiLayout2Line,
-    RiLoader4Line
+    RiLoader4Line,
+    RiHeartFill,
+    RiHeartLine,
 } from "react-icons/ri";
 
 interface CatDetailsDrawerProps {
@@ -31,8 +35,11 @@ interface CatDetailsDrawerProps {
 export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerProps) => {
     const { cat, loading, error } = useCatById(catId);
     const { downloadMedia, downloadingId } = useCatMediaDownload();
+    const { toggleFavorite, loading: toggling } = useToggleFavorite();
+    const favorited = useFavoriteStore((s) => s.isFavorite(cat?.id ?? ""));
 
     const handleDownload = () => cat && downloadMedia(cat.id);
+    const handleToggleFavorite = () => cat && toggleFavorite(cat.id);
 
     return (
         <Drawer open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -148,20 +155,36 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
                         >
                             Close
                         </Button>
-                        <div className="flex-2 flex gap-3">
-                            <Button
-                                className="flex-1 h-12 bg-secondary text-primary-foreground hover:bg-secondary/90 font-mono uppercase tracking-widest text-[10px] shadow-2xl shadow-secondary/20"
-                                onClick={handleDownload}
-                                disabled={!cat || downloadingId === cat.id}
-                            >
-                                {downloadingId === cat?.id ? (
-                                    <RiLoader4Line className="h-4 w-4 animate-spin" />
-                                ) : (
-                                    <RiDownload2Line className="mr-2 h-4 w-4" />
-                                )}
-                                Download
-                            </Button>
-                        </div>
+                        <Button
+                            variant="outline"
+                            onClick={handleToggleFavorite}
+                            disabled={!cat || toggling}
+                            className={`h-12 w-12 shrink-0 border font-mono transition-colors ${
+                                favorited
+                                    ? "border-secondary/50 bg-secondary/10 text-secondary hover:bg-secondary/20"
+                                    : "border-border hover:border-secondary/30 hover:text-secondary"
+                            }`}
+                        >
+                            {toggling ? (
+                                <RiLoader4Line className="h-4 w-4 animate-spin" />
+                            ) : favorited ? (
+                                <RiHeartFill className="h-4 w-4" />
+                            ) : (
+                                <RiHeartLine className="h-4 w-4" />
+                            )}
+                        </Button>
+                        <Button
+                            className="flex-1 h-12 bg-secondary text-primary-foreground hover:bg-secondary/90 font-mono uppercase tracking-widest text-[10px] shadow-2xl shadow-secondary/20"
+                            onClick={handleDownload}
+                            disabled={!cat || downloadingId === cat.id}
+                        >
+                            {downloadingId === cat?.id ? (
+                                <RiLoader4Line className="h-4 w-4 animate-spin" />
+                            ) : (
+                                <RiDownload2Line className="mr-2 h-4 w-4" />
+                            )}
+                            Download
+                        </Button>
                     </div>
                 </div>
             </DrawerContent>

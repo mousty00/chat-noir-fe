@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { RiGalleryLine, RiPriceTag3Line, RiBookOpenLine, RiSettings4Line } from "react-icons/ri";
+import { RiGalleryLine, RiPriceTag3Line, RiBookOpenLine, RiSettings4Line, RiHeartLine } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 
 const routes = [
@@ -10,6 +10,11 @@ const routes = [
         label: "Cats",
         icon: RiGalleryLine,
         href: "/",
+    },
+    {
+        label: "Favorites",
+        icon: RiHeartLine,
+        href: "/favorites",
     },
     {
         label: "Categories",
