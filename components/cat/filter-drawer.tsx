@@ -1,26 +1,14 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
     Drawer,
     DrawerContent,
-    DrawerFooter,
-    DrawerHeader,
     DrawerTitle,
-    DrawerTrigger
+    DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { useCategories } from "@/hooks/cat/useCategories";
 import { useEffect, useState } from "react";
-import { RiFilter3Line, RiRestartLine, RiSearch2Line } from "react-icons/ri";
+import { RiCloseLine, RiEqualizerLine, RiSearch2Line } from "react-icons/ri";
 
 interface FilterDrawerProps {
     initialFilters: {
@@ -66,105 +54,131 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
     };
 
     const activeFiltersCount = Object.values(initialFilters).filter(Boolean).length;
+    const pendingCount = [category, name, color, source].filter(Boolean).length;
 
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
             <DrawerTrigger asChild>
-                <Button variant="outline" className="relative h-11 border-border bg-background/40 backdrop-blur-sm font-mono text-[10px] uppercase tracking-[0.2em] px-6 transition-all hover:border-secondary group">
-                    <RiFilter3Line className="mr-2 h-4 w-4 group-hover:rotate-180 transition-transform duration-500" />
-                    Filter
+                <button className="relative inline-flex items-center gap-2 h-9 px-4 rounded-full border border-border bg-background hover:bg-muted/50 transition-all duration-200 group">
+                    <RiEqualizerLine className="h-3.5 w-3.5 text-muted-foreground group-hover:text-foreground transition-colors" />
+                    <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-muted-foreground group-hover:text-foreground transition-colors">
+                        Filter
+                    </span>
                     {activeFiltersCount > 0 && (
-                        <span className="absolute -top-1 -right-1 w-4 h-4 bg-secondary text-white rounded-full flex items-center justify-center text-[8px] animate-in zoom-in">
+                        <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-secondary text-white text-[8px] font-mono animate-in zoom-in duration-200">
                             {activeFiltersCount}
                         </span>
                     )}
-                </Button>
+                </button>
             </DrawerTrigger>
-            <DrawerContent className="bg-background/95 backdrop-blur-2xl border-border max-w-xl mx-auto h-[70vh]">
-                <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-muted my-4" />
 
-                <div className="flex flex-col h-full overflow-hidden px-8">
-                    <DrawerHeader className="px-0">
-                        <DrawerTitle className="text-xl font-sans font-bold uppercase tracking-widest flex items-center gap-3">
-                            <RiFilter3Line className="text-secondary" />
-                            Filters
-                        </DrawerTitle>
-                    </DrawerHeader>
+            <DrawerContent className="bg-background/98 backdrop-blur-3xl border-border max-w-lg mx-auto">
+                <div className="mx-auto w-8 h-1 shrink-0 rounded-full bg-muted mt-4 mb-0" />
 
-                    <div className="flex-1 overflow-y-auto py-8 space-y-8 scrollbar-hide">
-                        <div className="space-y-6">
-                            <div className="space-y-2">
-                                <Label htmlFor="filter-name">Cat Name</Label>
-                                <div className="relative group">
-                                    <RiSearch2Line className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-secondary transition-colors" />
-                                    <Input
-                                        id="filter-name"
-                                        placeholder="enter cat name..."
-                                        value={name || ""}
-                                        onChange={(e) => setName(e.target.value || undefined)}
-                                        className="bg-muted/50 border-border h-11 pl-10 focus:border-secondary transition-all font-mono text-xs"
-                                    />
-                                </div>
+                <div className="px-6 pb-8">
+                    <div className="flex items-center justify-between py-5 border-b border-border/50">
+                        <div className="flex items-center gap-3">
+                            <DrawerTitle className="text-sm">
+                                Filters
+                            </DrawerTitle>
+                            {pendingCount > 0 && (
+                                <span className="text-[9px] font-mono text-secondary animate-in fade-in duration-200">
+                                    {pendingCount} active
+                                </span>
+                            )}
+                        </div>
+                        {pendingCount > 0 && (
+                            <button
+                                onClick={handleReset}
+                                className="inline-flex items-center gap-1 text-[9px] font-mono uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-150 animate-in fade-in duration-200"
+                            >
+                                <RiCloseLine className="h-3 w-3" />
+                                Reset
+                            </button>
+                        )}
+                    </div>
+
+                    <div className="divide-y divide-border/40">
+                        <div className="py-5">
+                            <label className="block text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground mb-3">
+                                Cat Name
+                            </label>
+                            <div className="relative flex items-center">
+                                <RiSearch2Line className="absolute left-0 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
+                                <input
+                                    placeholder="Search by name..."
+                                    value={name || ""}
+                                    onChange={(e) => setName(e.target.value || undefined)}
+                                    className="w-full bg-transparent pl-6 pb-2 border-b border-border focus:border-foreground outline-none text-sm font-mono text-foreground placeholder:text-muted-foreground/40 transition-colors duration-200"
+                                />
                             </div>
+                        </div>
 
-                            <div className="grid grid-cols-2 gap-6">
-                                <div className="space-y-2">
-                                    <Label htmlFor="filter-color">Color</Label>
-                                    <Input
-                                        id="filter-color"
-                                        placeholder="black/white..."
-                                        value={color || ""}
-                                        onChange={(e) => setColor(e.target.value || undefined)}
-                                        className="bg-muted/50 border-border h-11 focus:border-secondary transition-all font-mono text-xs"
-                                    />
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="filter-source">Source</Label>
-                                    <Input
-                                        id="filter-source"
-                                        placeholder="..."
-                                        value={source || ""}
-                                        onChange={(e) => setSource(e.target.value || undefined)}
-                                        className="bg-muted/50 border-border h-11 focus:border-secondary transition-all font-mono text-xs"
-                                    />
-                                </div>
+                        <div className="py-5 grid grid-cols-2 gap-8">
+                            <div>
+                                <label className="block text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground mb-3">
+                                    Color
+                                </label>
+                                <input
+                                    placeholder="e.g. black..."
+                                    value={color || ""}
+                                    onChange={(e) => setColor(e.target.value || undefined)}
+                                    className="w-full bg-transparent pb-2 border-b border-border focus:border-foreground outline-none text-sm font-mono text-foreground placeholder:text-muted-foreground/40 transition-colors duration-200"
+                                />
                             </div>
+                            <div>
+                                <label className="block text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground mb-3">
+                                    Source
+                                </label>
+                                <input
+                                    placeholder="Origin..."
+                                    value={source || ""}
+                                    onChange={(e) => setSource(e.target.value || undefined)}
+                                    className="w-full bg-transparent pb-2 border-b border-border focus:border-foreground outline-none text-sm font-mono text-foreground placeholder:text-muted-foreground/40 transition-colors duration-200"
+                                />
+                            </div>
+                        </div>
 
-                            <div className="space-y-2">
-                                <Label htmlFor="filter-category">Category</Label>
-                                <Select value={category || "all"} onValueChange={(val) => setCategory(val === "all" ? undefined : val)}>
-                                    <SelectTrigger id="filter-category" className="bg-muted/50 border-border h-11 font-mono text-xs text-foreground">
-                                        <SelectValue placeholder="ALL CATEGORIES" />
-                                    </SelectTrigger>
-                                    <SelectContent className="bg-popover border-border">
-                                        <SelectItem value="all" className="font-mono text-xs cursor-pointer">All Categories</SelectItem>
-                                        {categories.map((c) => (
-                                            <SelectItem key={c.id} value={c.id} className="font-mono text-xs cursor-pointer hover:bg-secondary/20 transition-colors">
-                                                {c.name}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                        <div className="py-5">
+                            <label className="block text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground mb-4">
+                                Category
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                                <button
+                                    onClick={() => setCategory(undefined)}
+                                    className={`h-7 px-3 rounded-full text-[10px] font-mono uppercase tracking-wider border transition-all duration-200 ${!category
+                                        ? "bg-foreground text-background border-foreground"
+                                        : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                                        }`}
+                                >
+                                    All
+                                </button>
+                                {categories.map((c) => (
+                                    <button
+                                        key={c.id}
+                                        onClick={() =>
+                                            setCategory(
+                                                category === c.name ? undefined : c.name
+                                            )
+                                        }
+                                        className={`h-7 px-3 rounded-full text-[10px] font-mono uppercase tracking-wider border transition-all duration-200 ${category === c.name
+                                            ? "bg-secondary text-white border-secondary"
+                                            : "border-border text-muted-foreground hover:border-secondary/50 hover:text-foreground"
+                                            }`}
+                                    >
+                                        {c.name}
+                                    </button>
+                                ))}
                             </div>
                         </div>
                     </div>
 
-                    <DrawerFooter className="px-0 pb-10 pt-6 flex flex-row gap-4">
-                        <Button
-                            variant="outline"
-                            onClick={handleReset}
-                            className="flex-1 h-12 border-border font-mono uppercase tracking-widest text-[10px] hover:bg-muted group"
-                        >
-                            <RiRestartLine className="mr-2 h-4 w-4 group-hover:rotate-180 transition-transform duration-500" />
-                            Reset
-                        </Button>
-                        <Button
-                            onClick={handleApply}
-                            className="flex-2 h-12 bg-secondary text-white hover:bg-secondary/90 font-mono uppercase tracking-widest text-[10px] shadow-2xl shadow-secondary/20"
-                        >
-                            Apply
-                        </Button>
-                    </DrawerFooter>
+                    <button
+                        onClick={handleApply}
+                        className="mt-4 w-full h-12 rounded-2xl bg-foreground text-background text-[11px] font-mono uppercase tracking-[0.2em] hover:opacity-90 active:scale-[0.98] transition-all duration-150"
+                    >
+                        {pendingCount > 0 ? `Apply · ${pendingCount}` : "Apply"}
+                    </button>
                 </div>
             </DrawerContent>
         </Drawer>

@@ -1,5 +1,3 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { useFavoriteStore } from "@/hooks/useFavoriteStore";
 import { useToggleFavorite } from "@/hooks/favorites/useToggleFavorite";
@@ -18,11 +16,13 @@ interface CatCardProps {
 }
 
 interface ButtonAction {
+  label: string;
   icon: React.ReactNode;
   action: () => void;
   hidden?: boolean;
   disabled?: boolean;
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | "danger";
+  danger?: boolean;
 }
 
 export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, onDetails, isDownloading }: CatCardProps) => {
@@ -31,7 +31,7 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, onDetails, 
   const favorited = useFavoriteStore((s) => s.isFavorite(cat?.id ?? ""));
   const { toggleFavorite, loading: toggling } = useToggleFavorite();
 
-  if (!cat) return <div>No cat</div>; 3
+  if (!cat) return <div>No cat</div>;
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -44,89 +44,113 @@ export const CatCard = ({ cat, onDownload, onView, onEdit, onDelete, onDetails, 
   const handleDelete = () => onDelete(cat.id);
   const handleImageError = () => setImageError(true);
 
-  const iconSize: string = "h-6 w-6 md:h-10 md:w-10";
-  const buttonSize: string = "h-10 w-10 md:h-16 md:w-16";
-
   const canEdit = user?.isAdmin;
   const imageSrc = imageError || !cat.image ? '/images/no-image.png' : cat.image;
 
   const buttonActions: ButtonAction[] = [
-    { icon: <RiEyeLine className={iconSize} />, action: handleView, variant: "default" },
-    { icon: <RiDownload2Fill className={iconSize} />, action: handleDownload, disabled: isDownloading, variant: "default" },
+    { label: "View", icon: <RiEyeLine className="h-4 w-4" />, action: handleView },
+    { label: "Download", icon: <RiDownload2Fill className="h-4 w-4" />, action: handleDownload, disabled: isDownloading },
     {
-      icon: favorited
-        ? <RiHeartFill className={iconSize} />
-        : <RiHeartLine className={iconSize} />,
+      label: favorited ? "Remove from favorites" : "Add to favorites",
+      icon: favorited ? <RiHeartFill className="h-4 w-4" /> : <RiHeartLine className="h-4 w-4" />,
       action: () => toggleFavorite(cat.id),
       disabled: toggling,
-      variant: favorited ? "danger" : "default",
+      danger: favorited,
     },
-    { icon: <RiEdit2Line className={iconSize} />, action: handleEdit, hidden: !canEdit, variant: "default" },
-    { icon: <RiDeleteBin6Line className={iconSize} />, action: handleDelete, hidden: !canEdit, variant: "danger" },
+    { label: "Edit", icon: <RiEdit2Line className="h-4 w-4" />, action: handleEdit, hidden: !canEdit },
+    { label: "Delete", icon: <RiDeleteBin6Line className="h-4 w-4" />, action: handleDelete, hidden: !canEdit, danger: true },
   ];
+
+  const visibleActions = buttonActions.filter((a) => !a.hidden);
 
   return (
     <div
-      className="group flex flex-col gap-4 w-full max-w-sm rounded-xl p-2 transition-all hover:bg-secondary/5 cursor-pointer"
+      className="group flex flex-col w-full cursor-pointer"
       onClick={() => onDetails(cat.id)}
     >
-      <div className="relative w-full aspect-square overflow-hidden bg-muted border border-border group-hover:border-secondary transition-all duration-500 rounded-lg">
+      <div className="relative w-full aspect-square overflow-hidden rounded-2xl bg-muted shadow-sm transition-all duration-500 group-hover:shadow-xl group-hover:shadow-black/15 dark:group-hover:shadow-black/40">
         <img
           src={imageSrc}
           alt={cat.name}
-          className="w-full h-full object-cover  transition-all duration-700 scale-[1.01] group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           onError={handleImageError}
           onContextMenu={handleContextMenu}
+          draggable={false}
         />
 
-        <div className="absolute inset-0 bg-background/80 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-wrap items-center justify-center gap-6">
-          <div className="grid grid-cols-2 justify-center items-center gap-4">
-            {buttonActions.map((action, index) => (
-              <Button
-                key={index}
-                size="icon"
-                rounded
-                className={buttonSize}
+        <div className="hidden md:flex absolute inset-0 bg-black/50 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 items-end justify-center pb-5">
+          <div className="flex items-center gap-2 px-4">
+            {visibleActions.map((action) => (
+              <button
+                key={action.label}
+                aria-label={action.label}
+                title={action.label}
                 onClick={(e) => { e.stopPropagation(); action.action(); }}
-                hidden={action.hidden}
                 disabled={action.disabled}
-                variant={action.variant}
+                className={`
+                  flex items-center justify-center w-10 h-10 rounded-full
+                  backdrop-blur-md border transition-all duration-200 active:scale-90
+                  disabled:opacity-40 disabled:cursor-not-allowed
+                  ${action.danger
+                    ? "bg-red-500/20 border-red-400/40 text-red-300 hover:bg-red-500/40 hover:border-red-400/60"
+                    : "bg-white/15 border-white/25 text-white hover:bg-white/30 hover:border-white/40"
+                  }
+                `}
               >
                 {action.icon}
-              </Button>
+              </button>
             ))}
           </div>
         </div>
 
-        <div className="absolute top-3 left-3">
-          <Badge className="bg-background/80 backdrop-blur-md border border-border text-[9px] text-foreground rounded-md px-2 py-0.5 font-mono uppercase tracking-[0.2em] group-hover:border-secondary/50 group-hover:text-secondary transition-colors">
+        <div className="absolute top-2.5 left-2.5">
+          <span className="inline-flex items-center h-5 px-2 rounded-full bg-black/30 backdrop-blur-md border border-white/15 text-white text-[9px] font-mono uppercase tracking-[0.18em]">
             {cat.category?.name || 'Noir'}
-          </Badge>
+          </span>
         </div>
 
         {favorited && (
-          <div className="absolute top-3 right-3">
-            <div className="p-1.5 rounded-full bg-background/80 backdrop-blur-md border border-secondary/50">
-              <RiHeartFill className="h-3 w-3 text-secondary" />
+          <div className="absolute top-2.5 right-2.5">
+            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-black/30 backdrop-blur-md border border-red-400/40">
+              <RiHeartFill className="h-3 w-3 text-red-400" />
             </div>
           </div>
         )}
       </div>
 
-      <div className="flex flex-col gap-1 px-1">
-        <div className="flex items-center justify-between">
-          <h3 className="text-sm font-sans font-bold uppercase tracking-widest text-foreground group-hover:text-secondary transition-colors duration-300">
+      <div className="pt-2.5 pb-1 px-0.5">
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="text-[13px] font-semibold tracking-tight text-foreground leading-snug line-clamp-1">
             {cat.name}
           </h3>
+          {(cat.color || cat.sourceName) && (
+            <span className="shrink-0 text-[10px] text-muted-foreground/70 font-mono mt-0.5 capitalize">
+              {cat.color || cat.sourceName}
+            </span>
+          )}
         </div>
-        <div className="h-px w-full bg-border group-hover:bg-secondary/50 transition-all duration-500" />
-        <div className="flex justify-between items-center mt-1">
-          <span className="text-[9px] font-mono text-muted-foreground uppercase">
-            Created: {new Date().toLocaleDateString()}
-          </span>
-          <span className="text-[9px] font-mono text-secondary opacity-0 group-hover:opacity-100 transition-opacity">
-            Full Details →
-          </span>
+
+        <div className="flex md:hidden items-center gap-1.5 mt-2.5">
+          {visibleActions.map((action) => (
+            <button
+              key={action.label}
+              aria-label={action.label}
+              title={action.label}
+              onClick={(e) => { e.stopPropagation(); action.action(); }}
+              disabled={action.disabled}
+              className={`
+                flex items-center justify-center w-8 h-8 rounded-full
+                border transition-all duration-150 active:scale-90
+                disabled:opacity-40 disabled:cursor-not-allowed
+                ${action.danger
+                  ? "bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-800/60 text-red-500 dark:text-red-400"
+                  : "bg-muted/80 border-border/60 text-muted-foreground hover:text-foreground hover:border-border"
+                }
+              `}
+            >
+              {action.icon}
+            </button>
+          ))}
         </div>
       </div>
     </div>

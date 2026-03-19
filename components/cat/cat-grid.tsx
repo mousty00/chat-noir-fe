@@ -24,7 +24,7 @@ export const CatGrid = ({ cats, onDownload, onView, onEdit, onDelete, onDetails,
     }
 
     return (
-        <section className="grid md:gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center w-full">
+        <section className="grid gap-3 md:gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
             {cats.map((cat) => (
                 <CatCard
                     key={cat.id}

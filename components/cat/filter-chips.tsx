@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { RiCloseLine } from "react-icons/ri";
 
 interface FilterChipsProps {
@@ -13,6 +12,33 @@ interface FilterChipsProps {
     onClearAll: () => void;
 }
 
+const Chip = ({
+    label,
+    value,
+    onRemove,
+}: {
+    label: string;
+    value: string;
+    onRemove: () => void;
+}) => (
+    <span className="group inline-flex items-center gap-0 h-7 rounded-full border border-border bg-muted/40 overflow-hidden animate-in fade-in zoom-in-95 duration-200 hover:border-secondary/30 transition-all">
+        <span className="pl-3 pr-2 text-[9px] font-mono uppercase tracking-widest text-muted-foreground select-none">
+            {label}
+        </span>
+        <span className="w-px h-3.5 bg-border/80 shrink-0" />
+        <span className="px-2 text-[10px] font-mono text-foreground">
+            {value}
+        </span>
+        <button
+            onClick={onRemove}
+            aria-label={`Remove ${label} filter`}
+            className="mr-1.5 flex items-center justify-center w-4 h-4 rounded-full text-muted-foreground hover:bg-secondary/15 hover:text-secondary transition-all duration-150"
+        >
+            <RiCloseLine className="h-2.5 w-2.5" />
+        </button>
+    </span>
+);
+
 export const FilterChips = ({
     category,
     name,
@@ -22,57 +48,36 @@ export const FilterChips = ({
     onRemove,
     onClearAll,
 }: FilterChipsProps) => {
-    const activeCategory = categories.find((c) => c.id === category);
-
+    const activeCategory = categories.find((c) => c.name === category);
     const hasFilters = category || name || color || source;
 
     if (!hasFilters) return null;
 
     return (
-        <div className="flex flex-wrap items-center gap-2 mb-6 px-2 md:px-0 animate-in fade-in slide-in-from-top-2 duration-500">
-            <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest mr-2">Active Protocols:</span>
-
+        <div className="flex flex-wrap items-center gap-2 mb-6 px-2 md:px-0 animate-in fade-in slide-in-from-top-2 duration-300">
             {name && (
-                <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20 h-7 px-3 gap-2 hover:bg-secondary/20 transition-all font-mono text-[10px] uppercase group">
-                    Name: {name}
-                    <button onClick={() => onRemove("name")} className="hover:text-foreground transition-colors">
-                        <RiCloseLine className="h-3 w-3" />
-                    </button>
-                </Badge>
+                <Chip label="name" value={name} onRemove={() => onRemove("name")} />
             )}
-
             {category && (
-                <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20 h-7 px-3 gap-2 hover:bg-secondary/20 transition-all font-mono text-[10px] uppercase group">
-                    Category: {activeCategory?.name || category}
-                    <button onClick={() => onRemove("category")} className="hover:text-foreground transition-colors">
-                        <RiCloseLine className="h-3 w-3" />
-                    </button>
-                </Badge>
+                <Chip
+                    label="category"
+                    value={activeCategory?.name || category}
+                    onRemove={() => onRemove("category")}
+                />
             )}
-
             {color && (
-                <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20 h-7 px-3 gap-2 hover:bg-secondary/20 transition-all font-mono text-[10px] uppercase group">
-                    Color: {color}
-                    <button onClick={() => onRemove("color")} className="hover:text-foreground transition-colors">
-                        <RiCloseLine className="h-3 w-3" />
-                    </button>
-                </Badge>
+                <Chip label="color" value={color} onRemove={() => onRemove("color")} />
             )}
-
             {source && (
-                <Badge variant="secondary" className="bg-secondary/10 text-secondary border-secondary/20 h-7 px-3 gap-2 hover:bg-secondary/20 transition-all font-mono text-[10px] uppercase group">
-                    Source: {source}
-                    <button onClick={() => onRemove("source")} className="hover:text-foreground transition-colors">
-                        <RiCloseLine className="h-3 w-3" />
-                    </button>
-                </Badge>
+                <Chip label="source" value={source} onRemove={() => onRemove("source")} />
             )}
 
             <button
                 onClick={onClearAll}
-                className="text-[9px] font-mono text-muted-foreground uppercase tracking-tighter hover:text-red-500 transition-colors ml-2 underline underline-offset-4"
+                className="inline-flex items-center gap-1 h-7 px-2 text-[9px] font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors duration-150 ml-1"
             >
-                Clear All Matrix Filters
+                <RiCloseLine className="h-3 w-3" />
+                Clear all
             </button>
         </div>
     );
