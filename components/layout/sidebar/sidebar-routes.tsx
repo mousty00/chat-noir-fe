@@ -16,11 +16,11 @@ const routes = [
         icon: RiHeartLine,
         href: "/favorites",
     },
-    {
-        label: "Categories",
-        icon: RiPriceTag3Line,
-        href: "/categories",
-    },
+    // {
+    //     label: "Categories",
+    //     icon: RiPriceTag3Line,
+    //     href: "/categories",
+    // },
     {
         label: "Docs",
         icon: RiBookOpenLine,

@@ -136,7 +136,7 @@ export default function Home() {
 
           <div className="flex-1 flex items-center gap-4 w-full xl:max-w-3xl">
             <div className="flex-1">
-              <NameSearch onSearch={setName} />
+              <NameSearch onSearch={(v) => setName(v.trim() || undefined)} />
             </div>
             <FilterDrawer
               initialFilters={{ category, name, color, source }}
