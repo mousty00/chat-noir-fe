@@ -3,7 +3,6 @@
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import {
-    RiArrowRightSLine,
     RiBookOpenLine,
     RiCodeSSlashLine,
     RiNodeTree
@@ -15,56 +14,61 @@ import { GraphQlSection } from "@/components/docs/graphql-section";
 const sections = [
     { id: "overview", title: "Overview", icon: RiBookOpenLine },
     { id: "rest", title: "REST API", icon: RiCodeSSlashLine },
-    { id: "graphql", title: "GraphQL API", icon: RiNodeTree },
+    { id: "graphql", title: "GraphQL", icon: RiNodeTree },
 ];
 
 export default function DocsPage() {
     const [activeSection, setActiveSection] = useState("overview");
 
     return (
-        <div className="w-full overflow-x-hidden max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+        <div className="w-full max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
 
-            <aside className="lg:w-64 flex flex-col gap-2 shrink-0">
-                <div className="px-5 py-10 mb-6 border-l-2 border-secondary/20 bg-secondary/5 rounded-r-2xl">
-                    <h1 className="text-2xl font-sans font-black tracking-tighter text-foreground uppercase leading-none mb-1">
-                        DOCS
-                    </h1>
-                    <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Version v1.1.0</p>
+            <div className="mb-10 pb-8 border-b border-border/40">
+                <p className="text-[11px] font-medium text-secondary tracking-[0.15em] uppercase mb-2">Documentation</p>
+                <h1 className="text-4xl font-bold tracking-[-0.03em] text-foreground">
+                    Chat Noir API
+                </h1>
+                <p className="mt-2 text-[15px] text-muted-foreground max-w-xl leading-relaxed">
+                    Everything you need to integrate with the cat archive. REST and GraphQL interfaces available.
+                </p>
+                <div className="flex items-center gap-2 mt-4">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-border bg-muted text-[11px] text-muted-foreground font-medium">
+                        v1.1.0
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-secondary/20 bg-secondary/5 text-[11px] text-secondary font-medium">
+                        <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+                        Live
+                    </span>
                 </div>
+            </div>
 
-                <nav className="flex flex-col gap-1 pr-4">
-                    {sections.map((section) => (
-                        <button
-                            key={section.id}
-                            onClick={() => setActiveSection(section.id)}
-                            className={cn(
-                                "flex items-center gap-3 px-4 py-4 rounded-xl font-mono text-[11px] uppercase tracking-widest transition-all group border border-transparent",
-                                activeSection === section.id
-                                    ? "bg-secondary text-white shadow-xl shadow-secondary/10 border-white/5"
-                                    : "text-muted-foreground hover:bg-white/5 hover:text-white"
-                            )}
-                        >
-                            <section.icon className={cn(
-                                "h-4 w-4 transition-transform group-hover:scale-110",
-                                activeSection === section.id ? "text-white" : "text-secondary/50"
-                            )} />
-                            {section.title}
-                            {activeSection === section.id && <RiArrowRightSLine className="ml-auto animate-in fade-in slide-in-from-left-2" />}
-                        </button>
-                    ))}
-                </nav>
-            </aside>
+            <div className="flex flex-col lg:flex-row gap-8">
+                <aside className="lg:w-52 shrink-0">
+                    <nav className="flex flex-row lg:flex-col gap-1 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 sticky top-6">
+                        {sections.map((section) => (
+                            <button
+                                key={section.id}
+                                onClick={() => setActiveSection(section.id)}
+                                className={cn(
+                                    "flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[13px] font-medium transition-all whitespace-nowrap",
+                                    activeSection === section.id
+                                        ? "bg-secondary/10 text-secondary border border-secondary/20"
+                                        : "text-muted-foreground hover:bg-muted hover:text-foreground border border-transparent"
+                                )}
+                            >
+                                <section.icon className="h-4 w-4 shrink-0" />
+                                {section.title}
+                            </button>
+                        ))}
+                    </nav>
+                </aside>
 
-
-            <main className="flex-1 min-w-0">
-                <div className="relative">
-                    <div className="absolute -top-40 -right-40 w-96 h-96 bg-secondary/5 rounded-full blur-[160px] pointer-events-none" />
-
+                <main className="flex-1 min-w-0">
                     {activeSection === "overview" && <OverviewSection />}
                     {activeSection === "rest" && <RestSection />}
                     {activeSection === "graphql" && <GraphQlSection />}
-                </div>
-            </main>
+                </main>
+            </div>
         </div>
     );
 }

@@ -4,9 +4,8 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { RiMailLine, RiLockPasswordLine, RiUserLine, RiLoader4Line, RiShieldUserLine } from "react-icons/ri";
+import { RiLoader4Line, RiShieldUserLine } from "react-icons/ri";
 
 export default function RegisterPage() {
     const [username, setUsername] = useState("");
@@ -21,91 +20,93 @@ export default function RegisterPage() {
 
     return (
         <div className="min-h-screen w-full flex items-center justify-center bg-black p-4 relative overflow-hidden">
-            <div className="absolute top-1/4 -right-20 w-80 h-80 bg-secondary/10 rounded-full blur-[120px] animate-pulse" />
-            <div className="absolute bottom-1/4 -left-20 w-80 h-80 bg-secondary/10 rounded-full blur-[120px] animate-pulse delay-700" />
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-secondary/8 rounded-full blur-[120px] pointer-events-none" />
 
-            <div className="w-full max-w-md relative z-10 transition-all duration-500 animate-in fade-in zoom-in slide-in-from-top-4">
-                <div className="flex flex-col items-center mb-8 gap-2">
-                    <h1 className="text-4xl font-sans font-bold tracking-tighter text-white uppercase leading-none">
-                        CHAT<span className="text-secondary">NOIR</span>
+            <div className="w-full max-w-sm relative z-10 animate-in fade-in slide-in-from-bottom-3 duration-700">
+
+                <div className="flex flex-col items-center mb-10 gap-1.5">
+                    <h1 className="text-[2.75rem] font-bold tracking-[-0.04em] text-white leading-none">
+                        Chat<span className="text-secondary">Noir</span>
                     </h1>
+                    <p className="text-[13px] text-zinc-500 tracking-wide">
+                        Create your account
+                    </p>
                 </div>
 
-                <Card className="bg-black/40 backdrop-blur-xl border-border/50 shadow-2xl shadow-secondary/5">
-                    <CardHeader className="space-y-1 text-center pt-8">
-                        <CardTitle className="text-xl font-mono uppercase tracking-widest text-white">Sign in</CardTitle>
-                        <CardDescription className="text-xs font-mono uppercase tracking-widest text-muted-foreground">
-                            Enter your credentials
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="pt-4 pb-0">
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <div className="space-y-2">
-                                <div className="relative group">
-                                    <RiUserLine className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-focus-within:text-secondary transition-colors" />
-                                    <Input
-                                        placeholder="username"
-                                        className="bg-black/50 border-border pl-10 h-11 transition-all focus:border-secondary font-mono text-xs uppercase"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        required
-                                        disabled={isLoading}
-                                    />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <div className="relative group">
-                                    <RiMailLine className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-focus-within:text-secondary transition-colors" />
-                                    <Input
-                                        type="email"
-                                        placeholder="email"
-                                        className="bg-black/50 border-border pl-10 h-11 transition-all focus:border-secondary font-mono text-xs uppercase"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                        disabled={isLoading}
-                                    />
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <div className="relative group">
-                                    <RiLockPasswordLine className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-focus-within:text-secondary transition-colors" />
-                                    <Input
-                                        type="password"
-                                        placeholder="password"
-                                        className="bg-black/50 border-border pl-10 h-11 transition-all focus:border-secondary font-mono text-xs uppercase"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                        disabled={isLoading}
-                                    />
-                                </div>
-                            </div>
+                <div className="rounded-2xl border border-white/8 bg-white/3 backdrop-blur-2xl shadow-2xl shadow-black/60 p-8">
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="space-y-1.5">
+                            <label className="text-[12px] font-medium text-zinc-400 tracking-wide">
+                                Username
+                            </label>
+                            <Input
+                                placeholder="choose a username"
+                                className="bg-white/5 border-white/10 h-11 text-[14px] text-white placeholder:text-zinc-600 focus:border-secondary/60 focus:bg-white/8 rounded-xl transition-all"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                                disabled={isLoading}
+                                autoComplete="username"
+                            />
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="text-[12px] font-medium text-zinc-400 tracking-wide">
+                                Email
+                            </label>
+                            <Input
+                                type="email"
+                                placeholder="you@example.com"
+                                className="bg-white/5 border-white/10 h-11 text-[14px] text-white placeholder:text-zinc-600 focus:border-secondary/60 focus:bg-white/8 rounded-xl transition-all"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                disabled={isLoading}
+                                autoComplete="email"
+                            />
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="text-[12px] font-medium text-zinc-400 tracking-wide">
+                                Password
+                            </label>
+                            <Input
+                                type="password"
+                                placeholder="at least 6 characters"
+                                className="bg-white/5 border-white/10 h-11 text-[14px] text-white placeholder:text-zinc-600 focus:border-secondary/60 focus:bg-white/8 rounded-xl transition-all"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                disabled={isLoading}
+                                autoComplete="new-password"
+                            />
+                        </div>
+
+                        <div className="pt-1">
                             <Button
                                 type="submit"
-                                className="w-full bg-secondary text-white hover:bg-secondary/90 h-11 font-mono uppercase tracking-[0.2em] shadow-lg shadow-secondary/10 group"
+                                className="w-full bg-secondary hover:bg-secondary/90 text-white h-11 text-[14px] font-medium rounded-xl shadow-lg shadow-secondary/20 group transition-all"
                                 disabled={isLoading}
                             >
                                 {isLoading ? (
-                                    <RiLoader4Line className="h-5 w-5 animate-spin" />
+                                    <RiLoader4Line className="h-4 w-4 animate-spin" />
                                 ) : (
                                     <span className="flex items-center justify-center gap-2">
-                                        Sign in
+                                        Create account
                                         <RiShieldUserLine className="h-4 w-4 group-hover:scale-110 transition-transform" />
                                     </span>
                                 )}
                             </Button>
-                        </form>
-                    </CardContent>
-                    <CardFooter className="flex flex-col space-y-4 pb-8 pt-6">
-                        <p className="text-[10px] text-center text-muted-foreground font-mono uppercase tracking-widest">
-                            You already have an account? {" "}
-                            <Link href="/login" className="text-secondary hover:underline transition-all font-bold">
-                                Login
-                            </Link>
-                        </p>
-                    </CardFooter>
-                </Card>
+                        </div>
+                    </form>
+                </div>
+
+                <p className="text-center mt-6 text-[13px] text-zinc-600">
+                    Already have an account?{" "}
+                    <Link href="/login" className="text-secondary hover:text-secondary/80 transition-colors font-medium">
+                        Sign in
+                    </Link>
+                </p>
             </div>
         </div>
     );

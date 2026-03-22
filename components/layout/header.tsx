@@ -1,36 +1,30 @@
 export const Header = () => {
     return (
-        <header className="relative w-full mb-12 flex flex-col items-center justify-center overflow-hidden py-14 md:py-20">
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden>
-                <div className="w-[600px] h-[300px] rounded-full bg-secondary/8 blur-[80px] opacity-60" />
+        <header className="relative w-full mb-10 flex flex-col items-center justify-center overflow-hidden py-16 md:py-24">
+            <div
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                aria-hidden
+            >
+                <div className="w-[700px] h-[350px] rounded-full bg-secondary/6 blur-[100px]" />
             </div>
 
-            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/60 to-transparent" />
 
-            <div className="relative flex flex-col items-center gap-5 z-10">
-                <div className="flex items-center gap-3">
-                    <div className="h-px w-8 bg-border" />
-                    <span className="text-[9px] font-mono uppercase tracking-[0.35em] text-muted-foreground/60 select-none">
-                        est. 2024
-                    </span>
-                    <div className="h-px w-8 bg-border" />
-                </div>
+            <div className="relative flex flex-col items-center gap-4 z-10 text-center px-4">
+                <span className="text-[11px] font-medium text-secondary tracking-[0.2em] uppercase">
+                    The Ultimate Cat Archive
+                </span>
 
-                <div className="relative">
-                    <h1 className="text-[clamp(3rem,10vw,6rem)] font-sans font-bold tracking-[-0.02em] text-foreground uppercase leading-[0.9] text-center select-none">
-                        CHAT<span className="text-secondary">NOIR</span>
-                    </h1>
-                </div>
+                <h1 className="text-[clamp(3.5rem,12vw,7rem)] font-bold tracking-[-0.04em] text-foreground leading-[0.92] select-none">
+                    Chat<span className="text-secondary">Noir</span>
+                </h1>
 
-                <div className="flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-border/60 bg-muted/30 backdrop-blur-sm">
-                    <span className="w-1.5 h-1.5 rounded-full bg-secondary/70 shrink-0" />
-                    <p className="text-[10px] md:text-[11px] text-muted-foreground font-mono uppercase tracking-[0.28em]">
-                        The Ultimate Cat Database
-                    </p>
-                </div>
+                <p className="text-[15px] text-muted-foreground max-w-md leading-relaxed tracking-normal">
+                    A curated database of cats across all categories — browsable, searchable, and open to the archive.
+                </p>
             </div>
 
-            <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+            <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border/60 to-transparent" />
         </header>
     );
 };

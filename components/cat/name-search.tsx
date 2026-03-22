@@ -10,7 +10,7 @@ interface NameSearchProps {
     initialValue?: string;
 }
 
-export function NameSearch({ onSearch, placeholder = "SEARCH_COLLECTION...", initialValue = "" }: NameSearchProps) {
+export function NameSearch({ onSearch, placeholder = "Search collection...", initialValue = "" }: NameSearchProps) {
     const [value, setValue] = useState(initialValue);
 
     useEffect(() => {
@@ -26,8 +26,8 @@ export function NameSearch({ onSearch, placeholder = "SEARCH_COLLECTION...", ini
             <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground group-focus-within:text-secondary transition-colors" />
             <Input
                 type="search"
-                placeholder={placeholder.toUpperCase()}
-                className="pl-10 h-10 bg-background border border-border text-foreground font-mono text-xs uppercase tracking-widest placeholder:text-muted-foreground/50 focus:border-secondary focus:ring-1 focus:ring-secondary/50 transition-all rounded-md"
+                placeholder={placeholder}
+                className="pl-10 h-10 bg-background border border-border text-foreground text-[13px] placeholder:text-muted-foreground/50 focus:border-secondary transition-all rounded-xl"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
             />

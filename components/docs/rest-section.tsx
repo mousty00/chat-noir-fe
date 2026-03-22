@@ -3,7 +3,7 @@ import { EndpointCard } from "./shared/endpoint-card";
 
 export const RestSection = () => {
     return (
-        <div className="space-y-12 animate-in fade-in slide-in-from-right-4 duration-500 pb-20">
+        <div className="space-y-10 animate-in fade-in slide-in-from-right-2 duration-400 pb-20">
             <div id="rest-auth">
                 <SectionHeader
                     title="Security"

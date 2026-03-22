@@ -1,5 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 interface InfoCardProps {
     title: string;
     icon: React.ReactNode;
@@ -7,17 +5,15 @@ interface InfoCardProps {
 }
 
 export const InfoCard = ({ title, icon, content }: InfoCardProps) => (
-    <Card className="bg-secondary/5 border-white/5 hover:border-secondary/30 transition-all duration-500">
-        <CardHeader className="flex flex-row items-center gap-4 pb-2">
-            <div className="p-2 rounded-lg bg-secondary/10 border border-white/5 shadow-inner">
+    <div className="rounded-2xl border border-border/60 bg-card p-6 hover:border-secondary/30 transition-all duration-300">
+        <div className="flex items-center gap-3 mb-3">
+            <div className="p-2 rounded-lg bg-secondary/8 border border-secondary/15 text-secondary">
                 {icon}
             </div>
-            <CardTitle className="text-xs uppercase tracking-widest font-mono text-foreground">{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-            <p className="text-xs text-muted-foreground leading-relaxed font-mono">
-                {content}
-            </p>
-        </CardContent>
-    </Card>
+            <h3 className="text-[14px] font-semibold text-foreground">{title}</h3>
+        </div>
+        <p className="text-[13px] text-muted-foreground leading-relaxed">
+            {content}
+        </p>
+    </div>
 );

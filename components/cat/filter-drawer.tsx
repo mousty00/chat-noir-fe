@@ -9,6 +9,7 @@ import {
 import { useCategories } from "@/hooks/cat/useCategories";
 import { useEffect, useState } from "react";
 import { RiCloseLine, RiEqualizerLine, RiSearch2Line } from "react-icons/ri";
+import { cn } from "@/lib/utils";
 
 interface FilterDrawerProps {
     initialFilters: {
@@ -59,13 +60,11 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
             <DrawerTrigger asChild>
-                <button className="relative inline-flex items-center gap-2 h-9 px-4 rounded-full border border-border bg-background hover:bg-muted/50 transition-all duration-200 group">
-                    <RiEqualizerLine className="h-3.5 w-3.5 text-muted-foreground group-hover:text-foreground transition-colors" />
-                    <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-muted-foreground group-hover:text-foreground transition-colors">
-                        Filter
-                    </span>
+                <button className="relative inline-flex items-center gap-2 h-10 px-4 rounded-xl border border-border bg-background hover:bg-muted/50 transition-all text-[13px] font-medium text-muted-foreground hover:text-foreground">
+                    <RiEqualizerLine className="h-3.5 w-3.5" />
+                    <span>Filter</span>
                     {activeFiltersCount > 0 && (
-                        <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-secondary text-white text-[8px] font-mono animate-in zoom-in duration-200">
+                        <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-secondary text-white text-[10px] font-medium animate-in zoom-in duration-200">
                             {activeFiltersCount}
                         </span>
                     )}
@@ -78,11 +77,9 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
                 <div className="px-6 pb-8">
                     <div className="flex items-center justify-between py-5 border-b border-border/50">
                         <div className="flex items-center gap-3">
-                            <DrawerTitle className="text-sm">
-                                Filters
-                            </DrawerTitle>
+                            <DrawerTitle className="text-[15px] font-semibold">Filters</DrawerTitle>
                             {pendingCount > 0 && (
-                                <span className="text-[9px] font-mono text-secondary animate-in fade-in duration-200">
+                                <span className="text-[12px] text-secondary font-medium animate-in fade-in duration-200">
                                     {pendingCount} active
                                 </span>
                             )}
@@ -90,9 +87,9 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
                         {pendingCount > 0 && (
                             <button
                                 onClick={handleReset}
-                                className="inline-flex items-center gap-1 text-[9px] font-mono uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors duration-150 animate-in fade-in duration-200"
+                                className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors font-medium"
                             >
-                                <RiCloseLine className="h-3 w-3" />
+                                <RiCloseLine className="h-3.5 w-3.5" />
                                 Reset
                             </button>
                         )}
@@ -100,8 +97,8 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
 
                     <div className="divide-y divide-border/40">
                         <div className="py-5">
-                            <label className="block text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground mb-3">
-                                Cat Name
+                            <label className="block text-[11px] font-medium text-muted-foreground mb-3 uppercase tracking-wider">
+                                Name
                             </label>
                             <div className="relative flex items-center">
                                 <RiSearch2Line className="absolute left-0 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
@@ -109,62 +106,62 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
                                     placeholder="Search by name..."
                                     value={name || ""}
                                     onChange={(e) => setName(e.target.value || undefined)}
-                                    className="w-full bg-transparent pl-6 pb-2 border-b border-border focus:border-foreground outline-none text-sm font-mono text-foreground placeholder:text-muted-foreground/40 transition-colors duration-200"
+                                    className="w-full bg-transparent pl-6 pb-2 border-b border-border focus:border-foreground outline-none text-[14px] text-foreground placeholder:text-muted-foreground/40 transition-colors"
                                 />
                             </div>
                         </div>
 
                         <div className="py-5 grid grid-cols-2 gap-8">
                             <div>
-                                <label className="block text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground mb-3">
+                                <label className="block text-[11px] font-medium text-muted-foreground mb-3 uppercase tracking-wider">
                                     Color
                                 </label>
                                 <input
-                                    placeholder="e.g. black..."
+                                    placeholder="e.g. black"
                                     value={color || ""}
                                     onChange={(e) => setColor(e.target.value || undefined)}
-                                    className="w-full bg-transparent pb-2 border-b border-border focus:border-foreground outline-none text-sm font-mono text-foreground placeholder:text-muted-foreground/40 transition-colors duration-200"
+                                    className="w-full bg-transparent pb-2 border-b border-border focus:border-foreground outline-none text-[14px] text-foreground placeholder:text-muted-foreground/40 transition-colors"
                                 />
                             </div>
                             <div>
-                                <label className="block text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground mb-3">
+                                <label className="block text-[11px] font-medium text-muted-foreground mb-3 uppercase tracking-wider">
                                     Source
                                 </label>
                                 <input
                                     placeholder="Origin..."
                                     value={source || ""}
                                     onChange={(e) => setSource(e.target.value || undefined)}
-                                    className="w-full bg-transparent pb-2 border-b border-border focus:border-foreground outline-none text-sm font-mono text-foreground placeholder:text-muted-foreground/40 transition-colors duration-200"
+                                    className="w-full bg-transparent pb-2 border-b border-border focus:border-foreground outline-none text-[14px] text-foreground placeholder:text-muted-foreground/40 transition-colors"
                                 />
                             </div>
                         </div>
 
                         <div className="py-5">
-                            <label className="block text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground mb-4">
+                            <label className="block text-[11px] font-medium text-muted-foreground mb-4 uppercase tracking-wider">
                                 Category
                             </label>
                             <div className="flex flex-wrap gap-2">
                                 <button
                                     onClick={() => setCategory(undefined)}
-                                    className={`h-7 px-3 rounded-full text-[10px] font-mono uppercase tracking-wider border transition-all duration-200 ${!category
-                                        ? "bg-foreground text-background border-foreground"
-                                        : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                                        }`}
+                                    className={cn(
+                                        "h-7 px-3.5 rounded-full text-[12px] font-medium border transition-all",
+                                        !category
+                                            ? "bg-foreground text-background border-foreground"
+                                            : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                                    )}
                                 >
                                     All
                                 </button>
                                 {categories.map((c) => (
                                     <button
                                         key={c.id}
-                                        onClick={() =>
-                                            setCategory(
-                                                category === c.name ? undefined : c.name
-                                            )
-                                        }
-                                        className={`h-7 px-3 rounded-full text-[10px] font-mono uppercase tracking-wider border transition-all duration-200 ${category === c.name
-                                            ? "bg-secondary text-white border-secondary"
-                                            : "border-border text-muted-foreground hover:border-secondary/50 hover:text-foreground"
-                                            }`}
+                                        onClick={() => setCategory(category === c.name ? undefined : c.name)}
+                                        className={cn(
+                                            "h-7 px-3.5 rounded-full text-[12px] font-medium border transition-all",
+                                            category === c.name
+                                                ? "bg-secondary text-white border-secondary"
+                                                : "border-border text-muted-foreground hover:border-secondary/50 hover:text-foreground"
+                                        )}
                                     >
                                         {c.name}
                                     </button>
@@ -175,9 +172,9 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
 
                     <button
                         onClick={handleApply}
-                        className="mt-4 w-full h-12 rounded-2xl bg-foreground text-background text-[11px] font-mono uppercase tracking-[0.2em] hover:opacity-90 active:scale-[0.98] transition-all duration-150"
+                        className="mt-4 w-full h-11 rounded-xl bg-foreground text-background text-[14px] font-medium hover:opacity-90 active:scale-[0.99] transition-all"
                     >
-                        {pendingCount > 0 ? `Apply · ${pendingCount}` : "Apply"}
+                        {pendingCount > 0 ? `Apply ${pendingCount} filter${pendingCount > 1 ? "s" : ""}` : "Apply"}
                     </button>
                 </div>
             </DrawerContent>

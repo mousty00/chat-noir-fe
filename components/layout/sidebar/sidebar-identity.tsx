@@ -9,22 +9,15 @@ export function SidebarIdentity() {
     const { logout } = useAuth();
 
     if (!user) return (
-        <>
-            <div className="flex flex-col items-start gap-3 mb-8 px-2">
-                <div className="group relative flex items-center gap-3 w-full">
-                    <Button
-                        className="p-2 text-white bg-secondary hover:bg-secondary/80 w-full transition-colors"
-                        title="Login"
-                    >
-                        <Link href="/login" className="flex items-center gap-2">
-                            <p>Login</p>
-                            <RiLoginBoxLine className="h-4 w-4" />
-                        </Link>
-                    </Button>
-                </div>
-                <div className="h-px w-full bg-border/50 mt-2" />
-            </div>
-        </>
+        <div className="mb-6 px-1">
+            <Link href="/login">
+                <Button className="w-full h-9 bg-secondary hover:bg-secondary/90 text-white text-[13px] font-medium rounded-xl">
+                    <RiLoginBoxLine className="h-4 w-4" />
+                    Sign in
+                </Button>
+            </Link>
+            <div className="h-px w-full bg-border/50 mt-5" />
+        </div>
     );
 
     const initials = user.username
@@ -32,32 +25,32 @@ export function SidebarIdentity() {
         : user.email.substring(0, 2).toUpperCase();
 
     return (
-        <div className="flex flex-col items-start gap-3 mb-8 px-2">
-            <div className="group relative flex items-center gap-3 w-full">
-                <div className="w-10 h-10 bg-secondary/20 border border-secondary/30 rounded-md flex items-center justify-center transition-all duration-300 group-hover:bg-secondary group-hover:text-white text-secondary overflow-hidden">
+        <div className="mb-6 px-1">
+            <div className="flex items-center gap-3">
+                <div className="w-9 h-9 bg-secondary/15 border border-secondary/25 rounded-xl flex items-center justify-center text-secondary overflow-hidden shrink-0">
                     {user.image ? (
                         <img src={user.image} alt={user.username} className="w-full h-full object-cover" />
                     ) : (
-                        <span className="text-sm font-black">{initials}</span>
+                        <span className="text-[12px] font-bold">{initials}</span>
                     )}
                 </div>
                 <div className="flex flex-col flex-1 min-w-0">
-                    <span className="text-xs font-bold text-foreground uppercase tracking-widest truncate">
+                    <span className="text-[13px] font-semibold text-foreground truncate">
                         {user.username}
                     </span>
-                    <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest truncate">
+                    <span className="text-[11px] text-muted-foreground truncate">
                         {user.email}
                     </span>
                 </div>
                 <button
                     onClick={logout}
-                    className="p-2 text-muted-foreground hover:text-white transition-colors"
-                    title="Logout Session"
+                    className="p-1.5 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted"
+                    title="Sign out"
                 >
                     <RiLogoutCircleLine className="h-4 w-4" />
                 </button>
             </div>
-            <div className="h-px w-full bg-border/50 mt-2" />
+            <div className="h-px w-full bg-border/50 mt-5" />
         </div>
     );
 }
