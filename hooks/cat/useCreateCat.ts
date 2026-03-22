@@ -1,4 +1,4 @@
-import { useMutation as useApolloMutation } from "@apollo/client/react";
+import { useMutation as useApolloMutation, useApolloClient } from "@apollo/client/react";
 import { useMutation as useTanstackMutation } from "@tanstack/react-query";
 import { stripTypename } from "@apollo/client/utilities";
 import { CREATE_CAT, GET_CATS } from "@/graphql/cat";
@@ -31,12 +31,11 @@ export const useCreateCat = (): UseCreateCatReturn => {
   const [apolloLoading, setApolloLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { token } = useAuthStore();
+  const apolloClient = useApolloClient();
 
   const [createCatMutation] = useApolloMutation<{
     createCat: ApiResponse<Cat>;
-  }>(CREATE_CAT, {
-    refetchQueries: [{ query: GET_CATS, variables: { page: 0, size: 12 } }],
-  });
+  }>(CREATE_CAT);
 
   const { mutateAsync: uploadMediaAsync, isPending: isUploading } = useTanstackMutation({
     mutationFn: async ({ catId, file }: { catId: string; file: File }) => {
@@ -95,6 +94,8 @@ export const useCreateCat = (): UseCreateCatReturn => {
           await uploadMediaAsync({ catId: response.data.id, file: mediaFile });
         }
 
+        await apolloClient.refetchQueries({ include: [GET_CATS] });
+
         return true;
       } catch (err) {
         const errorMessage =
@@ -106,7 +107,7 @@ export const useCreateCat = (): UseCreateCatReturn => {
         setApolloLoading(false);
       }
     },
-    [createCatMutation, uploadMediaAsync, token]
+    [createCatMutation, uploadMediaAsync, token, apolloClient]
   );
 
   return {
