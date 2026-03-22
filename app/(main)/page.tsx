@@ -4,6 +4,7 @@ import { CatGridSkeleton } from "@/components/cat/cat-card-skeleton";
 import { CatDetailsDrawer } from "@/components/cat/cat-details-drawer";
 import { CatGrid } from "@/components/cat/cat-grid";
 import { CreateCatDrawer } from "@/components/cat/create-cat-drawer";
+import { SubmitCatDrawer } from "@/components/cat/submit-cat-drawer";
 import { FilterChips } from "@/components/cat/filter-chips";
 import { FilterDrawer } from "@/components/cat/filter-drawer";
 import { NameSearch } from "@/components/cat/name-search";
@@ -159,7 +160,7 @@ export default function Home() {
               onRefresh={handleRefetch}
               isRefreshing={networkStatus === 4 || (loading && networkStatus === 1)}
             />
-            {user?.isAdmin && <CreateCatDrawer />}
+            {user?.isAdmin ? <CreateCatDrawer /> : <SubmitCatDrawer />}
           </div>
         </div>
 

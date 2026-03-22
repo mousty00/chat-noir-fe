@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { RiGalleryLine, RiBookOpenLine, RiSettings4Line, RiHeartLine } from "react-icons/ri";
+import { RiGalleryLine, RiBookOpenLine, RiSettings4Line, RiHeartLine, RiSendPlaneLine } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 
-const routes = [
+const baseRoutes = [
     { label: "Cats",      icon: RiGalleryLine,  href: "/" },
     { label: "Favorites", icon: RiHeartLine,    href: "/favorites" },
     { label: "Docs",      icon: RiBookOpenLine, href: "/docs" },
@@ -18,6 +18,12 @@ interface SidebarRoutesProps {
 
 export function SidebarRoutes({ onNavigate }: SidebarRoutesProps) {
     const pathname = usePathname();
+
+    const routes = [
+        ...baseRoutes.slice(0, 2),
+        { label: "Submissions", icon: RiSendPlaneLine, href: "/submissions" },
+        ...baseRoutes.slice(2),
+    ];
 
     return (
         <nav className="flex flex-col gap-0.5 grow">
