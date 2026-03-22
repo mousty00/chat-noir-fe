@@ -1,5 +1,6 @@
 import { useMutation as useApolloMutation } from "@apollo/client/react";
 import { useMutation as useTanstackMutation } from "@tanstack/react-query";
+import { stripTypename } from "@apollo/client/utilities";
 import { CREATE_CAT, GET_CATS } from "@/graphql/cat";
 import { ApiResponse, Cat } from "@/types/cat";
 import { useCallback, useState } from "react";
@@ -72,7 +73,7 @@ export const useCreateCat = (): UseCreateCatReturn => {
             cat: {
               name: input.name,
               color: input.color || null,
-              category: input.category || null,
+              category: input.category ? stripTypename(input.category) : null,
               image: input.image || null,
               sourceName: input.sourceName || null,
             },
