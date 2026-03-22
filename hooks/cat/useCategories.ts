@@ -1,11 +1,12 @@
 import { useQuery } from "@apollo/client/react";
 import { GET_CAT_CATEGORIES } from "@/graphql/cat";
 import { ApiResponse, Category } from "@/types/cat";
+import { ApolloError } from "@apollo/client";
 
 interface UseCategoriesReturn {
   categories: Category[];
   loading: boolean;
-  error: any;
+  error: ApolloError | undefined;
 }
 
 export const useCategories = (): UseCategoriesReturn => {

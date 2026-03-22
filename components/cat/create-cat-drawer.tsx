@@ -98,7 +98,7 @@ export function CreateCatDrawer() {
                             Create New Cat
                         </DrawerTitle>
                         <DrawerDescription className="text-xs font-mono uppercase tracking-widest text-muted-foreground mr-auto">
-                            Enter the cat's details below to register it.
+                            Enter the cat&apos;s details below to register it.
                         </DrawerDescription>
                     </DrawerHeader>
 

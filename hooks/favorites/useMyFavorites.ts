@@ -1,13 +1,14 @@
 import { useQuery } from "@apollo/client/react";
 import { MY_FAVORITES } from "@/graphql/favorites";
 import { FavoritesApiResponse, FavoritesPaginationData } from "@/types/favorites";
+import { ApolloError } from "@apollo/client";
 import { useCallback, useState } from "react";
 
 interface UseMyFavoritesReturn {
   favorites: FavoritesPaginationData["result"];
   pagination: Omit<FavoritesPaginationData, "result"> | null;
   loading: boolean;
-  error: any;
+  error: ApolloError | undefined;
   refetch: () => void;
   handlePageChange: (newPage: number) => void;
 }

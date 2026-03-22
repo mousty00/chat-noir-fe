@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuthStore } from "@/hooks/useAuthStore";
 
@@ -11,10 +11,11 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     const [isHydrated, setIsHydrated] = useState(false);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setIsHydrated(true);
     }, []);
 
-    const PUBLIC_PATHS = ["/login", "/register", "/", "/categories", "/docs", "/settings", "/oauth2/callback"];
+    const PUBLIC_PATHS = useMemo(() => ["/login", "/register", "/", "/categories", "/docs", "/settings", "/oauth2/callback"], []);
 
     useEffect(() => {
         if (!isHydrated) return;
@@ -24,7 +25,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         if (!isAuthenticated && !isPublicPath) {
             router.back();
         }
-    }, [isAuthenticated, isHydrated, pathname, router]);
+    }, [isAuthenticated, isHydrated, pathname, router, PUBLIC_PATHS]);
 
     if (!isHydrated) return null;
 

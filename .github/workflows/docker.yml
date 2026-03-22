@@ -1,8 +1,13 @@
 name: Docker Build & Push
 
 on:
-  push:
+  # Only deploy to production after CI (which includes tests) succeeds on main
+  workflow_run:
+    workflows: ["CI"]
     branches: [main]
+    types: [completed]
+  # Also allow direct tag pushes (for manual releases)
+  push:
     tags:
       - 'v*'
 
@@ -15,6 +20,11 @@ jobs:
   docker:
     name: Build & Push Docker Image
     runs-on: ubuntu-latest
+    # For workflow_run triggers: only proceed if CI passed.
+    # For tag pushes: always proceed.
+    if: >
+      github.event_name == 'push' ||
+      github.event.workflow_run.conclusion == 'success'
     permissions:
       contents: read
       packages: write
@@ -22,6 +32,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # For workflow_run events, check out the commit that triggered CI
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3

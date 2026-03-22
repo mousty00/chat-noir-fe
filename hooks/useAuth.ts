@@ -46,8 +46,8 @@ export const useAuth = () => {
       toast.success("Welcome back to the archive.");
       router.push("/");
       return true;
-    } catch (err: any) {
-      const msg = err.message || "Login failed";
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Login failed";
       setError(msg);
       toast.error(msg);
       return false;
@@ -75,8 +75,8 @@ export const useAuth = () => {
       toast.success("Account registered. Please proceed to login.");
       router.push("/login");
       return true;
-    } catch (err: any) {
-      const msg = err.message || "Registration failed";
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Registration failed";
       setError(msg);
       toast.error(msg);
       return false;

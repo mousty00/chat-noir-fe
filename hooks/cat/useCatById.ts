@@ -1,11 +1,12 @@
 import { GET_CAT_BY_ID } from "@/graphql/cat";
 import { ApiResponse, Cat } from "@/types/cat";
+import { ApolloError } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 
 interface UseCatByIdReturn {
   cat: Cat | null;
   loading: boolean;
-  error: any;
+  error: ApolloError | undefined;
   refetch: () => void;
 }
 

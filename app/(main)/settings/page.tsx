@@ -12,6 +12,7 @@ export default function SettingsPage() {
     const { user } = useAuthStore();
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
     }, []);
 

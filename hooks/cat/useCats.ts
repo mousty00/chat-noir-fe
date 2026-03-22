@@ -1,13 +1,14 @@
 import { useQuery } from "@apollo/client/react";
 import { GET_CATS } from "@/graphql/cat";
-import { ApiResponse, PaginationData } from "@/types/cat";
+import { ApiResponse, Cat, PaginationData } from "@/types/cat";
+import { ApolloError } from "@apollo/client";
 import { useCallback, useState } from "react";
 
 interface UseCatsReturn {
-  cats: any[];
+  cats: Cat[];
   pagination: PaginationData | null;
   loading: boolean;
-  error: any;
+  error: ApolloError | undefined;
   success: boolean;
   message: string;
   networkStatus: number;
