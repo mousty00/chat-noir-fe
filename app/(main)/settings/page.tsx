@@ -3,7 +3,7 @@
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { useThemeStore } from "@/hooks/useThemeStore";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RiMoonLine, RiPaletteLine, RiSettings4Line, RiShieldUserLine, RiSunLine } from "react-icons/ri";
 
 export default function SettingsPage() {
@@ -11,9 +11,9 @@ export default function SettingsPage() {
     const [mounted, setMounted] = useState(false);
     const { user } = useAuthStore();
 
-    useState(() => {
+    useEffect(() => {
         setMounted(true);
-    });
+    }, []);
 
     if (!mounted) return null;
 
@@ -86,7 +86,7 @@ export default function SettingsPage() {
                             <h2 className="text-sm font-bold uppercase tracking-widest">Role</h2>
                         </div>
                         <div className="p-6 rounded-2xl bg-secondary/5 border border-secondary/20 flex flex-col items-center text-center gap-4">
-                            <div className="h-20 w-20 rounded-full bg-linear-to-tr from-secondary to-purple-400 p-1 shadow-xl shadow-secondary/20">
+                            <div className="h-20 w-20 rounded-full bg-gradient-to-tr from-secondary to-secondary/40 p-1 shadow-xl shadow-secondary/20">
                                 <div className="h-full w-full rounded-full bg-background flex items-center justify-center text-2xl font-black text-foreground">
                                     {user?.isAdmin ? "AD" : "US"}
                                 </div>

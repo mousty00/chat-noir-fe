@@ -15,8 +15,11 @@ export const MY_FAVORITES = gql`
             name
             color
             image
+            sourceName
             category {
+              id
               name
+              mediaTypeHint
             }
           }
         }
@@ -57,8 +60,11 @@ export const ADD_FAVORITE = gql`
           name
           color
           image
+          sourceName
           category {
+            id
             name
+            mediaTypeHint
           }
         }
       }

@@ -18,6 +18,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
       token = parsed.state?.token;
     } catch (e) {
       console.error("Error parsing auth data from localStorage", e);
+      localStorage.removeItem("chat-noir-auth");
     }
   }
 

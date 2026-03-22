@@ -90,7 +90,7 @@ export const GET_CAT_MEDIA_DOWNLOAD_INFO = gql`
 `;
 
 export const CREATE_CAT = gql`
-  mutation CreateCat($cat: CatRequest) {
+  mutation CreateCat($cat: CatRequest!) {
     createCat(cat: $cat) {
       status
       error
@@ -113,7 +113,7 @@ export const CREATE_CAT = gql`
 `;
 
 export const UPDATE_CAT = gql`
-  mutation UpdateCat($id: ID, $cat: CatRequest) {
+  mutation UpdateCat($id: ID!, $cat: CatRequest!) {
     updateCat(id: $id, cat: $cat) {
       status
       error

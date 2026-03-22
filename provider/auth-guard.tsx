@@ -14,11 +14,12 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         setIsHydrated(true);
     }, []);
 
+    const PUBLIC_PATHS = ["/login", "/register", "/", "/categories", "/docs", "/settings", "/oauth2/callback"];
+
     useEffect(() => {
         if (!isHydrated) return;
 
-        const publicPaths = ["/login", "/register", "/", "/categories", "/docs", "/settings", "/oauth2/callback"];
-        const isPublicPath = publicPaths.includes(pathname);
+        const isPublicPath = PUBLIC_PATHS.includes(pathname);
 
         if (!isAuthenticated && !isPublicPath) {
             router.back();
@@ -27,8 +28,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
 
     if (!isHydrated) return null;
 
-    const publicPaths = ["/login", "/register", "/", "/categories", "/docs", "/settings", "/oauth2/callback"];
-    const isPublicPath = publicPaths.includes(pathname);
+    const isPublicPath = PUBLIC_PATHS.includes(pathname);
 
     if (!isAuthenticated && !isPublicPath) {
         return null;

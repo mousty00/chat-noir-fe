@@ -28,7 +28,7 @@ export const CatCardSkeleton = () => {
 
 export const CatGridSkeleton = () => {
     return (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
+        <div className="grid gap-3 md:gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
             {Array.from({ length: 12 }).map((_, i) => (
                 <CatCardSkeleton key={i} />
             ))}
