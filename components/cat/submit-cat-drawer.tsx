@@ -36,6 +36,7 @@ export function SubmitCatDrawer() {
     const [sourceName, setSourceName] = useState("");
     const [notes, setNotes] = useState("");
     const [mediaFile, setMediaFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const { categories, loading: categoriesLoading } = useCategories();
@@ -48,10 +49,19 @@ export function SubmitCatDrawer() {
         setSourceName("");
         setNotes("");
         setMediaFile(null);
+        if (previewUrl) {
+            URL.revokeObjectURL(previewUrl);
+            setPreviewUrl(null);
+        }
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files?.[0]) setMediaFile(e.target.files[0]);
+        const file = e.target.files?.[0];
+        if (file) {
+            setMediaFile(file);
+            if (previewUrl) URL.revokeObjectURL(previewUrl);
+            setPreviewUrl(URL.createObjectURL(file));
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -173,22 +183,29 @@ export function SubmitCatDrawer() {
 
                         <div className="space-y-1.5">
                             <Label className="text-[13px]">Photo <span className="text-muted-foreground font-normal">(optional)</span></Label>
-                            <div
-                                className="flex items-center gap-3 px-3 py-2.5 rounded-md border border-input bg-background cursor-pointer hover:bg-muted/50 transition-colors"
-                                onClick={() => fileInputRef.current?.click()}
-                            >
-                                {mediaFile ? (
-                                    <>
-                                        <RiCheckLine className="w-4 h-4 text-green-600 shrink-0" />
-                                        <span className="text-[13px] text-foreground truncate">{mediaFile.name}</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <RiUploadCloud2Line className="w-4 h-4 text-muted-foreground shrink-0" />
-                                        <span className="text-[13px] text-muted-foreground">Upload a photo</span>
-                                    </>
-                                )}
-                            </div>
+
+                            {previewUrl ? (
+                                <div className="relative group cursor-pointer rounded-xl overflow-hidden border border-input bg-muted/30" onClick={() => fileInputRef.current?.click()}>
+                                    <img
+                                        src={previewUrl}
+                                        alt="Preview"
+                                        className="w-full h-48 object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                        <RiUploadCloud2Line className="w-5 h-5 text-white" />
+                                        <span className="text-[13px] text-white font-medium">Change photo</span>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div
+                                    className="flex flex-col items-center justify-center gap-2 px-3 py-8 rounded-xl border border-dashed border-input bg-muted/20 cursor-pointer hover:bg-muted/40 transition-colors"
+                                    onClick={() => fileInputRef.current?.click()}
+                                >
+                                    <RiUploadCloud2Line className="w-6 h-6 text-muted-foreground" />
+                                    <span className="text-[13px] text-muted-foreground">Click to upload a photo</span>
+                                </div>
+                            )}
+
                             <input
                                 ref={fileInputRef}
                                 type="file"
