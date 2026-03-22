@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { useCategories } from "@/hooks/cat/useCategories";
 import { useCreateCat } from "@/hooks/cat/useCreateCat";
+import { Category } from "@/types/cat";
 import { RiAddLine, RiUploadCloud2Line, RiCheckLine, RiLoader4Line } from "react-icons/ri";
 import { toast } from "sonner";
 
@@ -30,7 +31,7 @@ export function CreateCatDrawer() {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     const [color, setColor] = useState("");
-    const [categoryId, setCategoryId] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
     const [sourceName, setSourceName] = useState("");
     const [mediaFile, setMediaFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -47,7 +48,7 @@ export function CreateCatDrawer() {
     const resetForm = () => {
         setName("");
         setColor("");
-        setCategoryId("");
+        setSelectedCategory(null);
         setSourceName("");
         setMediaFile(null);
     };
@@ -64,7 +65,7 @@ export function CreateCatDrawer() {
             {
                 name,
                 color,
-                category: categoryId,
+                category: selectedCategory,
                 sourceName,
             },
             mediaFile
@@ -130,7 +131,11 @@ export function CreateCatDrawer() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2">
                                 <Label htmlFor="create-category">Category</Label>
-                                <Select value={categoryId} onValueChange={setCategoryId} disabled={creating}>
+                                <Select
+                                    value={selectedCategory?.id ?? ""}
+                                    onValueChange={(id) => setSelectedCategory(categories.find(c => c.id === id) ?? null)}
+                                    disabled={creating}
+                                >
                                     <SelectTrigger id="create-category" className="bg-muted/50 border-border h-11 font-mono uppercase text-xs">
                                         <SelectValue placeholder="Select Category" />
                                     </SelectTrigger>

@@ -6,10 +6,16 @@ import { useCallback, useState } from "react";
 import { getEndpoint } from "@/constants/api";
 import { useAuthStore } from "../useAuthStore";
 
+interface CategoryRequestInput {
+  id: string;
+  name: string;
+  mediaTypeHint: string;
+}
+
 interface CatRequestInput {
   name: string;
   color?: string;
-  category?: string;
+  category?: CategoryRequestInput | null;
   image?: string;
   sourceName?: string;
 }
