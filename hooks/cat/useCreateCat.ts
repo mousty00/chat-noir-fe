@@ -9,7 +9,7 @@ import { useAuthStore } from "../useAuthStore";
 interface CategoryRequestInput {
   id: string;
   name: string;
-  mediaTypeHint: string;
+  mediaTypeHint?: string;
 }
 
 interface CatRequestInput {
