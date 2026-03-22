@@ -7,6 +7,7 @@ export const ENDPOINTS = {
   cats: "/cats",
   users: "/users",
   auth: "/auth",
+  submissions: "/submissions",
 } as const;
 
 export const getEndpoint = (endpoint: keyof typeof ENDPOINTS) => {

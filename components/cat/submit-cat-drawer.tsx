@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Drawer,
@@ -25,7 +25,7 @@ import {
 import { useCategories } from "@/hooks/cat/useCategories";
 import { useSubmitCat } from "@/hooks/cat/useSubmitCat";
 import { Category } from "@/types/cat";
-import { RiSendPlaneLine, RiLoader4Line } from "react-icons/ri";
+import { RiSendPlaneLine, RiLoader4Line, RiUploadCloud2Line, RiCheckLine } from "react-icons/ri";
 import { toast } from "sonner";
 
 export function SubmitCatDrawer() {
@@ -35,6 +35,8 @@ export function SubmitCatDrawer() {
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
     const [sourceName, setSourceName] = useState("");
     const [notes, setNotes] = useState("");
+    const [mediaFile, setMediaFile] = useState<File | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const { categories, loading: categoriesLoading } = useCategories();
     const { submitCat, loading, error } = useSubmitCat();
@@ -45,6 +47,11 @@ export function SubmitCatDrawer() {
         setSelectedCategory(null);
         setSourceName("");
         setNotes("");
+        setMediaFile(null);
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files?.[0]) setMediaFile(e.target.files[0]);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -66,6 +73,7 @@ export function SubmitCatDrawer() {
                 : undefined,
             sourceName: sourceName || undefined,
             notes: notes || undefined,
+            mediaFile: mediaFile || null,
         });
 
         if (success) {
@@ -160,6 +168,33 @@ export function SubmitCatDrawer() {
                                 placeholder="Anything else the admin should know..."
                                 className="text-[13px] resize-none"
                                 rows={3}
+                            />
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <Label className="text-[13px]">Photo <span className="text-muted-foreground font-normal">(optional)</span></Label>
+                            <div
+                                className="flex items-center gap-3 px-3 py-2.5 rounded-md border border-input bg-background cursor-pointer hover:bg-muted/50 transition-colors"
+                                onClick={() => fileInputRef.current?.click()}
+                            >
+                                {mediaFile ? (
+                                    <>
+                                        <RiCheckLine className="w-4 h-4 text-green-600 shrink-0" />
+                                        <span className="text-[13px] text-foreground truncate">{mediaFile.name}</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <RiUploadCloud2Line className="w-4 h-4 text-muted-foreground shrink-0" />
+                                        <span className="text-[13px] text-muted-foreground">Upload a photo</span>
+                                    </>
+                                )}
+                            </div>
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={handleFileChange}
                             />
                         </div>
 
