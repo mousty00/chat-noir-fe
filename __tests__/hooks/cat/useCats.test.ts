@@ -2,7 +2,7 @@ import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useQuery } from '@apollo/client/react'
 import { useCats } from '@/hooks/cat/useCats'
-import type { ApolloError } from '@apollo/client'
+import type { ErrorLike } from '@apollo/client'
 
 vi.mock('@apollo/client/react', () => ({
   useQuery: vi.fn(),
@@ -39,7 +39,7 @@ function makeQueryReturn(overrides = {}) {
     refetch: mockRefetch,
     networkStatus: 7,
     ...overrides,
-  } as ReturnType<typeof useQuery>
+  } as unknown as ReturnType<typeof useQuery>
 }
 
 // ── Tests ──────────────────────────────────────────────────────────────────
@@ -87,7 +87,7 @@ describe('useCats', () => {
   })
 
   it('exposes the Apollo error when the query fails', () => {
-    const apolloError = { message: 'Network error', graphQLErrors: [] } as unknown as ApolloError
+    const apolloError = { message: 'Network error', graphQLErrors: [] } as unknown as ErrorLike
     vi.mocked(useQuery).mockReturnValue(makeQueryReturn({ error: apolloError }))
 
     const { result } = renderHook(() => useCats())

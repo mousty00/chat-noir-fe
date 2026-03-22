@@ -2,7 +2,7 @@ import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { renderHook } from '@testing-library/react'
 import { useQuery } from '@apollo/client/react'
 import { useCategories } from '@/hooks/cat/useCategories'
-import type { ApolloError } from '@apollo/client'
+import type { ErrorLike } from '@apollo/client'
 
 vi.mock('@apollo/client/react', () => ({
   useQuery: vi.fn(),
@@ -19,7 +19,7 @@ function makeQueryReturn(overrides = {}) {
     loading: false,
     error: undefined,
     ...overrides,
-  } as ReturnType<typeof useQuery>
+  } as unknown as ReturnType<typeof useQuery>
 }
 
 describe('useCategories', () => {
@@ -54,7 +54,7 @@ describe('useCategories', () => {
   })
 
   it('returns the Apollo error when the query fails', () => {
-    const err = { message: 'Forbidden', graphQLErrors: [] } as unknown as ApolloError
+    const err = { message: 'Forbidden', graphQLErrors: [] } as unknown as ErrorLike
     vi.mocked(useQuery).mockReturnValue(makeQueryReturn({ error: err }))
 
     const { result } = renderHook(() => useCategories())

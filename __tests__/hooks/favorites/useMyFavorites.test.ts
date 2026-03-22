@@ -2,7 +2,7 @@ import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useQuery } from '@apollo/client/react'
 import { useMyFavorites } from '@/hooks/favorites/useMyFavorites'
-import type { ApolloError } from '@apollo/client'
+import type { ErrorLike } from '@apollo/client'
 
 vi.mock('@apollo/client/react', () => ({
   useQuery: vi.fn(),
@@ -41,7 +41,7 @@ function makeQueryReturn(overrides = {}) {
     error: undefined,
     refetch: mockRefetch,
     ...overrides,
-  } as ReturnType<typeof useQuery>
+  } as unknown as ReturnType<typeof useQuery>
 }
 
 // ── Tests ──────────────────────────────────────────────────────────────────
@@ -82,7 +82,7 @@ describe('useMyFavorites', () => {
   })
 
   it('returns the Apollo error when the query fails', () => {
-    const err = { message: 'Unauthorized', graphQLErrors: [] } as unknown as ApolloError
+    const err = { message: 'Unauthorized', graphQLErrors: [] } as unknown as ErrorLike
     vi.mocked(useQuery).mockReturnValue(makeQueryReturn({ error: err }))
 
     const { result } = renderHook(() => useMyFavorites())
