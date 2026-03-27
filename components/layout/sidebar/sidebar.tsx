@@ -19,14 +19,14 @@ export function Sidebar() {
 
       {isOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 transition-opacity"
+          className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40 transition-opacity"
           onClick={closeSidebar}
         />
       )}
 
       <aside
         className={cn(
-          "fixed top-0 left-0 z-40 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+          "fixed top-0 left-0 z-50 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
           "glass-panel",
           // Mobile styles
           "h-screen w-64 flex flex-col overflow-hidden border-r border-white/5",

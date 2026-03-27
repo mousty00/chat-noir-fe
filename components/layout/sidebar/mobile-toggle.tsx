@@ -15,7 +15,7 @@ export function MobileToggle({ onClick, isOpen }: MobileToggleProps) {
       variant="ghost"
       size="icon-sm"
       aria-label={isOpen ? "Close menu" : "Open menu"}
-      className="lg:hidden fixed top-3 left-3 z-50 glass-panel border border-border/50 text-foreground transition-all duration-200 active:scale-95 hover:bg-white/5 shadow-none"
+      className="lg:hidden fixed top-3 left-3 z-60 glass-panel border border-border/50 text-foreground transition-all duration-200 active:scale-95 hover:bg-white/5 shadow-none"
     >
       <span
         className="transition-all duration-200"
