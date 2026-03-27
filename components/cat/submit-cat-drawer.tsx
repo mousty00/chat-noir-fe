@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/hooks/useAuthStore";
 import {
     Drawer,
     DrawerClose,
@@ -30,6 +32,8 @@ import { toast } from "sonner";
 
 export function SubmitCatDrawer() {
     const [open, setOpen] = useState(false);
+    const router = useRouter();
+    const { isAuthenticated } = useAuthStore();
     const [name, setName] = useState("");
     const [color, setColor] = useState("");
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
@@ -95,8 +99,17 @@ export function SubmitCatDrawer() {
         }
     };
 
+    const handleOpenChange = (next: boolean) => {
+        if (next && !isAuthenticated) {
+            toast.info("Sign in to submit a cat");
+            router.push("/login");
+            return;
+        }
+        setOpen(next);
+    };
+
     return (
-        <Drawer open={open} onOpenChange={setOpen}>
+        <Drawer open={open} onOpenChange={handleOpenChange}>
             <DrawerTrigger asChild>
                 <Button variant="outline" size="sm" className="gap-2 text-[13px]">
                     <RiSendPlaneLine className="w-4 h-4" />

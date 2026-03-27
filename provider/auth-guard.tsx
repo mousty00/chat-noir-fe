@@ -16,24 +16,28 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
     }, []);
 
     const PUBLIC_PATHS = useMemo(() => ["/login", "/register", "/", "/categories", "/docs", "/settings", "/oauth2/callback"], []);
+    const AUTH_ONLY_PATHS = useMemo(() => ["/login", "/register"], []);
 
     useEffect(() => {
         if (!isHydrated) return;
 
         const isPublicPath = PUBLIC_PATHS.includes(pathname);
+        const isAuthOnlyPath = AUTH_ONLY_PATHS.includes(pathname);
 
         if (!isAuthenticated && !isPublicPath) {
-            router.back();
+            router.push("/login");
+        } else if (isAuthenticated && isAuthOnlyPath) {
+            router.push("/");
         }
-    }, [isAuthenticated, isHydrated, pathname, router, PUBLIC_PATHS]);
+    }, [isAuthenticated, isHydrated, pathname, router, PUBLIC_PATHS, AUTH_ONLY_PATHS]);
 
     if (!isHydrated) return null;
 
     const isPublicPath = PUBLIC_PATHS.includes(pathname);
+    const isAuthOnlyPath = AUTH_ONLY_PATHS.includes(pathname);
 
-    if (!isAuthenticated && !isPublicPath) {
-        return null;
-    }
+    if (!isAuthenticated && !isPublicPath) return null;
+    if (isAuthenticated && isAuthOnlyPath) return null;
 
     return <>{children}</>;
 }

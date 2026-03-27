@@ -1,15 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { RiGalleryLine, RiBookOpenLine, RiSettings4Line, RiHeartLine, RiSendPlaneLine } from "react-icons/ri";
+import { usePathname, useRouter } from "next/navigation";
+import { RiGalleryLine, RiBookOpenLine, RiSettings4Line, RiHeartLine, RiSendPlaneLine, RiLockLine } from "react-icons/ri";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/hooks/useAuthStore";
+import { toast } from "sonner";
 
-const baseRoutes = [
-    { label: "Cats",      icon: RiGalleryLine,  href: "/" },
-    { label: "Favorites", icon: RiHeartLine,    href: "/favorites" },
-    { label: "Docs",      icon: RiBookOpenLine, href: "/docs" },
-    { label: "Settings",  icon: RiSettings4Line, href: "/settings" },
+const routes = [
+    { label: "Cats",        icon: RiGalleryLine,   href: "/",            requiresAuth: false },
+    { label: "Favorites",   icon: RiHeartLine,     href: "/favorites",   requiresAuth: true  },
+    { label: "Submissions", icon: RiSendPlaneLine, href: "/submissions", requiresAuth: true  },
+    { label: "Docs",        icon: RiBookOpenLine,  href: "/docs",        requiresAuth: false },
+    { label: "Settings",    icon: RiSettings4Line, href: "/settings",    requiresAuth: false },
 ];
 
 interface SidebarRoutesProps {
@@ -18,17 +21,36 @@ interface SidebarRoutesProps {
 
 export function SidebarRoutes({ onNavigate }: SidebarRoutesProps) {
     const pathname = usePathname();
-
-    const routes = [
-        ...baseRoutes.slice(0, 2),
-        { label: "Submissions", icon: RiSendPlaneLine, href: "/submissions" },
-        ...baseRoutes.slice(2),
-    ];
+    const router = useRouter();
+    const { isAuthenticated } = useAuthStore();
 
     return (
         <nav className="flex flex-col gap-0.5 grow">
             {routes.map((route) => {
                 const isActive = pathname === route.href;
+                const isLocked = route.requiresAuth && !isAuthenticated;
+
+                if (isLocked) {
+                    return (
+                        <button
+                            key={route.href}
+                            onClick={() => {
+                                toast.info("Sign in to access this feature");
+                                router.push("/login");
+                                onNavigate?.();
+                            }}
+                            className={cn(
+                                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-150 w-full text-left",
+                                "text-muted-foreground/50 hover:bg-muted hover:text-muted-foreground"
+                            )}
+                        >
+                            <route.icon className="w-4 h-4 shrink-0" />
+                            <span className="flex-1">{route.label}</span>
+                            <RiLockLine className="w-3 h-3 shrink-0 opacity-50" />
+                        </button>
+                    );
+                }
+
                 return (
                     <Link
                         key={route.href}
