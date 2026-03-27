@@ -2,7 +2,7 @@
 
 import { FavoriteCatCard } from "@/components/favorites/favorite-cat-card";
 import { CatDetailsDrawer } from "@/components/cat/cat-details-drawer";
-import { Header } from "@/components/layout/header";
+
 import { PaginationControls } from "@/components/layout/pagination-control";
 import { Stats } from "@/components/layout/stats";
 import { ErrorState } from "@/components/ui/error-state";
@@ -29,8 +29,6 @@ export default function FavoritesPage() {
 
   return (
     <>
-      <Header />
-
       <section className="w-full flex flex-col gap-4 mb-8 px-2 md:px-0">
         <div className="flex flex-col xl:flex-row gap-6 items-center justify-between w-full">
           {(pagination || loading) && (

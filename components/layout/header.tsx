@@ -39,7 +39,7 @@ export const Header = () => {
       </div>
 
       {/* Top rule */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      <div className="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
 
       {/* Content */}
       <div className="relative flex flex-col items-center gap-5 z-10 text-center px-4">
@@ -79,7 +79,7 @@ export const Header = () => {
       </div>
 
       {/* Bottom rule */}
-      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      <div className="absolute bottom-0 inset-x-0 h-px bg-linear-to-r from-transparent via-border to-transparent" />
     </header>
   );
 };
