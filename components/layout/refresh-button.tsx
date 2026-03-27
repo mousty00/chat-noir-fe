@@ -11,7 +11,7 @@ export const RefreshButton = ({ onRefresh, isRefreshing }: RefreshButtonProps) =
         <Button
             onClick={onRefresh}
             disabled={isRefreshing}
-            className="uppercase tracking-[0.2em] px-6 py-3 h-auto flex items-center gap-2 group transition-all"
+            className="group"
             title={isRefreshing ? "Refreshing..." : "Refresh"}
         >
             {isRefreshing ? (

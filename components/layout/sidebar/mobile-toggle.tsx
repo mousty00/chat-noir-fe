@@ -1,26 +1,32 @@
 "use client";
 
 import { RiCloseLine, RiMenuLine } from "react-icons/ri";
+import { Button } from "@/components/ui/button";
 
 interface MobileToggleProps {
-    onClick: () => void;
-    isOpen: boolean;
+  onClick: () => void;
+  isOpen: boolean;
 }
 
 export function MobileToggle({ onClick, isOpen }: MobileToggleProps) {
-    return (
-        <button
-            onClick={onClick}
-            className="lg:hidden fixed top-2 left-2 z-50 retro-button flex items-center gap-2 bg-background px-3 py-1 shadow-[2px_2px_0px_#000]"
-        >
-            {isOpen ? (
-                <RiCloseLine className="h-8 w-8" />
-            ) : (
-                <RiMenuLine className="h-8 w-8" />
-            )}
-            <p className="font-bold uppercase tracking-tighter text-xl">
-                {isOpen ? "Close" : "Menu"}
-            </p>
-        </button>
-    );
+  return (
+    <Button
+      onClick={onClick}
+      variant="ghost"
+      size="icon-sm"
+      aria-label={isOpen ? "Close menu" : "Open menu"}
+      className="lg:hidden fixed top-3 left-3 z-50 glass-panel border border-border/50 text-foreground transition-all duration-200 active:scale-95 hover:bg-white/5 shadow-none"
+    >
+      <span
+        className="transition-all duration-200"
+        style={{ transform: isOpen ? "rotate(90deg)" : "rotate(0deg)" }}
+      >
+        {isOpen ? (
+          <RiCloseLine className="h-[18px] w-[18px]" />
+        ) : (
+          <RiMenuLine className="h-[18px] w-[18px]" />
+        )}
+      </span>
+    </Button>
+  );
 }

@@ -10,6 +10,7 @@ import { useCategories } from "@/hooks/cat/useCategories";
 import { useEffect, useState } from "react";
 import { RiCloseLine, RiEqualizerLine, RiSearch2Line } from "react-icons/ri";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface FilterDrawerProps {
     initialFilters: {
@@ -60,7 +61,7 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
             <DrawerTrigger asChild>
-                <button className="relative inline-flex items-center gap-2 h-10 px-4 rounded-xl border border-border bg-background hover:bg-muted/50 transition-all text-[13px] font-medium text-muted-foreground hover:text-foreground">
+                <Button variant="outline" className="text-muted-foreground hover:text-foreground">
                     <RiEqualizerLine className="h-3.5 w-3.5" />
                     <span>Filter</span>
                     {activeFiltersCount > 0 && (
@@ -68,7 +69,7 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
                             {activeFiltersCount}
                         </span>
                     )}
-                </button>
+                </Button>
             </DrawerTrigger>
 
             <DrawerContent className="bg-background/98 backdrop-blur-3xl border-border max-w-lg mx-auto">
@@ -85,13 +86,15 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
                             )}
                         </div>
                         {pendingCount > 0 && (
-                            <button
+                            <Button
+                                variant="ghost"
+                                size="sm"
                                 onClick={handleReset}
-                                className="inline-flex items-center gap-1 text-[12px] text-muted-foreground hover:text-foreground transition-colors font-medium"
+                                className="text-muted-foreground hover:text-foreground"
                             >
                                 <RiCloseLine className="h-3.5 w-3.5" />
                                 Reset
-                            </button>
+                            </Button>
                         )}
                     </div>
 
@@ -141,41 +144,43 @@ export const FilterDrawer = ({ initialFilters, onApply }: FilterDrawerProps) => 
                                 Category
                             </label>
                             <div className="flex flex-wrap gap-2">
-                                <button
+                                <Button
+                                    size="xs"
+                                    rounded
                                     onClick={() => setCategory(undefined)}
+                                    variant={!category ? "default" : "outline"}
                                     className={cn(
-                                        "h-7 px-3.5 rounded-full text-[12px] font-medium border transition-all",
-                                        !category
-                                            ? "bg-foreground text-background border-foreground"
-                                            : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                                        !category ? "bg-foreground text-background" : "border-border text-muted-foreground"
                                     )}
                                 >
                                     All
-                                </button>
+                                </Button>
                                 {categories.map((c) => (
-                                    <button
+                                    <Button
                                         key={c.id}
+                                        size="xs"
+                                        rounded
                                         onClick={() => setCategory(category === c.name ? undefined : c.name)}
+                                        variant={category === c.name ? "secondary" : "outline"}
                                         className={cn(
-                                            "h-7 px-3.5 rounded-full text-[12px] font-medium border transition-all",
                                             category === c.name
                                                 ? "bg-secondary text-white border-secondary"
                                                 : "border-border text-muted-foreground hover:border-secondary/50 hover:text-foreground"
                                         )}
                                     >
                                         {c.name}
-                                    </button>
+                                    </Button>
                                 ))}
                             </div>
                         </div>
                     </div>
 
-                    <button
+                    <Button
                         onClick={handleApply}
-                        className="mt-4 w-full h-11 rounded-xl bg-foreground text-background text-[14px] font-medium hover:opacity-90 active:scale-[0.99] transition-all"
+                        className="mt-4 w-full"
                     >
                         {pendingCount > 0 ? `Apply ${pendingCount} filter${pendingCount > 1 ? "s" : ""}` : "Apply"}
-                    </button>
+                    </Button>
                 </div>
             </DrawerContent>
         </Drawer>

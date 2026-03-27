@@ -20,11 +20,11 @@ export const PaginationControls = ({
         <div className="flex items-center gap-4 bg-muted/40 border border-border px-3 py-1 rounded-md">
             <Button
                 variant="ghost"
-                size="icon"
+                size="icon-sm"
                 onClick={() => onPageChange(currentPage - 1)}
                 disabled={!hasPrevious}
                 aria-label="Previous page"
-                className="hover:text-secondary disabled:opacity-30 h-8 w-8 transition-colors p-0"
+                className="hover:text-secondary disabled:opacity-30"
             >
                 <RiArrowLeftSLine className="h-5 w-5" />
             </Button>
@@ -40,11 +40,11 @@ export const PaginationControls = ({
 
             <Button
                 variant="ghost"
-                size="icon"
+                size="icon-sm"
                 onClick={() => onPageChange(currentPage + 1)}
                 disabled={!hasNext}
                 aria-label="Next page"
-                className="hover:text-secondary disabled:opacity-30 h-8 w-8 transition-colors p-0"
+                className="hover:text-secondary disabled:opacity-30"
             >
                 <RiArrowRightSLine className="h-5 w-5" />
             </Button>

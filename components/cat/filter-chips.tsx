@@ -1,6 +1,7 @@
 "use client";
 
 import { RiCloseLine } from "react-icons/ri";
+import { Button } from "@/components/ui/button";
 
 interface FilterChipsProps {
     category?: string;
@@ -29,13 +30,15 @@ const Chip = ({
         <span className="px-2 text-[10px] font-mono text-foreground">
             {value}
         </span>
-        <button
+        <Button
+            variant="ghost"
+            size="icon-xs"
             onClick={onRemove}
             aria-label={`Remove ${label} filter`}
-            className="mr-1.5 flex items-center justify-center w-4 h-4 rounded-full text-muted-foreground hover:bg-secondary/15 hover:text-secondary transition-all duration-150"
+            className="mr-1 h-4 w-4 rounded-full text-muted-foreground hover:bg-secondary/15 hover:text-secondary"
         >
             <RiCloseLine className="h-2.5 w-2.5" />
-        </button>
+        </Button>
     </span>
 );
 
@@ -72,13 +75,15 @@ export const FilterChips = ({
                 <Chip label="source" value={source} onRemove={() => onRemove("source")} />
             )}
 
-            <button
+            <Button
+                variant="ghost"
+                size="xs"
                 onClick={onClearAll}
-                className="inline-flex items-center gap-1 h-7 px-2 text-[9px] font-mono uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors duration-150 ml-1"
+                className="text-muted-foreground hover:text-foreground font-mono"
             >
                 <RiCloseLine className="h-3 w-3" />
                 Clear all
-            </button>
+            </Button>
         </div>
     );
 };

@@ -11,7 +11,7 @@ export function SidebarIdentity() {
     if (!user) return (
         <div className="mb-6 px-1">
             <Link href="/login">
-                <Button className="w-full h-9 bg-secondary hover:bg-secondary/90 text-white text-[13px] font-medium rounded-xl">
+                <Button className="w-full">
                     <RiLoginBoxLine className="h-4 w-4" />
                     Sign in
                 </Button>
@@ -42,13 +42,15 @@ export function SidebarIdentity() {
                         {user.email}
                     </span>
                 </div>
-                <button
+                <Button
+                    variant="ghost"
+                    size="icon-xs"
                     onClick={logout}
-                    className="p-1.5 text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-muted"
                     title="Sign out"
+                    className="text-muted-foreground hover:text-foreground"
                 >
                     <RiLogoutCircleLine className="h-4 w-4" />
-                </button>
+                </Button>
             </div>
             <div className="h-px w-full bg-border/50 mt-5" />
         </div>

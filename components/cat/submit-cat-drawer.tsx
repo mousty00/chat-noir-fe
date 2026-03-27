@@ -111,8 +111,8 @@ export function SubmitCatDrawer() {
     return (
         <Drawer open={open} onOpenChange={handleOpenChange}>
             <DrawerTrigger asChild>
-                <Button variant="outline" size="sm" className="gap-2 text-[13px]">
-                    <RiSendPlaneLine className="w-4 h-4" />
+                <Button>
+                    <RiSendPlaneLine className="h-4 w-4" />
                     Submit a cat
                 </Button>
             </DrawerTrigger>
@@ -229,7 +229,7 @@ export function SubmitCatDrawer() {
                         </div>
 
                         <DrawerFooter className="px-0 pt-2">
-                            <Button type="submit" disabled={loading} className="w-full gap-2">
+                            <Button type="submit" disabled={loading} className="w-full">
                                 {loading ? (
                                     <RiLoader4Line className="w-4 h-4 animate-spin" />
                                 ) : (

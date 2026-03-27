@@ -199,13 +199,15 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
                                     <div className="relative flex flex-col items-center gap-4">
                                         <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-border shadow-2xl">
                                             <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
-                                            <button
+                                            <Button
                                                 type="button"
+                                                size="icon-xs"
+                                                variant="outline"
                                                 onClick={removeFile}
-                                                className="absolute top-2 right-2 p-1 bg-background/80 rounded-full text-foreground hover:text-red-500 transition-colors backdrop-blur-md border border-border"
+                                                className="absolute top-2 right-2 rounded-full backdrop-blur-md"
                                             >
                                                 <RiCloseLine className="h-4 w-4" />
-                                            </button>
+                                            </Button>
                                         </div>
                                         {mediaFile && (
                                             <span className="text-[10px] font-mono text-secondary uppercase tracking-widest animate-pulse">
@@ -232,13 +234,13 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
 
                     <DrawerFooter className="px-0 pb-8 pt-6 flex flex-row gap-3">
                         <DrawerClose asChild>
-                            <Button variant="outline" className="flex-1 h-12 border-border font-mono uppercase tracking-widest text-[10px] hover:bg-muted">
+                            <Button variant="outline" className="flex-1">
                                 Cancel
                             </Button>
                         </DrawerClose>
                         <Button
                             type="submit"
-                            className="flex-2 h-12 bg-secondary text-primary-foreground hover:bg-secondary/90 font-mono uppercase tracking-widest text-[10px] group shadow-2xl shadow-secondary/20"
+                            className="flex-2 group shadow-2xl shadow-secondary/20"
                             disabled={loading}
                         >
                             {loading ? (

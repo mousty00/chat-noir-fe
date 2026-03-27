@@ -83,7 +83,7 @@ export function CreateCatDrawer() {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
-                <Button className="bg-secondary hover:bg-secondary/80 border-none font-mono uppercase tracking-[0.2em] px-6 py-3 h-auto transition-all group">
+                <Button className="group">
                     <RiAddLine className="mr-2 h-5 w-5 group-hover:rotate-90 transition-transform duration-300" />
                     New Cat
                 </Button>
@@ -188,16 +188,18 @@ export function CreateCatDrawer() {
                                             <RiCheckLine className="h-6 w-6" />
                                         </div>
                                         <p className="text-sm font-mono text-foreground text-center break-all">{mediaFile.name}</p>
-                                        <button
+                                        <Button
                                             type="button"
+                                            variant="ghost"
+                                            size="xs"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 setMediaFile(null);
                                             }}
-                                            className="text-[10px] text-muted-foreground hover:text-red-500 uppercase tracking-widest mt-2"
+                                            className="text-muted-foreground hover:text-red-500 mt-2"
                                         >
                                             Remove
-                                        </button>
+                                        </Button>
                                     </>
                                 ) : (
                                     <>
@@ -213,13 +215,13 @@ export function CreateCatDrawer() {
 
                     <DrawerFooter className="px-0 pb-10 pt-6 flex flex-row gap-4">
                         <DrawerClose asChild>
-                            <Button variant="outline" className="flex-1 font-mono uppercase tracking-widest h-12 border-border hover:bg-muted" disabled={creating}>
+                            <Button variant="outline" className="flex-1" disabled={creating}>
                                 Cancel
                             </Button>
                         </DrawerClose>
                         <Button
                             type="submit"
-                            className="flex-2 bg-secondary text-primary-foreground hover:bg-secondary/80 font-mono uppercase tracking-[0.2em] h-12 shadow-lg shadow-secondary/20"
+                            className="flex-2 shadow-lg shadow-secondary/20"
                             disabled={creating}
                         >
                             {creating ? (
@@ -227,7 +229,7 @@ export function CreateCatDrawer() {
                             ) : (
                                 <RiCheckLine className="h-5 w-5 mr-2" />
                             )}
-                            {creating ? 'Processing...' : 'Create'}
+                            {creating ? "Processing..." : "Create"}
                         </Button>
                     </DrawerFooter>
                 </form>
