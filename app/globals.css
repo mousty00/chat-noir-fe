@@ -69,6 +69,7 @@ html {
 
 .main-layout {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
   width: 100%;
   background-color: var(--background);
@@ -84,12 +85,14 @@ html {
   justify-content: flex-start;
   padding: 64px 1.25rem 48px;
   flex-grow: 1;
-  max-width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (min-width: 1024px) {
   .main-container {
-    padding: 2.5rem 2.5rem 48px;
+    padding: 80px 2.5rem 48px;
   }
 }
 

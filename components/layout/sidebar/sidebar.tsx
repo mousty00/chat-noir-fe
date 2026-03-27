@@ -17,33 +17,36 @@ export function Sidebar() {
     <>
       <MobileToggle onClick={toggleSidebar} isOpen={isOpen} />
 
-      {/* Mobile backdrop */}
       {isOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-40 transition-opacity"
+          className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 transition-opacity"
           onClick={closeSidebar}
         />
       )}
 
       <aside
         className={cn(
-          "fixed lg:sticky top-0 left-0 z-40 h-screen w-64",
-          "transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] lg:translate-x-0",
-          "glass-panel border-r border-white/[0.05]",
-          "flex flex-col overflow-hidden",
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          "fixed top-0 left-0 z-40 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
+          "glass-panel",
+          // Mobile styles
+          "h-screen w-64 flex flex-col overflow-hidden border-r border-white/5",
+          isOpen ? "translate-x-0" : "-translate-x-full",
+          // Desktop styles
+          "lg:translate-x-0 lg:h-14 lg:w-full lg:flex-row lg:items-center lg:border-r-0 lg:border-b lg:px-8 lg:gap-8"
         )}
       >
-        {/* Top border accent */}
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-secondary/20 to-transparent" />
+        <div className="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-secondary/20 to-transparent lg:hidden" />
 
-        <div className="flex flex-col h-full">
-          <div className="px-4 py-4 border-b border-white/[0.04]">
+        <div className="flex flex-col gap-4 h-full lg:flex-row lg:items-center lg:w-full lg:justify-between lg:max-w-[1400px] lg:mx-auto">
+          <div className="px-4 py-4 border-b border-white/4 lg:border-b-0 lg:px-0 lg:py-0 shrink-0">
             <SidebarTitleBar />
           </div>
-          <div className="grow overflow-y-auto scrollbar-hide py-5 px-3">
-            <SidebarIdentity />
+
+          <div className="grow overflow-y-auto scrollbar-hide py-5 px-3 lg:overflow-visible lg:py-0 lg:px-0 lg:flex lg:items-center lg:gap-8 lg:grow">
             <SidebarRoutes onNavigate={closeSidebar} />
+            <div className="lg:ml-auto">
+              <SidebarIdentity />
+            </div>
           </div>
         </div>
       </aside>
