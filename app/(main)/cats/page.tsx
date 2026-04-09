@@ -124,8 +124,6 @@ export default function Home() {
                 <Stats
                   itemCount={cats.length}
                   totalItems={pagination?.totalItems || 0}
-                  currentPage={pagination?.currentPage || 1}
-                  totalPages={pagination?.totalPages || 1}
                 />
               )}
             </div>

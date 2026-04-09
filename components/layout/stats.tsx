@@ -3,7 +3,10 @@ interface StatsProps {
     totalItems: number;
 }
 
-export const Stats = ({ itemCount, totalItems }: StatsProps) => {
+export const Stats = ({
+    itemCount,
+    totalItems,
+}: StatsProps) => {
     return (
         <div className="flex items-center gap-4 px-4 py-2 border border-border bg-muted/40 backdrop-blur-sm rounded-md">
             <div className="flex items-center gap-2">

@@ -41,8 +41,6 @@ export default function FavoritesPage() {
                 <Stats
                   itemCount={favorites.length}
                   totalItems={pagination.totalItems}
-                  currentPage={pagination.currentPage}
-                  totalPages={pagination.totalPages}
                 />
               ) : null}
             </div>
