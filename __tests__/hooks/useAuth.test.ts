@@ -142,7 +142,7 @@ describe('useAuth', () => {
   describe('register', () => {
     it('returns true and navigates to /login on success', async () => {
       mockMutationFn.mockResolvedValue({
-        data: { register: { success: true, message: 'Registered', data: '' } },
+        data: { register: { success: true, message: 'Account registered. Please check your email to verify your account.', data: '' } },
       })
 
       const { result } = renderHook(() => useAuth())
