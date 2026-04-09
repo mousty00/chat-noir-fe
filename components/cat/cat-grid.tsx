@@ -2,7 +2,8 @@
 
 import { Cat } from "@/types/cat";
 import { CatCard } from "./cat-card";
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { animate, stagger } from "animejs";
 import { RiSearchLine } from "react-icons/ri";
 
 interface CatGridProps {
@@ -24,37 +25,68 @@ export const CatGrid = ({
   onDetails,
   downloadingId,
 }: CatGridProps) => {
+  const gridRef = useRef<HTMLElement>(null);
+  const emptyRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid || cats.length === 0) return;
+
+    const cards = grid.querySelectorAll(".cat-card-item");
+    if (!cards.length) return;
+
+    animate(cards, {
+      opacity: [0, 1],
+      translateY: [20, 0],
+      scale: [0.96, 1],
+      delay: stagger(35),
+      duration: 480,
+      ease: "outExpo",
+    });
+  }, [cats]);
+
+  useEffect(() => {
+    const el = emptyRef.current;
+    if (!el || cats.length > 0) return;
+
+    animate(el, {
+      opacity: [0, 1],
+      scale: [0.97, 1],
+      duration: 400,
+      ease: "outExpo",
+    });
+  }, [cats.length]);
+
   if (cats.length === 0) {
     return (
-      <motion.section
-        initial={{ opacity: 0, scale: 0.97 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      <section
+        ref={emptyRef}
+        style={{ opacity: 0 }}
         className="flex flex-col items-center justify-center text-center py-24"
       >
         <div className="w-14 h-14 rounded-2xl bg-muted/60 border border-border/50 flex items-center justify-center mb-5">
           <RiSearchLine className="h-6 w-6 text-muted-foreground/40" />
         </div>
-        <p className="text-[15px] font-semibold text-foreground mb-1">No cats found</p>
+        <p className="text-[15px] font-semibold text-foreground mb-1">
+          No cats found
+        </p>
         <p className="text-[13px] text-muted-foreground">
           Try adjusting your search or filters
         </p>
-      </motion.section>
+      </section>
     );
   }
 
   return (
-    <section className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
-      {cats.map((cat, i) => (
-        <motion.div
+    <section
+      ref={gridRef}
+      className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full"
+    >
+      {cats.map((cat) => (
+        <div
           key={cat.id}
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: Math.min(i * 0.04, 0.32),
-            duration: 0.5,
-            ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-          }}
+          className="cat-card-item"
+          style={{ opacity: 0 }}
         >
           <CatCard
             cat={cat}
@@ -65,7 +97,7 @@ export const CatGrid = ({
             onDetails={onDetails}
             isDownloading={downloadingId === cat.id}
           />
-        </motion.div>
+        </div>
       ))}
     </section>
   );

@@ -2,75 +2,120 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { RiGalleryLine, RiBookOpenLine, RiSettings4Line, RiHeartLine, RiSendPlaneLine, RiLockLine, RiHomeLine } from "react-icons/ri";
+import {
+  RiGalleryLine,
+  RiBookOpenLine,
+  RiSettings4Line,
+  RiHeartLine,
+  RiSendPlaneLine,
+  RiLockLine,
+  RiHomeLine,
+  RiUserLine,
+} from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { toast } from "sonner";
+import { useRef, useEffect } from "react";
+import { animate } from "animejs";
 
 const routes = [
-    { label: "Home",        icon: RiHomeLine,      href: "/",            requiresAuth: false },
-    { label: "Cats",        icon: RiGalleryLine,   href: "/cats",        requiresAuth: false },
-    { label: "Favorites",   icon: RiHeartLine,     href: "/favorites",   requiresAuth: true  },
-    { label: "Submissions", icon: RiSendPlaneLine, href: "/submissions", requiresAuth: true  },
-    { label: "Docs",        icon: RiBookOpenLine,  href: "/docs",        requiresAuth: false },
-    { label: "Settings",    icon: RiSettings4Line, href: "/settings",    requiresAuth: false },
+  { label: "Home", icon: RiHomeLine, href: "/", requiresAuth: false },
+  { label: "Cats", icon: RiGalleryLine, href: "/cats", requiresAuth: false },
+  { label: "Favorites", icon: RiHeartLine, href: "/favorites", requiresAuth: true },
+  { label: "Submissions", icon: RiSendPlaneLine, href: "/submissions", requiresAuth: true },
+  { label: "Docs", icon: RiBookOpenLine, href: "/docs", requiresAuth: false },
+  { label: "Settings", icon: RiSettings4Line, href: "/settings", requiresAuth: false },
 ];
 
 interface SidebarRoutesProps {
-    onNavigate?: () => void;
+  onNavigate?: () => void;
+}
+
+function NavItem({
+  children,
+  isActive,
+}: {
+  children: React.ReactNode;
+  isActive: boolean;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  const onEnter = () => {
+    if (!ref.current || isActive) return;
+    animate(ref.current, {
+      scale: [1, 1.04],
+      duration: 200,
+      ease: "outQuad",
+    });
+  };
+
+  const onLeave = () => {
+    if (!ref.current || isActive) return;
+    animate(ref.current, {
+      scale: [1.04, 1],
+      duration: 300,
+      ease: "outElastic(1, .6)",
+    });
+  };
+
+  return (
+    <div ref={ref} onMouseEnter={onEnter} onMouseLeave={onLeave}>
+      {children}
+    </div>
+  );
 }
 
 export function SidebarRoutes({ onNavigate }: SidebarRoutesProps) {
-    const pathname = usePathname();
-    const router = useRouter();
-    const { isAuthenticated } = useAuthStore();
+  const pathname = usePathname();
+  const router = useRouter();
+  const { isAuthenticated } = useAuthStore();
+  const navRef = useRef<HTMLElement>(null);
 
-    return (
-        <nav className="flex flex-col gap-0.5 grow lg:flex-row lg:items-center lg:gap-1 lg:grow-0">
-            {routes.map((route) => {
-                const isActive = pathname === route.href;
-                const isLocked = route.requiresAuth && !isAuthenticated;
+  // Entrance stagger
+  useEffect(() => {
+    const el = navRef.current;
+    if (!el) return;
+    const items = el.querySelectorAll(".nav-item");
+    animate(items, {
+      opacity: [0, 1],
+      translateY: [-6, 0],
+      delay: (_, i) => i * 50 + 80,
+      duration: 400,
+      ease: "outExpo",
+    });
+  }, []);
 
-                if (isLocked) {
-                    return (
-                        <button
-                            key={route.href}
-                            onClick={() => {
-                                toast.info("Sign in to access this feature");
-                                router.push("/login");
-                                onNavigate?.();
-                            }}
-                            className={cn(
-                                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-150 w-full text-left",
-                                "lg:w-auto lg:py-1.5 lg:px-4 lg:rounded-full lg:gap-2",
-                                "text-muted-foreground/50 hover:bg-muted hover:text-muted-foreground"
-                            )}
-                        >
-                            <route.icon className="w-4 h-4 shrink-0 lg:w-3.5 lg:h-3.5" />
-                            <span className="flex-1 lg:flex-none">{route.label}</span>
-                            <RiLockLine className="w-3 h-3 shrink-0 opacity-50 lg:w-2.5 lg:h-2.5" />
-                        </button>
-                    );
-                }
+  return (
+    <nav
+      ref={navRef}
+      className="flex flex-col gap-0.5 grow lg:flex-row lg:items-center lg:gap-1 lg:grow-0"
+    >
+      {routes.map((route) => {
+        const isActive = pathname === route.href;
+        const isLocked = route.requiresAuth && !isAuthenticated;
 
-                return (
-                    <Link
-                        key={route.href}
-                        href={route.href}
-                        onClick={onNavigate}
-                        className={cn(
-                            "flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-150",
-                            "lg:w-auto lg:py-1.5 lg:px-4 lg:rounded-full lg:gap-2",
-                            isActive
-                                ? "bg-secondary/10 text-secondary"
-                                : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                        )}
-                    >
-                        <route.icon className="w-4 h-4 shrink-0 lg:w-3.5 lg:h-3.5" />
-                        <span>{route.label}</span>
-                    </Link>
-                );
-            })}
-        </nav>
-    );
+        if (!isLocked) {
+          return (
+            <NavItem key={route.href} isActive={isActive}>
+              <Link
+                href={route.href}
+                onClick={onNavigate}
+                className={cn(
+                  "nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-150",
+                  "lg:w-auto lg:py-1.5 lg:px-4 lg:rounded-full lg:gap-2",
+                  "opacity-0",
+                  isActive
+                    ? "bg-secondary/10 text-secondary"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                )}
+              >
+                <route.icon className="w-4 h-4 shrink-0 lg:w-3.5 lg:h-3.5" />
+                <span>{route.label}</span>
+              </Link>
+            </NavItem>
+          );
+        }
+      })}
+    </nav>
+  );
 }

@@ -2,14 +2,18 @@
 
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { useThemeStore } from "@/hooks/useThemeStore";
+import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
-import { RiMoonLine, RiPaletteLine, RiSettings4Line, RiShieldUserLine, RiSunLine } from "react-icons/ri";
+import { RiMoonLine, RiPaletteLine, RiSettings4Line, RiShieldUserLine, RiSunLine, RiDeleteBin6Line, RiAlertLine } from "react-icons/ri";
 
 export default function SettingsPage() {
     const { theme, setTheme } = useThemeStore();
     const [mounted, setMounted] = useState(false);
     const { user } = useAuthStore();
+    const { deleteAccount, isLoading } = useAuth();
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [confirmInput, setConfirmInput] = useState("");
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -107,6 +111,73 @@ export default function SettingsPage() {
                     </div>
                 </div>
             </div>
+
+            {user && (
+                <section className="space-y-4">
+                    <div className="flex items-center gap-2">
+                        <RiAlertLine className="text-destructive h-5 w-5" />
+                        <h2 className="text-sm font-bold uppercase tracking-widest text-destructive">Danger Zone</h2>
+                    </div>
+
+                    <div className="p-6 rounded-2xl border border-destructive/30 bg-destructive/5 space-y-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div>
+                                <p className="font-bold text-sm uppercase tracking-widest">Delete Account</p>
+                                <p className="text-xs text-muted-foreground font-mono mt-1">
+                                    Permanently delete your account and all associated data. This action cannot be undone.
+                                </p>
+                            </div>
+                            {!showDeleteConfirm && (
+                                <button
+                                    onClick={() => setShowDeleteConfirm(true)}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-xl border border-destructive/50 text-destructive text-sm font-bold uppercase tracking-widest hover:bg-destructive hover:text-white transition-all duration-200 shrink-0"
+                                >
+                                    <RiDeleteBin6Line className="h-4 w-4" />
+                                    Delete
+                                </button>
+                            )}
+                        </div>
+
+                        {showDeleteConfirm && (
+                            <div className="space-y-4 pt-2 border-t border-destructive/20 animate-in fade-in slide-in-from-top-2 duration-300">
+                                <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest">
+                                    Type <span className="text-foreground font-bold">{user.username}</span> to confirm deletion
+                                </p>
+                                <input
+                                    type="text"
+                                    value={confirmInput}
+                                    onChange={(e) => setConfirmInput(e.target.value)}
+                                    placeholder={user.username}
+                                    className="w-full px-4 py-2 rounded-xl bg-background border border-destructive/30 focus:border-destructive focus:outline-none text-sm font-mono transition-colors"
+                                />
+                                <div className="flex gap-3">
+                                    <button
+                                        onClick={async () => {
+                                            const ok = await deleteAccount();
+                                            if (!ok) setConfirmInput("");
+                                        }}
+                                        disabled={confirmInput !== user.username || isLoading}
+                                        className={cn(
+                                            "flex-1 px-4 py-2 rounded-xl text-sm font-bold uppercase tracking-widest transition-all duration-200",
+                                            confirmInput === user.username && !isLoading
+                                                ? "bg-destructive text-white hover:bg-destructive/90"
+                                                : "bg-muted text-muted-foreground cursor-not-allowed"
+                                        )}
+                                    >
+                                        {isLoading ? "Deleting..." : "Confirm Delete"}
+                                    </button>
+                                    <button
+                                        onClick={() => { setShowDeleteConfirm(false); setConfirmInput(""); }}
+                                        className="px-4 py-2 rounded-xl border border-border text-sm font-bold uppercase tracking-widest hover:bg-muted transition-all duration-200"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
+            )}
         </div>
     );
 }

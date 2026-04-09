@@ -27,21 +27,23 @@ export function SidebarIdentity() {
     return (
         <div className="mb-6 px-1 lg:mb-0 lg:px-0">
             <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-secondary/15 border border-secondary/25 rounded-xl flex items-center justify-center text-secondary overflow-hidden shrink-0 lg:w-8 lg:h-8 lg:rounded-lg">
-                    {user.image ? (
-                        <img src={user.image} alt={user.username} className="w-full h-full object-cover" />
-                    ) : (
-                        <span className="text-[12px] font-bold lg:text-[10px]">{initials}</span>
-                    )}
-                </div>
-                <div className="flex flex-col flex-1 min-w-0 lg:hidden xl:flex">
-                    <span className="text-[13px] font-semibold text-foreground truncate">
-                        {user.username}
-                    </span>
-                    <span className="text-[11px] text-muted-foreground truncate lg:hidden">
-                        {user.email}
-                    </span>
-                </div>
+                <Link href="/profile" className="flex items-center gap-3">
+                    <div className="w-9 h-9 bg-secondary/15 border border-secondary/25 rounded-xl flex items-center justify-center text-secondary overflow-hidden shrink-0 lg:w-8 lg:h-8 lg:rounded-lg">
+                        {user.image ? (
+                            <img src={user.image} alt={user.username} className="w-full h-full object-cover" />
+                        ) : (
+                            <span className="text-[12px] font-bold lg:text-[10px]">{initials}</span>
+                        )}
+                    </div>
+                    <div className="flex flex-col flex-1 min-w-0 lg:hidden xl:flex">
+                        <span className="text-[13px] font-semibold text-foreground truncate">
+                            {user.username}
+                        </span>
+                        <span className="text-[11px] text-muted-foreground truncate lg:hidden">
+                            {user.email}
+                        </span>
+                    </div>
+                </Link>
                 <Button
                     variant="ghost"
                     size="icon-xs"

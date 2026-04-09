@@ -95,11 +95,101 @@ export const useAuth = () => {
     router.push("/login");
   }, [clearStore, router]);
 
+  const deleteAccount = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { token } = useAuthStore.getState();
+      const res = await fetch(`${API_URL}/users/me`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const json = await res.json();
+      if (!json.success) throw new Error(json.message || "Failed to delete account");
+      clearStore();
+      toast.success("Your account has been permanently deleted.");
+      router.push("/login");
+      return true;
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to delete account";
+      toast.error(msg);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }, [clearStore, router, setLoading]);
+
+  const changePassword = useCallback(async (currentPassword: string, newPassword: string) => {
+    setLoading(true);
+    try {
+      const { token } = useAuthStore.getState();
+      const res = await fetch(`${API_URL}/users/me/change-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      const json = await res.json();
+      if (!json.success) throw new Error(json.message || "Failed to change password");
+      toast.success("Password changed successfully.");
+      return true;
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to change password";
+      toast.error(msg);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }, [setLoading]);
+
+  const forgotPassword = useCallback(async (email: string) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/auth/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const json = await res.json();
+      toast.success(json.message || "If an account with that email exists, a reset link has been sent.");
+      return true;
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }, [setLoading]);
+
+  const resetPassword = useCallback(async (token: string, newPassword: string) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/auth/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token, newPassword }),
+      });
+      const json = await res.json();
+      if (!json.success) throw new Error(json.message || "Failed to reset password");
+      toast.success("Password reset successfully. You can now log in.");
+      router.push("/login");
+      return true;
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to reset password";
+      toast.error(msg);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }, [setLoading, router]);
+
   return {
     login,
     register,
     loginWithGoogle,
     logout,
+    deleteAccount,
+    changePassword,
+    forgotPassword,
+    resetPassword,
     isLoading
   };
 };

@@ -27,7 +27,6 @@ export function Sidebar() {
       <aside
         className={cn(
           "fixed top-0 left-0 z-50 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
-          "glass-panel",
           // Mobile styles
           "h-screen w-64 flex flex-col overflow-hidden border-r border-white/5",
           isOpen ? "translate-x-0" : "-translate-x-full",

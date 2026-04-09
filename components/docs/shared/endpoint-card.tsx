@@ -9,10 +9,10 @@ interface EndpointCardProps {
 }
 
 const methodConfig: Record<string, { label: string; classes: string }> = {
-    GET:    { label: "GET",    classes: "bg-blue-500/8 text-blue-400 border-blue-500/20" },
-    POST:   { label: "POST",   classes: "bg-emerald-500/8 text-emerald-400 border-emerald-500/20" },
-    PUT:    { label: "PUT",    classes: "bg-amber-500/8 text-amber-400 border-amber-500/20" },
-    DELETE: { label: "DELETE", classes: "bg-rose-500/8 text-rose-400 border-rose-500/20" },
+    GET:    { label: "GET",    classes: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20" },
+    POST:   { label: "POST",   classes: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20" },
+    PUT:    { label: "PUT",    classes: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20" },
+    DELETE: { label: "DELETE", classes: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20" },
 };
 
 export const EndpointCard = ({ method, path, description, payload, response }: EndpointCardProps) => {
@@ -35,7 +35,7 @@ export const EndpointCard = ({ method, path, description, payload, response }: E
                 {payload && (
                     <div className="space-y-1.5">
                         <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Request body</p>
-                        <pre className="p-4 rounded-xl bg-muted/60 border border-border/60 text-[12px] font-mono text-foreground overflow-x-auto leading-relaxed">
+                        <pre className="p-4 rounded-xl bg-muted border border-border/80 text-[12px] font-mono text-foreground overflow-x-auto leading-relaxed">
                             {JSON.stringify(payload, null, 2)}
                         </pre>
                     </div>
@@ -44,7 +44,7 @@ export const EndpointCard = ({ method, path, description, payload, response }: E
                 {response && (
                     <div className="space-y-1.5">
                         <p className="text-[11px] font-medium text-muted-foreground uppercase tracking-wider">Response</p>
-                        <pre className="p-4 rounded-xl bg-muted/60 border border-border/60 text-[12px] font-mono text-foreground overflow-x-auto leading-relaxed">
+                        <pre className="p-4 rounded-xl bg-muted border border-border/80 text-[12px] font-mono text-foreground overflow-x-auto leading-relaxed">
                             {JSON.stringify(response, null, 2)}
                         </pre>
                     </div>

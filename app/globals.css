@@ -106,31 +106,31 @@ html {
 
 :root {
   --radius: 0.625rem;
-  --background: #f5f5f7;
-  --foreground: #1d1d1f;
+  --background: #fafafa;
+  --foreground: #09090b;
   --card: #ffffff;
-  --card-foreground: #1d1d1f;
+  --card-foreground: #09090b;
   --popover: #ffffff;
-  --popover-foreground: #1d1d1f;
-  --primary: #1d1d1f;
-  --primary-foreground: #f5f5f7;
+  --popover-foreground: #09090b;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
   --secondary: #7c3aed;
   --secondary-foreground: #ffffff;
-  --muted: #e8e8ed;
-  --muted-foreground: #6e6e73;
+  --muted: #f4f4f5;
+  --muted-foreground: #52525b;
   --accent: #7c3aed;
-  --accent-foreground: #7c3aed;
-  --destructive: #ff3b30;
-  --border: #d2d2d7;
-  --input: #d2d2d7;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --border: #e2e2e5;
+  --input: #e2e2e5;
   --ring: #7c3aed;
-  --sidebar: #f2f2f7;
-  --sidebar-foreground: #6e6e73;
+  --sidebar: #f8f8f9;
+  --sidebar-foreground: #3f3f46;
   --sidebar-primary: #7c3aed;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e8e8ed;
-  --sidebar-accent-foreground: #1d1d1f;
-  --sidebar-border: #d2d2d7;
+  --sidebar-accent: #f1f1f4;
+  --sidebar-accent-foreground: #09090b;
+  --sidebar-border: #e2e2e5;
   --sidebar-ring: #7c3aed;
 }
 
@@ -179,7 +179,12 @@ html {
     letter-spacing: -0.012em;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     letter-spacing: -0.03em;
     font-weight: 600;
   }
@@ -188,6 +193,7 @@ html {
 /* ─── Utilities ──────────────────────────────────────────── */
 
 @layer utilities {
+
   /* Glass */
   .glass-panel {
     background: rgba(10, 10, 10, 0.72);
@@ -243,7 +249,50 @@ html {
   .scrollbar-hide {
     scrollbar-width: none;
   }
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  .btn-shimmer {
+    background: linear-gradient(105deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.18) 50%,
+        transparent 60%);
+    background-size: 200% 100%;
+    background-position: 200% 0;
+    animation: shimmer-sweep 2.8s ease-in-out infinite 1.4s;
+  }
+
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .animate-float-slow {
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+
+@keyframes shimmer-sweep {
+  0% {
+    background-position: 200% 0;
+  }
+
+  40%,
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
   }
 }
