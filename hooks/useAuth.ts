@@ -8,6 +8,10 @@ import { LoginResponse, User } from "@/types/auth";
 import { ApiResponse } from "@/types/cat";
 import { API_URL } from "@/constants/api";
 
+interface AuthError extends Error {
+  status?: number;
+}
+
 export const useAuth = () => {
   const { setUser, setToken, setLoading, setError, logout: clearStore, isLoading } = useAuthStore();
   const router = useRouter();
@@ -28,8 +32,8 @@ export const useAuth = () => {
       const result = mutationData?.login;
 
       if (!result?.success || !result.data) {
-        const err = new Error(result?.message || "Failed to login");
-        (err as any).status = result?.status;
+        const err = new Error(result?.message || "Failed to login") as AuthError;
+        err.status = result?.status;
         throw err;
       }
 
@@ -48,11 +52,12 @@ export const useAuth = () => {
       toast.success("Welcome back to the archive.");
       router.push("/");
       return { success: true };
-    } catch (err: any) {
-      const msg = err.message || "Login failed";
+    } catch (err: unknown) {
+      const authErr = err as AuthError;
+      const msg = authErr.message || "Login failed";
       setError(msg);
       toast.error(msg);
-      return { success: false, status: err.status };
+      return { success: false, status: authErr.status };
     } finally {
       setLoading(false);
     }
@@ -84,7 +89,7 @@ export const useAuth = () => {
     } finally {
       setLoading(false);
     }
-  }, [registerMutation, setLoading, setError, router]);
+  }, [registerMutation, setLoading, setError]);
 
   const resendVerificationEmail = useCallback(async (email: string) => {
     setLoading(true);
