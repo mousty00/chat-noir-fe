@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client/react";
-import { ADD_FAVORITE, MY_FAVORITES, REMOVE_FAVORITE } from "@/graphql/favorites";
+import { ADD_FAVORITE, REMOVE_FAVORITE } from "@/graphql/favorites";
 import { ApiResponse } from "@/types/cat";
 import { UserFavorite } from "@/types/favorites";
 import { useFavoriteStore } from "@/hooks/useFavoriteStore";

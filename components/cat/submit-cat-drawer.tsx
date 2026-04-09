@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -27,7 +28,7 @@ import {
 import { useCategories } from "@/hooks/cat/useCategories";
 import { useSubmitCat } from "@/hooks/cat/useSubmitCat";
 import { Category } from "@/types/cat";
-import { RiSendPlaneLine, RiLoader4Line, RiUploadCloud2Line, RiCheckLine } from "react-icons/ri";
+import { RiSendPlaneLine, RiLoader4Line, RiUploadCloud2Line } from "react-icons/ri";
 import { toast } from "sonner";
 
 export function SubmitCatDrawer() {
@@ -199,9 +200,12 @@ export function SubmitCatDrawer() {
 
                             {previewUrl ? (
                                 <div className="relative group cursor-pointer rounded-xl overflow-hidden border border-input bg-muted/30" onClick={() => fileInputRef.current?.click()}>
-                                    <img
+                                    <Image
                                         src={previewUrl}
                                         alt="Preview"
+                                        width={640}
+                                        height={320}
+                                        unoptimized
                                         className="w-full h-48 object-cover"
                                     />
                                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">

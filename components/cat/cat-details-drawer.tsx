@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCatById } from "@/hooks/cat/useCatById";
 import { useCatMediaDownload } from "@/hooks/cat/useCatMediaDownload";
 import { useToggleFavorite } from "@/hooks/favorites/useToggleFavorite";
@@ -7,7 +8,6 @@ import { useFavoriteStore } from "@/hooks/useFavoriteStore";
 import {
     Drawer,
     DrawerContent,
-    DrawerDescription,
     DrawerHeader,
     DrawerTitle,
 } from "@/components/ui/drawer";
@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import {
     RiInformationLine,
     RiDownload2Line,
-    RiEyeLine,
     RiHashtag,
     RiPaletteLine,
     RiCompassDiscoverLine,
@@ -71,9 +70,12 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
 
                                 <div className="relative group rounded-xl overflow-hidden border border-border bg-muted/20 shadow-2xl">
                                     {cat.image ? (
-                                        <img
+                                        <Image
                                             src={cat.image}
                                             alt={cat.name}
+                                            width={1200}
+                                            height={800}
+                                            unoptimized
                                             className="w-full h-auto max-h-[400px] object-cover"
                                         />
                                     ) : (

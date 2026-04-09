@@ -7,7 +7,7 @@ import { useAuthStore } from "@/hooks/useAuthStore";
 
 export const useFavoritesSync = () => {
   const { isAuthenticated } = useAuthStore();
-  const { setFavorites, isLoaded } = useFavoriteStore();
+  const { setFavorites } = useFavoriteStore();
 
   const { data } = useQuery<{ myFavorites: FavoritesApiResponse }>(
     MY_FAVORITES,

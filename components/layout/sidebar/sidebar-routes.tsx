@@ -1,20 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   RiGalleryLine,
   RiBookOpenLine,
   RiSettings4Line,
   RiHeartLine,
   RiSendPlaneLine,
-  RiLockLine,
   RiHomeLine,
-  RiUserLine,
 } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/hooks/useAuthStore";
-import { toast } from "sonner";
 import { useRef, useEffect } from "react";
 import { animate } from "animejs";
 
@@ -67,7 +64,6 @@ function NavItem({
 
 export function SidebarRoutes({ onNavigate }: SidebarRoutesProps) {
   const pathname = usePathname();
-  const router = useRouter();
   const { isAuthenticated } = useAuthStore();
   const navRef = useRef<HTMLElement>(null);
 

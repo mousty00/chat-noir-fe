@@ -4,6 +4,7 @@ import { useAuthStore } from "@/hooks/useAuthStore";
 import { useFavoriteStore } from "@/hooks/useFavoriteStore";
 import { useToggleFavorite } from "@/hooks/favorites/useToggleFavorite";
 import { Cat } from "@/types/cat";
+import Image from "next/image";
 import { useState } from "react";
 import {
   RiDeleteBin6Line,
@@ -100,15 +101,16 @@ export const CatCard = ({
     >
       {/* Image container */}
       <div className="relative w-full aspect-square overflow-hidden rounded-2xl bg-muted transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-black/50 dark:group-hover:shadow-secondary/5">
-        <img
+        <Image
           src={imageSrc}
           alt={cat.name}
-          className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
+          fill
+          unoptimized
+          sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
+          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
           onError={() => setImageError(true)}
           onContextMenu={handleContextMenu}
           draggable={false}
-          loading="lazy"
-          decoding="async"
         />
 
         {/* Desktop hover overlay */}

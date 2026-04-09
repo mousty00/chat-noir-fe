@@ -5,6 +5,7 @@ import { useCatMediaDownload } from "@/hooks/cat/useCatMediaDownload";
 import { Cat } from "@/types/cat";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { useState } from "react";
 import {
   RiDownload2Fill,
@@ -32,10 +33,13 @@ export const FavoriteCatCard = ({ cat, onView }: FavoriteCatCardProps) => {
       onClick={() => onView(cat.id)}
     >
       <div className="relative w-full aspect-square overflow-hidden bg-muted border border-border group-hover:border-secondary transition-all duration-500 rounded-lg">
-        <img
+        <Image
           src={imageSrc}
           alt={cat.name}
-          className="w-full h-full object-cover transition-all duration-700 scale-[1.01] group-hover:scale-110"
+          fill
+          unoptimized
+          sizes="(max-width: 768px) 100vw, 384px"
+          className="object-cover transition-all duration-700 scale-[1.01] group-hover:scale-110"
           onError={() => setImageError(true)}
           onContextMenu={(e) => e.preventDefault()}
         />

@@ -10,7 +10,6 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useCategories } from "@/hooks/cat/useCategories";
-import { RiArrowDropDownLine } from "react-icons/ri";
 
 interface CategorySelectProps {
     value?: string;

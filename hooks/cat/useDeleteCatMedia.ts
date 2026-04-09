@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client/react";
-import { DELETE_CAT_MEDIA, GET_CATS } from "@/graphql/cat";
+import { DELETE_CAT_MEDIA } from "@/graphql/cat";
 import { ApiResponse } from "@/types/cat";
 import { useCallback, useState } from "react";
 import { useAuthStore } from "../useAuthStore";

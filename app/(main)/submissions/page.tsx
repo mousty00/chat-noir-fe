@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { useMySubmissions } from "@/hooks/cat/useMySubmissions";
 import { usePendingSubmissions } from "@/hooks/cat/usePendingSubmissions";

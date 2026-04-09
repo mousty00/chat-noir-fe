@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
     Drawer,
@@ -198,7 +199,14 @@ export const UpdateCatDrawer = ({ cat, isOpen, onClose }: UpdateCatDrawerProps) 
                                 {previewUrl ? (
                                     <div className="relative flex flex-col items-center gap-4">
                                         <div className="relative w-40 h-40 rounded-lg overflow-hidden border border-border shadow-2xl">
-                                            <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
+                                            <Image
+                                                src={previewUrl}
+                                                alt="Preview"
+                                                fill
+                                                unoptimized
+                                                sizes="160px"
+                                                className="object-cover"
+                                            />
                                             <Button
                                                 type="button"
                                                 size="icon-xs"

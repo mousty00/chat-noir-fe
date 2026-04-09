@@ -19,7 +19,7 @@ import { useCats } from "@/hooks/cat/useCats";
 import { useDeleteCat } from "@/hooks/cat/useDeleteCat";
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { Cat } from "@/types/cat";
-import { Activity, useState } from "react";
+import { useState } from "react";
 
 export default function Home() {
   const [category, setCategory] = useState<string | undefined>(undefined);
@@ -30,7 +30,6 @@ export default function Home() {
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [detailsId, setDetailsId] = useState<string | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-
 
   const { user } = useAuthStore();
   const { categories } = useCategories();

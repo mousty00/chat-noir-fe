@@ -1,6 +1,7 @@
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { useAuth } from "@/hooks/useAuth";
 import { RiLoginBoxLine, RiLogoutCircleLine } from "react-icons/ri";
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -30,7 +31,14 @@ export function SidebarIdentity() {
                 <Link href="/profile" className="flex items-center gap-3">
                     <div className="w-9 h-9 bg-secondary/15 border border-secondary/25 rounded-xl flex items-center justify-center text-secondary overflow-hidden shrink-0 lg:w-8 lg:h-8 lg:rounded-lg">
                         {user.image ? (
-                            <img src={user.image} alt={user.username} className="w-full h-full object-cover" />
+                            <Image
+                                src={user.image}
+                                alt={user.username}
+                                fill
+                                unoptimized
+                                sizes="36px"
+                                className="object-cover"
+                            />
                         ) : (
                             <span className="text-[12px] font-bold lg:text-[10px]">{initials}</span>
                         )}

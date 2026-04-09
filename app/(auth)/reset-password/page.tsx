@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, Suspense } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -64,10 +64,7 @@ function ResetPasswordForm() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (!token) setError("Invalid or missing reset token. Please request a new reset link.");
-  }, [token]);
+  const tokenError = token ? "" : "Invalid or missing reset token. Please request a new reset link.";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -107,8 +104,8 @@ function ResetPasswordForm() {
         />
       </div>
 
-      {error && (
-        <p className="text-[12px] text-red-400 font-mono">{error}</p>
+      {(error || tokenError) && (
+        <p className="text-[12px] text-red-400 font-mono">{error || tokenError}</p>
       )}
 
       <div className="pt-1">
