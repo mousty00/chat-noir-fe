@@ -8,6 +8,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { RiGoogleFill, RiLoader4Line, RiArrowRightLine } from "react-icons/ri";
+import { toast } from "sonner";
 
 const ParticleSphere = dynamic(
   () =>
@@ -29,11 +30,25 @@ const fadeUp = {
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login, loginWithGoogle, isLoading } = useAuth();
+  const [showResend, setShowResend] = useState(false);
+  const [resendEmail, setResendEmail] = useState("");
+  const { login, loginWithGoogle, resendVerificationEmail, isLoading } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await login(username, password);
+    const result = await login(username, password);
+    if (!result.success && result.status === 403) {
+      setShowResend(true);
+    }
+  };
+
+  const handleResend = async () => {
+    if (!resendEmail) {
+      toast.error("Please enter your email to resend verification.");
+      return;
+    }
+    await resendVerificationEmail(resendEmail);
+    setShowResend(false);
   };
 
   return (
@@ -101,7 +116,7 @@ export default function LoginPage() {
                 <Input
                   type="text"
                   placeholder="your username"
-                  className="bg-white/[0.04] border-white/[0.08] h-11 text-[14px] text-white placeholder:text-zinc-700 focus:border-secondary/40 focus:bg-white/[0.06] rounded-xl transition-all duration-200"
+                  className="bg-white/4 border-white/8 h-11 text-[14px] text-white placeholder:text-zinc-700 focus:border-secondary/40 focus:bg-white/6 rounded-xl transition-all duration-200"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
@@ -125,7 +140,7 @@ export default function LoginPage() {
                 <Input
                   type="password"
                   placeholder="••••••••"
-                  className="bg-white/[0.04] border-white/[0.08] h-11 text-[14px] text-white placeholder:text-zinc-700 focus:border-secondary/40 focus:bg-white/[0.06] rounded-xl transition-all duration-200"
+                  className="bg-white/4 border-white/8 h-11 text-[14px] text-white placeholder:text-zinc-700 focus:border-secondary/40 focus:bg-white/6 rounded-xl transition-all duration-200"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
@@ -151,11 +166,43 @@ export default function LoginPage() {
                   )}
                 </Button>
               </div>
+
+              {showResend && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  className="space-y-3 pt-2"
+                >
+                  <div className="p-4 rounded-xl bg-secondary/5 border border-secondary/20">
+                    <p className="text-[12px] text-secondary-foreground mb-3 leading-relaxed">
+                      Your email is not verified. Enter your email below to receive a new verification link.
+                    </p>
+                    <div className="flex gap-2">
+                      <Input
+                        type="email"
+                        placeholder="your@email.com"
+                        className="bg-white/4 border-white/8 h-10 text-[13px] text-white placeholder:text-zinc-700 focus:border-secondary/40 focus:bg-white/6 rounded-xl transition-all duration-200"
+                        value={resendEmail}
+                        onChange={(e) => setResendEmail(e.target.value)}
+                        disabled={isLoading}
+                      />
+                      <Button
+                        type="button"
+                        onClick={handleResend}
+                        className="bg-secondary/20 hover:bg-secondary/30 text-secondary border border-secondary/30 h-10 px-4 text-[13px] font-medium rounded-xl transition-all duration-200 whitespace-nowrap"
+                        disabled={isLoading}
+                      >
+                        Resend
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
             </form>
 
             <div className="relative my-5">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-white/[0.06]" />
+                <span className="w-full border-t border-white/6" />
               </div>
               <div className="relative flex justify-center">
                 <span className="bg-transparent px-3 text-[11px] text-zinc-600">
@@ -167,7 +214,7 @@ export default function LoginPage() {
             <Button
               variant="outline"
               type="button"
-              className="w-full h-11 border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] text-zinc-400 hover:text-white text-[14px] font-medium rounded-xl transition-all duration-200"
+              className="w-full h-11 border-white/8 bg-white/3 hover:bg-white/6 text-zinc-400 hover:text-white text-[14px] font-medium rounded-xl transition-all duration-200"
               onClick={loginWithGoogle}
               disabled={isLoading}
             >

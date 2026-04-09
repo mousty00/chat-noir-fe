@@ -28,7 +28,9 @@ export const useAuth = () => {
       const result = mutationData?.login;
 
       if (!result?.success || !result.data) {
-        throw new Error(result?.message || "Failed to login");
+        const err = new Error(result?.message || "Failed to login");
+        (err as any).status = result?.status;
+        throw err;
       }
 
       const data = result.data;
@@ -45,12 +47,12 @@ export const useAuth = () => {
       
       toast.success("Welcome back to the archive.");
       router.push("/");
-      return true;
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Login failed";
+      return { success: true };
+    } catch (err: any) {
+      const msg = err.message || "Login failed";
       setError(msg);
       toast.error(msg);
-      return false;
+      return { success: false, status: err.status };
     } finally {
       setLoading(false);
     }
@@ -72,8 +74,7 @@ export const useAuth = () => {
         throw new Error(result?.message || "Failed to register");
       }
 
-      toast.success("Account registered. Please proceed to login.");
-      router.push("/login");
+      toast.success(result.message || "Account registered. Please check your email to verify your account.");
       return true;
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Registration failed";
@@ -84,6 +85,27 @@ export const useAuth = () => {
       setLoading(false);
     }
   }, [registerMutation, setLoading, setError, router]);
+
+  const resendVerificationEmail = useCallback(async (email: string) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/auth/resend-verification`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const json = await res.json();
+      if (!json.success) throw new Error(json.message || "Failed to resend verification email");
+      toast.success(json.message || "Verification email sent.");
+      return true;
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to resend verification email";
+      toast.error(msg);
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }, [setLoading]);
 
   const loginWithGoogle = useCallback(() => {
     window.location.href = `${API_URL}/oauth2/authorization/google`;
@@ -190,6 +212,7 @@ export const useAuth = () => {
     changePassword,
     forgotPassword,
     resetPassword,
+    resendVerificationEmail,
     isLoading
   };
 };
