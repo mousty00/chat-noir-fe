@@ -63,18 +63,20 @@ function ResetPasswordForm() {
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const tokenError = token ? "" : "Invalid or missing reset token. Please request a new reset link.";
+  const [submitError, setSubmitError] = useState("");
+
+  const tokenError = !token ? "Invalid or missing reset token. Please request a new reset link." : "";
+  const error = submitError || tokenError;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setSubmitError("");
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match.");
+      setSubmitError("Passwords do not match.");
       return;
     }
     if (newPassword.length < 6) {
-      setError("Password must be at least 6 characters.");
+      setSubmitError("Password must be at least 6 characters.");
       return;
     }
     await resetPassword(token, newPassword);

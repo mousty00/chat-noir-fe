@@ -37,7 +37,7 @@ export const CatDetailsDrawer = ({ catId, isOpen, onClose }: CatDetailsDrawerPro
     const { toggleFavorite, loading: toggling } = useToggleFavorite();
     const favorited = useFavoriteStore((s) => s.isFavorite(cat?.id ?? ""));
 
-    const handleDownload = () => cat && downloadMedia(cat.id);
+    const handleDownload = () => cat && downloadMedia(cat);
     const handleToggleFavorite = () => cat && toggleFavorite(cat.id);
 
     return (

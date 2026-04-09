@@ -17,7 +17,7 @@ import {
 
 interface CatCardProps {
   cat: Cat;
-  onDownload: (id: string) => void;
+  onDownload: (cat: Cat) => void;
   onView: (id: string) => void;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
@@ -63,7 +63,7 @@ export const CatCard = ({
     {
       label: "Download",
       icon: <RiDownload2Fill className="h-3.5 w-3.5" />,
-      action: () => onDownload(cat.id),
+      action: () => onDownload(cat),
       disabled: isDownloading,
     },
     {

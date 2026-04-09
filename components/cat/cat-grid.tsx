@@ -8,7 +8,7 @@ import { RiSearchLine } from "react-icons/ri";
 
 interface CatGridProps {
   cats: Cat[];
-  onDownload: (id: string) => void;
+  onDownload: (cat: Cat) => void;
   onView: (id: string) => void;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;

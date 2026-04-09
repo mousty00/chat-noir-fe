@@ -59,7 +59,7 @@ export const FavoriteCatCard = ({ cat, onView }: FavoriteCatCardProps) => {
               size="icon"
               rounded
               className="h-10 w-10 md:h-16 md:w-16"
-              onClick={(e) => { e.stopPropagation(); downloadMedia(cat.id); }}
+              onClick={(e) => { e.stopPropagation(); downloadMedia(cat); }}
               disabled={isDownloading}
               variant="default"
             >
