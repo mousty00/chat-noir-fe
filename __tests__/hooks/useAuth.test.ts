@@ -71,12 +71,12 @@ describe('useAuth', () => {
       })
 
       const { result } = renderHook(() => useAuth())
-      let success: boolean
+      let res: { success: boolean; status?: number }
       await act(async () => {
-        success = await result.current.login('testuser', 'password')
+        res = await result.current.login('testuser', 'password')
       })
 
-      expect(success!).toBe(true)
+      expect(res!.success).toBe(true)
       expect(mockStore.setToken).toHaveBeenCalledWith('jwt-token')
       expect(mockStore.setUser).toHaveBeenCalledWith({
         username: 'testuser',
@@ -94,12 +94,12 @@ describe('useAuth', () => {
       })
 
       const { result } = renderHook(() => useAuth())
-      let success: boolean
+      let res: { success: boolean; status?: number }
       await act(async () => {
-        success = await result.current.login('baduser', 'badpass')
+        res = await result.current.login('baduser', 'badpass')
       })
 
-      expect(success!).toBe(false)
+      expect(res!.success).toBe(false)
       expect(mockStore.setError).toHaveBeenCalledWith('Invalid credentials')
       expect(mockToast.error).toHaveBeenCalledWith('Invalid credentials')
       expect(mockPush).not.toHaveBeenCalled()
@@ -109,12 +109,12 @@ describe('useAuth', () => {
       mockMutationFn.mockRejectedValue(new Error('Network error'))
 
       const { result } = renderHook(() => useAuth())
-      let success: boolean
+      let res: { success: boolean; status?: number }
       await act(async () => {
-        success = await result.current.login('user', 'pass')
+        res = await result.current.login('user', 'pass')
       })
 
-      expect(success!).toBe(false)
+      expect(res!.success).toBe(false)
       expect(mockStore.setError).toHaveBeenCalledWith('Network error')
       expect(mockToast.error).toHaveBeenCalledWith('Network error')
     })
@@ -152,9 +152,9 @@ describe('useAuth', () => {
       })
 
       expect(success!).toBe(true)
-      expect(mockPush).toHaveBeenCalledWith('/login')
+      expect(mockPush).not.toHaveBeenCalled()
       expect(mockToast.success).toHaveBeenCalledWith(
-        'Account registered. Please proceed to login.',
+        'Account registered. Please check your email to verify your account.',
       )
     })
 
