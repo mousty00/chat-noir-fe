@@ -107,7 +107,7 @@ export const Footer = () => {
 
       <div
         style={{
-          background: "rgba(10, 10, 10, 0.7)",
+          background: "bg-background",
           backdropFilter: "blur(40px) saturate(160%)",
           WebkitBackdropFilter: "blur(40px) saturate(160%)",
           borderTop: "1px solid rgba(255,255,255,0.06)",
