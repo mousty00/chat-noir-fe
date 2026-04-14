@@ -40,7 +40,7 @@ export const useCatMediaDownload = (): UseCatMediaDownloadReturn => {
 
         throw new Error("Direct fetch failed");
 
-      } catch (_err) {
+      } catch {
         toast.error("Failed to download image");
       } finally {
         setDownloadingId(null);

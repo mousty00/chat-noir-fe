@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Drawer,
@@ -59,14 +59,20 @@ export function CategoryDrawer({ category, trigger, open: controlledOpen, onOpen
 
     const isControlled = controlledOpen !== undefined;
     const isOpen = isControlled ? controlledOpen : open;
-    const setIsOpen = isControlled ? (onOpenChange ?? setOpen) : setOpen;
 
-    useEffect(() => {
-        if (isOpen) {
+    const handleOpenChange = (value: boolean) => {
+        if (value) {
             setName(category?.name ?? "");
             setMediaTypeHint(category?.mediaTypeHint ?? "");
         }
-    }, [isOpen, category]);
+        if (isControlled) {
+            onOpenChange?.(value);
+        } else {
+            setOpen(value);
+        }
+    };
+
+    const setIsOpen = handleOpenChange;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
