@@ -15,7 +15,7 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
         setIsHydrated(true);
     }, []);
 
-    const PUBLIC_PATHS = useMemo(() => ["/login", "/register", "/forgot-password", "/reset-password", "/verify-email", "/", "/cats", "/categories", "/docs", "/settings", "/oauth2/callback"], []);
+    const PUBLIC_PATHS = useMemo(() => ["/login", "/register", "/forgot-password", "/reset-password", "/verify-email", "/", "/cats", "/categories", "/docs", "/settings", "/oauth2/callback", "/privacy-policy", "/cookie-policy"], []);
     const AUTH_ONLY_PATHS = useMemo(() => ["/login", "/register", "/forgot-password"], []);
 
     useEffect(() => {

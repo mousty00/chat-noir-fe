@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Instrument_Serif, DM_Sans, Geist_Mono } from "next/font/google";
 import { AuthGuard } from "@/provider/auth-guard";
 import { Toaster } from "@/components/ui/sonner";
+import { CookieConsentBanner } from "@/components/gdpr/cookie-consent-banner";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -80,6 +81,7 @@ export default function RootLayout({
         <Providers>
           <AuthGuard>{children}</AuthGuard>
           <Toaster position="top-center" richColors />
+          <CookieConsentBanner />
         </Providers>
       </body>
     </html>

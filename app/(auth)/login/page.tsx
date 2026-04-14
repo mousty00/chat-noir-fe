@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { RiGoogleFill, RiLoader4Line, RiArrowRightLine } from "react-icons/ri";
@@ -77,7 +78,7 @@ export default function LoginPage() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="flex flex-col items-center mb-9 gap-1.5"
+          className="flex flex-col items-center mb-9 gap-2.5"
         >
           <h1 className="text-[2.6rem] font-bold tracking-[-0.05em] text-white leading-none">
             Chat
@@ -174,7 +175,7 @@ export default function LoginPage() {
                   className="space-y-3 pt-2"
                 >
                   <div className="p-4 rounded-xl bg-secondary/5 border border-secondary/20">
-                    <p className="text-[12px] text-secondary-foreground mb-3 leading-relaxed">
+                    <p className="text-[12px] text-foreground mb-3 leading-relaxed">
                       Your email is not verified. Enter your email below to receive a new verification link.
                     </p>
                     <div className="flex gap-2">
@@ -237,6 +238,22 @@ export default function LoginPage() {
             className="text-secondary hover:text-secondary/80 transition-colors font-medium"
           >
             Create one
+          </Link>
+        </motion.p>
+
+        <motion.p
+          custom={3}
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          className="text-center mt-3 text-[11px] text-zinc-700"
+        >
+          <Link href="/privacy-policy" className="text-zinc-500 hover:text-zinc-400 transition-colors underline underline-offset-2">
+            Privacy Policy
+          </Link>
+          {" · "}
+          <Link href="/cookie-policy" className="text-zinc-500 hover:text-zinc-400 transition-colors underline underline-offset-2">
+            Cookie Policy
           </Link>
         </motion.p>
       </motion.div>

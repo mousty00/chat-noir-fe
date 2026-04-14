@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { RiLoader4Line, RiArrowRightLine, RiCheckboxCircleLine } from "react-icons/ri";
@@ -50,14 +51,14 @@ export default function RegisterPage() {
           opacity={0.3}
         />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-secondary/6 rounded-full blur-[140px] pointer-events-none" />
-        
+
         <motion.div
           initial={{ opacity: 0, y: 24, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
           className="w-full max-w-[400px] relative z-10"
         >
-          <div 
+          <div
             className="rounded-2xl overflow-hidden card-depth"
             style={{
               background: "rgba(12, 12, 12, 0.85)",
@@ -149,7 +150,7 @@ export default function RegisterPage() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="flex flex-col items-center mb-9 gap-1.5"
+          className="flex flex-col items-center mb-9 gap-2.5"
         >
           <h1 className="text-[2.6rem] font-bold tracking-[-0.05em] text-white leading-none">
             Chat
@@ -263,6 +264,24 @@ export default function RegisterPage() {
           >
             Sign in
           </Link>
+        </motion.p>
+
+        <motion.p
+          custom={3}
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+          className="text-center mt-3 text-[11px] text-zinc-700"
+        >
+          By creating an account you agree to our{" "}
+          <Link href="/privacy-policy" className="text-zinc-500 hover:text-zinc-400 transition-colors underline underline-offset-2">
+            Privacy Policy
+          </Link>{" "}
+          and{" "}
+          <Link href="/cookie-policy" className="text-zinc-500 hover:text-zinc-400 transition-colors underline underline-offset-2">
+            Cookie Policy
+          </Link>
+          .
         </motion.p>
       </motion.div>
     </div>
