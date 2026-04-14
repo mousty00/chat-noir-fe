@@ -8,7 +8,6 @@ import { RiLinkedinBoxFill, RiGithubFill, RiInstagramLine } from "react-icons/ri
 const LEGAL_LINKS = [
   { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Cookie Policy", href: "/cookie-policy" },
-  { label: "GDPR", href: "/privacy-policy" },
 ];
 
 const SOCIAL_LINKS = [

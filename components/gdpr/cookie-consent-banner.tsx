@@ -31,7 +31,7 @@ function Toggle({ checked, onChange, disabled }: ToggleProps) {
     >
       <span
         className={[
-          "pointer-events-none inline-block h-4 w-4 translate-y-[1px] rounded-full shadow transition-transform duration-200",
+          "pointer-events-none inline-block h-4 w-4 translate-y-px rounded-full shadow transition-transform duration-200",
           checked ? "translate-x-4 bg-white" : "translate-x-0.5 bg-zinc-500",
         ].join(" ")}
       />
@@ -99,7 +99,7 @@ export function CookieConsentBanner() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 24 }}
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[200] w-full max-w-lg px-4"
+          className="fixed bottom-4 left-1/2 -translate-x-1/2 z-200 w-full max-w-lg px-4"
           role="dialog"
           aria-modal="false"
           aria-label="Cookie consent"
@@ -114,7 +114,6 @@ export function CookieConsentBanner() {
               boxShadow: "0 8px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.06)",
             }}
           >
-            {/* Header */}
             <div className="px-5 pt-5 pb-4 flex items-start justify-between gap-3">
               <div className="flex items-center gap-2.5">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary/10 border border-secondary/20 shrink-0">
@@ -138,7 +137,6 @@ export function CookieConsentBanner() {
               </button>
             </div>
 
-            {/* Expandable details */}
             <AnimatePresence>
               {expanded && (
                 <motion.div
@@ -204,7 +202,6 @@ export function CookieConsentBanner() {
               )}
             </AnimatePresence>
 
-            {/* Actions */}
             <div className="px-5 pb-5 flex flex-col gap-2">
               <div className="flex gap-2">
                 <Button
