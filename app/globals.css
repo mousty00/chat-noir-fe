@@ -114,24 +114,24 @@ html {
   --popover-foreground: #09090b;
   --primary: #18181b;
   --primary-foreground: #fafafa;
-  --secondary: #7c3aed;
+  --secondary: #6d26e8;
   --secondary-foreground: #ffffff;
   --muted: #f4f4f5;
   --muted-foreground: #52525b;
-  --accent: #7c3aed;
+  --accent: #6d26e8;
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
   --border: #e2e2e5;
   --input: #e2e2e5;
-  --ring: #7c3aed;
+  --ring: #6d26e8;
   --sidebar: #f8f8f9;
   --sidebar-foreground: #3f3f46;
-  --sidebar-primary: #7c3aed;
+  --sidebar-primary: #6d26e8;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #f1f1f4;
   --sidebar-accent-foreground: #09090b;
   --sidebar-border: #e2e2e5;
-  --sidebar-ring: #7c3aed;
+  --sidebar-ring: #6d26e8;
 }
 
 /* ─── Dark theme ─────────────────────────────────────────── */

@@ -24,14 +24,11 @@ export default function DocsPage() {
         <div className="w-full max-w-7xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
 
             <div className="mb-10 pb-8 border-b border-border/40">
-                <p className="text-[11px] font-medium text-secondary tracking-[0.15em] uppercase mb-2">Documentation</p>
-                <h1 className="text-4xl font-bold tracking-[-0.03em] text-foreground">
-                    Chat Noir API
-                </h1>
-                <p className="mt-2 text-[15px] text-muted-foreground max-w-xl leading-relaxed">
+                <h1 className="text-2xl text-center font-semibold tracking-tight">Documentation</h1>
+                <p className="text-[13px] text-center text-muted-foreground mt-1">
                     Everything you need to integrate with the cat archive. REST and GraphQL interfaces available.
                 </p>
-                <div className="flex items-center gap-2 mt-4">
+                <div className="flex items-center justify-center gap-2 mt-4">
                     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-border bg-muted text-[11px] text-muted-foreground font-medium">
                         v1.1.0
                     </span>

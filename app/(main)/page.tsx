@@ -73,7 +73,7 @@ export default function LandingPage() {
                 asChild
               >
                 <div>
-                  <span className="relative z-10 flex items-center gap-2">
+                  <span className="relative z-10 flex items-center text-white gap-2">
                     Explore the Archive
                     <RiArrowRightLine className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>

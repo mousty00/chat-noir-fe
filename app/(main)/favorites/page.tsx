@@ -29,6 +29,11 @@ export default function FavoritesPage() {
 
   return (
     <>
+      <div className="mb-8">
+        <h1 className="text-2xl text-center font-semibold tracking-tight">Favorites</h1>
+        <p className="text-[13px] text-center text-muted-foreground mt-1">Cats you&apos;ve saved.</p>
+      </div>
+
       <section className="w-full flex flex-col gap-4 mb-8 px-2 md:px-0">
         <div className="flex flex-col xl:flex-row gap-6 items-center justify-between w-full">
           {(pagination || loading) && (

@@ -9,6 +9,7 @@ import {
   RiHeartLine,
   RiSendPlaneLine,
   RiHomeLine,
+  RiListCheck3,
 } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/hooks/useAuthStore";
@@ -18,6 +19,7 @@ import { animate } from "animejs";
 const routes = [
   { label: "Home", icon: RiHomeLine, href: "/", requiresAuth: false },
   { label: "Cats", icon: RiGalleryLine, href: "/cats", requiresAuth: false },
+  { label: "Categories", icon: RiListCheck3, href: "/categories", requiresAuth: false },
   { label: "Favorites", icon: RiHeartLine, href: "/favorites", requiresAuth: true },
   { label: "Submissions", icon: RiSendPlaneLine, href: "/submissions", requiresAuth: true },
   { label: "Docs", icon: RiBookOpenLine, href: "/docs", requiresAuth: false },

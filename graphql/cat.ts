@@ -160,3 +160,51 @@ export const DELETE_CAT_MEDIA = gql`
     }
   }
 `;
+
+export const CREATE_CATEGORY = gql`
+  mutation CreateCategory($category: CreateCategoryRequest!) {
+    createCategory(category: $category) {
+      status
+      error
+      message
+      success
+      data {
+        id
+        name
+        mediaTypeHint
+      }
+    }
+  }
+`;
+
+export const UPDATE_CATEGORY = gql`
+  mutation UpdateCategory($id: ID!, $category: CreateCategoryRequest!) {
+    updateCategory(id: $id, category: $category) {
+      status
+      error
+      message
+      success
+      data {
+        id
+        name
+        mediaTypeHint
+      }
+    }
+  }
+`;
+
+export const DELETE_CATEGORY = gql`
+  mutation DeleteCategory($id: ID!) {
+    deleteCategory(id: $id) {
+      status
+      error
+      message
+      success
+      data {
+        id
+        name
+        mediaTypeHint
+      }
+    }
+  }
+`;

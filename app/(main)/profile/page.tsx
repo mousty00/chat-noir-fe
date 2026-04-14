@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import {
-    RiUserLine,
     RiMailLine,
     RiCalendarLine,
     RiShieldUserLine,
@@ -14,6 +13,7 @@ import {
     RiEyeLine,
     RiEyeOffLine,
     RiCheckLine,
+    RiUserLine,
 } from "react-icons/ri";
 
 function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
@@ -119,15 +119,9 @@ export default function ProfilePage() {
 
     return (
         <div className="w-full max-w-4xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            {/* Header */}
-            <div className="flex flex-col gap-2">
-                <h1 className="text-3xl font-sans font-black uppercase tracking-tighter flex items-center gap-3">
-                    <RiUserLine className="text-secondary" />
-                    Profile
-                </h1>
-                <p className="text-sm text-muted-foreground font-mono uppercase tracking-widest">
-                    Your account details.
-                </p>
+            <div>
+                <h1 className="text-2xl text-center font-semibold tracking-tight">Profile</h1>
+                <p className="text-[13px] text-center text-muted-foreground mt-1">Your account details.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
