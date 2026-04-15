@@ -113,7 +113,7 @@ function SubmissionCard({
                     <div className="space-y-1.5 pt-3 border-t border-border/50">
                         <span className="text-[10px] uppercase tracking-wider font-semibold text-foreground/40">Notes</span>
                         <p className="text-[12px] text-muted-foreground/90 leading-relaxed italic line-clamp-3">
-                            "{submission.notes}"
+                            &quot;{submission.notes}&quot;
                         </p>
                     </div>
                 )}
