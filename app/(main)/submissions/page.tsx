@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { useMySubmissions } from "@/hooks/cat/useMySubmissions";
 import { usePendingSubmissions } from "@/hooks/cat/usePendingSubmissions";
@@ -48,11 +49,28 @@ function SubmissionCard({
     return (
         <div className="rounded-xl border border-border bg-background/60 p-4 space-y-3">
             <div className="flex items-start justify-between gap-2">
-                <div>
-                    <p className="text-[14px] font-semibold">{submission.name}</p>
-                    {submission.color && (
-                        <p className="text-[12px] text-muted-foreground">{submission.color}</p>
+                <div className="flex gap-3">
+                    {submission.image ? (
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-border/50">
+                            <Image
+                                src={submission.image}
+                                alt={submission.name}
+                                fill
+                                unoptimized
+                                className="object-cover"
+                            />
+                        </div>
+                    ) : (
+                        <div className="relative w-12 h-12 rounded-lg shrink-0 border border-border/50 bg-muted flex items-center justify-center">
+                            <span className="text-[10px] text-muted-foreground font-medium uppercase">No IMG</span>
+                        </div>
                     )}
+                    <div>
+                        <p className="text-[14px] font-semibold">{submission.name}</p>
+                        {submission.color && (
+                            <p className="text-[12px] text-muted-foreground">{submission.color}</p>
+                        )}
+                    </div>
                 </div>
                 <StatusBadge status={submission.status} />
             </div>

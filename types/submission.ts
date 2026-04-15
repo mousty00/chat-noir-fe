@@ -5,6 +5,7 @@ export interface CatSubmission {
   userId: string;
   name: string;
   color?: string;
+  image?: string;
   category?: {
     id: string;
     name: string;

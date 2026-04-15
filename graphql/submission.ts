@@ -13,6 +13,7 @@ export const MY_SUBMISSIONS = gql`
           userId
           name
           color
+          image
           category {
             id
             name
@@ -49,6 +50,7 @@ export const PENDING_SUBMISSIONS = gql`
           userId
           name
           color
+          image
           category {
             id
             name

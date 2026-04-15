@@ -5,6 +5,8 @@ import { useCallback, useState } from "react";
 import { useAuthStore } from "../useAuthStore";
 import { API_URL } from "@/constants/api";
 
+type UploadMediaResponse = ApiResponseSubmission;
+
 interface SubmitCatInput {
   name: string;
   color?: string;
@@ -70,6 +72,11 @@ export const useSubmitCat = (): UseSubmitCatReturn => {
 
           if (!res.ok) {
             throw new Error(`Media upload failed: ${res.statusText}`);
+          }
+
+          const uploadResponse: UploadMediaResponse = await res.json();
+          if (!uploadResponse.success) {
+            throw new Error(uploadResponse.message || "Media upload failed");
           }
         }
 
