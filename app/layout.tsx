@@ -4,6 +4,7 @@ import { Instrument_Serif, DM_Sans, Geist_Mono } from "next/font/google";
 import { AuthGuard } from "@/provider/auth-guard";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieConsentBanner } from "@/components/gdpr/cookie-consent-banner";
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -78,6 +79,7 @@ export default function RootLayout({
       <body
         className={`${instrumentSerif.variable} ${dmSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Analytics mode="production" />
         <Providers>
           <AuthGuard>{children}</AuthGuard>
           <Toaster position="top-center" richColors />
