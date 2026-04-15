@@ -47,85 +47,140 @@ function SubmissionCard({
     loading: boolean;
 }) {
     return (
-        <div className="rounded-xl border border-border bg-background/60 p-4 space-y-3">
-            <div className="flex items-start justify-between gap-2">
-                <div className="flex gap-3">
-                    {submission.image ? (
-                        <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-border/50">
-                            <Image
-                                src={submission.image}
-                                alt={submission.name}
-                                fill
-                                unoptimized
-                                className="object-cover"
-                            />
-                        </div>
-                    ) : (
-                        <div className="relative w-12 h-12 rounded-lg shrink-0 border border-border/50 bg-muted flex items-center justify-center">
-                            <span className="text-[10px] text-muted-foreground font-medium uppercase">No IMG</span>
+        <div className="group rounded-xl border border-border bg-background/60 overflow-hidden flex flex-col h-full transition-all duration-300 hover:border-primary/20 hover:shadow-lg hover:shadow-primary/5">
+            <div className="relative aspect-square w-full overflow-hidden border-b border-border/50 bg-muted/30">
+                {submission.image ? (
+                    <Image
+                        src={submission.image}
+                        alt={submission.name}
+                        fill
+                        unoptimized
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-2">
+                        <RiSendPlaneLine className="w-6 h-6 text-muted-foreground/40" />
+                        <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">No Image</span>
+                    </div>
+                )}
+
+                {/* Status Badge Overlay */}
+                <div className="absolute top-3 right-3 drop-shadow-sm">
+                    <StatusBadge status={submission.status} />
+                </div>
+            </div>
+
+            {/* Content Section */}
+            <div className="p-4 flex-1 flex flex-col space-y-4">
+                <div className="space-y-1">
+                    <div className="flex items-center justify-between gap-2">
+                        <p className="text-[15px] font-semibold leading-tight text-foreground truncate">{submission.name}</p>
+                    </div>
+                    {submission.color && (
+                        <p className="text-[12px] text-muted-foreground font-medium">{submission.color}</p>
+                    )}
+                </div>
+
+                <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-[11px] text-muted-foreground">
+                    {submission.category && (
+                        <div className="flex flex-col gap-0.5">
+                            <span className="text-[10px] uppercase tracking-wider font-medium opacity-60 text-foreground/70">Category</span>
+                            <span className="text-foreground/90 font-medium truncate">{submission.category.name}</span>
                         </div>
                     )}
-                    <div>
-                        <p className="text-[14px] font-semibold">{submission.name}</p>
-                        {submission.color && (
-                            <p className="text-[12px] text-muted-foreground">{submission.color}</p>
-                        )}
+                    {submission.sourceName && (
+                        <div className="flex flex-col gap-0.5">
+                            <span className="text-[10px] uppercase tracking-wider font-medium opacity-60 text-foreground/70">Source</span>
+                            <span className="text-foreground/90 font-medium truncate">{submission.sourceName}</span>
+                        </div>
+                    )}
+                    {submission.createdAt && (
+                        <div className="flex flex-col gap-0.5 col-span-2">
+                            <span className="text-[10px] uppercase tracking-wider font-medium opacity-60 text-foreground/70">Submitted On</span>
+                            <span className="flex items-center gap-1.5 text-foreground/90 font-medium">
+                                <RiTimeLine className="w-3 h-3 opacity-60" />
+                                {new Date(submission.createdAt).toLocaleDateString(undefined, {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                })}
+                            </span>
+                        </div>
+                    )}
+                </div>
+
+                {submission.notes && (
+                    <div className="space-y-1.5 pt-3 border-t border-border/50">
+                        <span className="text-[10px] uppercase tracking-wider font-semibold text-foreground/40">Notes</span>
+                        <p className="text-[12px] text-muted-foreground/90 leading-relaxed italic line-clamp-3">
+                            "{submission.notes}"
+                        </p>
+                    </div>
+                )}
+
+                {submission.status === "REJECTED" && submission.rejectionReason && (
+                    <div className="bg-destructive/5 rounded-lg p-2.5 border border-destructive/10">
+                        <span className="text-[10px] uppercase tracking-wider font-bold text-destructive/70 block mb-0.5">Rejection Reason</span>
+                        <p className="text-[12px] text-destructive leading-relaxed">
+                            {submission.rejectionReason}
+                        </p>
+                    </div>
+                )}
+
+                <div className="mt-auto pt-2">
+                    {isAdmin && submission.status === "PENDING" && (
+                        <div className="flex gap-2.5 pt-3 border-t border-border/50">
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                className="flex-1 h-9 gap-1.5 text-[12px] font-medium text-green-600 border-green-500/20 hover:bg-green-500/10 hover:border-green-500/30 transition-colors"
+                                disabled={loading}
+                                onClick={() => onApprove?.(submission.id)}
+                            >
+                                {loading ? <RiLoader4Line className="w-3.5 h-3.5 animate-spin" /> : <RiCheckLine className="w-3.5 h-3.5" />}
+                                Approve
+                            </Button>
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                className="flex-1 h-9 gap-1.5 text-[12px] font-medium text-destructive border-destructive/20 hover:bg-destructive/10 hover:border-destructive/30 transition-colors"
+                                disabled={loading}
+                                onClick={() => onReject?.(submission.id)}
+                            >
+                                {loading ? <RiLoader4Line className="w-3.5 h-3.5 animate-spin" /> : <RiCloseLine className="w-3.5 h-3.5" />}
+                                Reject
+                            </Button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function SubmissionCardSkeleton() {
+    return (
+        <div className="rounded-xl border border-border bg-background/60 overflow-hidden flex flex-col h-full animate-pulse">
+            <div className="aspect-video w-full bg-muted/40" />
+            <div className="p-4 space-y-4">
+                <div className="space-y-2">
+                    <div className="h-4 w-3/4 bg-muted/40 rounded" />
+                    <div className="h-3 w-1/4 bg-muted/30 rounded" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                        <div className="h-2 w-1/2 bg-muted/20 rounded" />
+                        <div className="h-3 w-3/4 bg-muted/30 rounded" />
+                    </div>
+                    <div className="space-y-1">
+                        <div className="h-2 w-1/2 bg-muted/20 rounded" />
+                        <div className="h-3 w-3/4 bg-muted/30 rounded" />
                     </div>
                 </div>
-                <StatusBadge status={submission.status} />
-            </div>
-
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[12px] text-muted-foreground">
-                {submission.category && (
-                    <span>Category: <span className="text-foreground">{submission.category.name}</span></span>
-                )}
-                {submission.sourceName && (
-                    <span>Source: <span className="text-foreground">{submission.sourceName}</span></span>
-                )}
-                {submission.createdAt && (
-                    <span className="flex items-center gap-1">
-                        <RiTimeLine className="w-3 h-3" />
-                        {new Date(submission.createdAt).toLocaleDateString()}
-                    </span>
-                )}
-            </div>
-
-            {submission.notes && (
-                <p className="text-[12px] text-muted-foreground border-t border-border pt-2">
-                    {submission.notes}
-                </p>
-            )}
-
-            {submission.status === "REJECTED" && submission.rejectionReason && (
-                <p className="text-[12px] text-destructive border-t border-border pt-2">
-                    Reason: {submission.rejectionReason}
-                </p>
-            )}
-
-            {isAdmin && submission.status === "PENDING" && (
-                <div className="flex gap-2 pt-1 border-t border-border">
-                    <Button
-                        size="sm"
-                        variant="outline"
-                        className="flex-1 gap-1.5 text-[12px] text-green-600 border-green-500/30 hover:bg-green-500/10"
-                        disabled={loading}
-                        onClick={() => onApprove?.(submission.id)}
-                    >
-                        {loading ? <RiLoader4Line className="w-3.5 h-3.5 animate-spin" /> : <RiCheckLine className="w-3.5 h-3.5" />}
-                        Approve
-                    </Button>
-                    <Button
-                        size="sm"
-                        variant="outline"
-                        className="flex-1 gap-1.5 text-[12px] text-destructive border-destructive/30 hover:bg-destructive/10"
-                        disabled={loading}
-                        onClick={() => onReject?.(submission.id)}
-                    >
-                        {loading ? <RiLoader4Line className="w-3.5 h-3.5 animate-spin" /> : <RiCloseLine className="w-3.5 h-3.5" />}
-                        Reject
-                    </Button>
+                <div className="pt-3 border-t border-border/50">
+                    <div className="h-12 w-full bg-muted/20 rounded" />
                 </div>
-            )}
+            </div>
         </div>
     );
 }
@@ -197,7 +252,7 @@ export default function SubmissionsPage() {
                     {pendingLoading ? (
                         <div className="grid gap-3 sm:grid-cols-2">
                             {Array.from({ length: 4 }).map((_, i) => (
-                                <div key={i} className="rounded-xl border border-border bg-background/60 p-4 h-[120px] animate-pulse" />
+                                <SubmissionCardSkeleton key={i} />
                             ))}
                         </div>
                     ) : pendingSubmissions.length === 0 ? (
@@ -247,7 +302,7 @@ export default function SubmissionsPage() {
                 {myLoading ? (
                     <div className="grid gap-3 sm:grid-cols-2">
                         {Array.from({ length: 4 }).map((_, i) => (
-                            <div key={i} className="rounded-xl border border-border bg-background/60 p-4 h-[120px] animate-pulse" />
+                            <SubmissionCardSkeleton key={i} />
                         ))}
                     </div>
                 ) : mySubmissions.length === 0 ? (

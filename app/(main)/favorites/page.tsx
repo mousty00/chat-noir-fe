@@ -2,12 +2,13 @@
 
 import { FavoriteCatCard } from "@/components/favorites/favorite-cat-card";
 import { CatDetailsDrawer } from "@/components/cat/cat-details-drawer";
+import { CatGridSkeleton } from "@/components/cat/cat-card-skeleton";
 
 import { PaginationControls } from "@/components/layout/pagination-control";
 import { Stats } from "@/components/layout/stats";
 import { ErrorState } from "@/components/ui/error-state";
 import { useState } from "react";
-import { RiHeartLine, RiLoader4Line } from "react-icons/ri";
+import { RiHeartLine } from "react-icons/ri";
 import { UserFavorite } from "@/types/favorites";
 import { useMyFavorites } from "@/hooks/favorites/useMyFavorites";
 
@@ -66,10 +67,7 @@ export default function FavoritesPage() {
       </section>
 
       {loading && favorites.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-32 gap-4 text-muted-foreground">
-          <RiLoader4Line className="h-8 w-8 animate-spin text-secondary" />
-          <p className="text-[10px] font-mono uppercase tracking-widest">Loading favorites...</p>
-        </div>
+        <CatGridSkeleton />
       ) : favorites.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-32 gap-4 text-muted-foreground">
           <RiHeartLine className="h-12 w-12 opacity-20" />
@@ -79,7 +77,7 @@ export default function FavoritesPage() {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+        <section className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
           {favorites.map((favorite: UserFavorite) => (
             <FavoriteCatCard
               key={favorite.id}
@@ -87,7 +85,7 @@ export default function FavoritesPage() {
               onView={handleDetails}
             />
           ))}
-        </div>
+        </section>
       )}
 
       <CatDetailsDrawer

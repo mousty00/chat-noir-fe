@@ -2,24 +2,20 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export const CatCardSkeleton = () => {
     return (
-        <div className="flex flex-col gap-4 w-full max-w-sm rounded-xl p-2">
+        <div className="flex flex-col w-full">
 
-            <Skeleton className="w-full aspect-square rounded-lg" />
+            <Skeleton className="w-full aspect-square rounded-2xl" />
 
-            <div className="flex flex-col gap-2 px-1">
-                <div className="flex items-center justify-between">
-
-                    <Skeleton className="h-5 w-2/3" />
+            <div className="pt-2.5 pb-1 px-0.5 space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                    <Skeleton className="h-4 w-2/3" />
+                    <Skeleton className="h-3 w-1/4" />
                 </div>
 
-
-                <div className="h-px w-full bg-muted" />
-
-                <div className="flex justify-between items-center mt-1">
-
-                    <Skeleton className="h-3 w-1/4" />
-
-                    <Skeleton className="h-3 w-1/4" />
+                <div className="flex md:hidden items-center gap-1.5 mt-2.5">
+                    <Skeleton className="h-7 w-7 rounded-xl" />
+                    <Skeleton className="h-7 w-7 rounded-xl" />
+                    <Skeleton className="h-7 w-7 rounded-xl" />
                 </div>
             </div>
         </div>
@@ -28,10 +24,10 @@ export const CatCardSkeleton = () => {
 
 export const CatGridSkeleton = () => {
     return (
-        <div className="grid gap-3 md:gap-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
-            {Array.from({ length: 12 }).map((_, i) => (
+        <section className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full">
+            {Array.from({ length: 8 }).map((_, i) => (
                 <CatCardSkeleton key={i} />
             ))}
-        </div>
+        </section>
     );
 };
