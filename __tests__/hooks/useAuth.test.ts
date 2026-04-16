@@ -191,7 +191,7 @@ describe('useAuth', () => {
   })
 
   describe('logout', () => {
-    it('clears the store, shows info toast, and navigates to /login', () => {
+    it('clears the store, shows info toast, and navigates to /', () => {
       const { result } = renderHook(() => useAuth())
       act(() => {
         result.current.logout()
@@ -199,7 +199,7 @@ describe('useAuth', () => {
 
       expect(mockStore.logout).toHaveBeenCalledOnce()
       expect(mockToast.info).toHaveBeenCalledWith('Logged out from the archive.')
-      expect(mockPush).toHaveBeenCalledWith('/login')
+      expect(mockPush).toHaveBeenCalledWith('/')
     })
   })
 })
