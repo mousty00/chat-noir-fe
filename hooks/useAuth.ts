@@ -38,7 +38,7 @@ export const useAuth = () => {
       }
 
       const data = result.data;
-      
+
       const user: User = {
         username: data.username,
         email: data.email,
@@ -48,7 +48,7 @@ export const useAuth = () => {
 
       setToken(data.token);
       setUser(user);
-      
+
       toast.success("Welcome back to the archive.");
       router.push("/");
       return { success: true };
@@ -119,7 +119,7 @@ export const useAuth = () => {
   const logout = useCallback(() => {
     clearStore();
     toast.info("Logged out from the archive.");
-    router.push("/login");
+    router.push("/");
   }, [clearStore, router]);
 
   const deleteAccount = useCallback(async () => {
