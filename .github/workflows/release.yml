@@ -24,11 +24,16 @@ jobs:
       contents: write
 
     steps:
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -37,8 +42,9 @@ jobs:
 
       - name: Configure git
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "mousty00"
+          git config user.email "mousty00@users.noreply.github.com"
+          git remote set-url origin git@github.com:${{ github.repository }}.git
 
       - name: Bump version
         id: version
