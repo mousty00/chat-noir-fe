@@ -9,10 +9,12 @@ export const LOGIN = gql`
       success
       data {
         token
+        id
         username
         email
         isAdmin
         roles
+        image
       }
     }
   }

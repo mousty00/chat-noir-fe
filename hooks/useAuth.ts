@@ -40,10 +40,12 @@ export const useAuth = () => {
       const data = result.data;
 
       const user: User = {
+        id: data.id,
         username: data.username,
         email: data.email,
         isAdmin: data.isAdmin,
         roles: data.roles,
+        image: data.image ?? undefined,
       };
 
       setToken(data.token);

@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
 import { RiMoonLine, RiPaletteLine, RiShieldUserLine, RiSunLine, RiDeleteBin6Line, RiAlertLine } from "react-icons/ri";
+import { APP_VERSION, APP_BUILD_SHA } from "@/constants/app";
 
 export default function SettingsPage() {
     const { theme, setTheme } = useThemeStore();
@@ -101,6 +102,8 @@ export default function SettingsPage() {
 
                     <div className="p-4 rounded-xl border border-border bg-muted/50">
                         <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest leading-relaxed">
+                            Version: v{APP_VERSION}<br />
+                            Build: {APP_BUILD_SHA}<br />
                             Architecture: Next.js<br />
                             Protocol: GraphQL<br />
                             Theme: {theme.toUpperCase()}

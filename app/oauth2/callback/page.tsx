@@ -9,6 +9,7 @@ import { User } from "@/types/auth";
 
 interface GoogleJwtPayload {
   sub: string;
+  userId?: string;
   username: string;
   email: string;
   isAdmin: boolean;
@@ -33,6 +34,7 @@ export default function OAuth2CallbackPage() {
       const payload = jwtDecode<GoogleJwtPayload>(token);
 
       const user: User = {
+        id: payload.userId ?? payload.sub,
         username: payload.username,
         email: payload.email,
         isAdmin: payload.isAdmin,

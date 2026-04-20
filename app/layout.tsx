@@ -5,6 +5,7 @@ import { AuthGuard } from "@/provider/auth-guard";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieConsentBanner } from "@/components/gdpr/cookie-consent-banner";
 import { Analytics } from "@vercel/analytics/next"
+import { APP_NAME, APP_VERSION } from "@/constants/app";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -36,8 +37,9 @@ export const metadata: Metadata = {
   description:
     "A curated database of cats across all categories — browsable, searchable, and open to the archive. Discover, favorite, and submit cats.",
   keywords: ["cats", "cat archive", "cat database", "cat photos", "cat breeds", "ChatNoir"],
-  authors: [{ name: "Chat Noir" }],
-  creator: "Chat Noir",
+  authors: [{ name: APP_NAME }],
+  creator: APP_NAME,
+  generator: `${APP_NAME} v${APP_VERSION}`,
   metadataBase: new URL("https://chatnoir.fun"),
   openGraph: {
     type: "website",

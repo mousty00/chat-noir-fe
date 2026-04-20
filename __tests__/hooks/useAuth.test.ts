@@ -61,10 +61,12 @@ describe('useAuth', () => {
             message: 'Login successful',
             data: {
               token: 'jwt-token',
+              id: 'user-uuid-123',
               username: 'testuser',
               email: 'test@example.com',
               isAdmin: false,
               roles: ['USER'],
+              image: null,
             },
           },
         },
@@ -79,10 +81,12 @@ describe('useAuth', () => {
       expect(res!.success).toBe(true)
       expect(mockStore.setToken).toHaveBeenCalledWith('jwt-token')
       expect(mockStore.setUser).toHaveBeenCalledWith({
+        id: 'user-uuid-123',
         username: 'testuser',
         email: 'test@example.com',
         isAdmin: false,
         roles: ['USER'],
+        image: undefined,
       })
       expect(mockPush).toHaveBeenCalledWith('/')
       expect(mockToast.success).toHaveBeenCalledWith('Welcome back to the archive.')

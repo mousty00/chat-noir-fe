@@ -23,6 +23,11 @@ export const useAuthStore = create<AuthState>()(
 
       setError: (error: string | null) => set({ error }),
 
+      updateUserImage: (image: string) =>
+        set((state) => ({
+          user: state.user ? { ...state.user, image } : null,
+        })),
+
       logout: () =>
         set({
           user: null,

@@ -17,6 +17,9 @@ import {
 } from "react-icons/ri";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useSubmissionNotifications } from "@/hooks/useSubmissionNotifications";
+import { useNotificationStore } from "@/hooks/useNotificationStore";
+import { useEffect } from "react";
 
 const statusConfig: Record<SubmissionStatus, { label: string; className: string }> = {
     PENDING: { label: "Pending", className: "bg-amber-500/10 text-amber-600 border-amber-500/20" },
@@ -205,6 +208,13 @@ export default function SubmissionsPage() {
     } = usePendingSubmissions();
 
     const { approve, reject, loading: reviewLoading } = useReviewSubmission();
+    const { clear: clearNotifications } = useNotificationStore();
+
+    useSubmissionNotifications(mySubmissions);
+
+    useEffect(() => {
+        clearNotifications();
+    }, [clearNotifications]);
 
     const handleApprove = async (id: string) => {
         const ok = await approve(id);

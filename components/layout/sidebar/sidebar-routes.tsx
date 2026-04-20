@@ -13,6 +13,7 @@ import {
 } from "react-icons/ri";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/hooks/useAuthStore";
+import { useNotificationStore } from "@/hooks/useNotificationStore";
 import { useRef, useEffect } from "react";
 import { animate } from "animejs";
 
@@ -67,6 +68,7 @@ function NavItem({
 export function SidebarRoutes({ onNavigate }: SidebarRoutesProps) {
   const pathname = usePathname();
   const { isAuthenticated } = useAuthStore();
+  const unseenCount = useNotificationStore((s) => s.unseenCount);
   const navRef = useRef<HTMLElement>(null);
 
   // Entrance stagger
@@ -109,6 +111,11 @@ export function SidebarRoutes({ onNavigate }: SidebarRoutesProps) {
               >
                 <route.icon className="w-4 h-4 shrink-0 lg:w-3.5 lg:h-3.5" />
                 <span>{route.label}</span>
+                {route.href === "/submissions" && unseenCount > 0 && (
+                  <span className="ml-auto lg:ml-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-secondary text-primary-foreground text-[10px] font-bold leading-none">
+                    {unseenCount > 9 ? "9+" : unseenCount}
+                  </span>
+                )}
               </Link>
             </NavItem>
           );

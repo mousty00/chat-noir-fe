@@ -20,6 +20,7 @@ import { useDeleteCat } from "@/hooks/cat/useDeleteCat";
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { Cat } from "@/types/cat";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [category, setCategory] = useState<string | undefined>(undefined);
@@ -33,6 +34,7 @@ export default function Home() {
 
   const { user } = useAuthStore();
   const { categories } = useCategories();
+  const router = useRouter();
 
   const {
     cats,
@@ -94,6 +96,10 @@ export default function Home() {
       setSelectedCat(catToEdit);
       setIsUpdateOpen(true);
     }
+  };
+
+  const handleView = (id: string) => {
+    router.push(`/cats/${id}`);
   };
 
   const handleDetails = (id: string) => {
@@ -186,7 +192,7 @@ export default function Home() {
         <CatGrid
           cats={cats}
           onDownload={downloadMedia}
-          onView={handleDetails}
+          onView={handleView}
           onEdit={handleEdit}
           onDelete={handleDelete}
           onDetails={handleDetails}

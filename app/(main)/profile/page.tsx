@@ -2,8 +2,9 @@
 
 import { useAuthStore } from "@/hooks/useAuthStore";
 import { useAuth } from "@/hooks/useAuth";
+import { useUploadProfileImage } from "@/hooks/user/useUploadProfileImage";
 import { cn } from "@/lib/utils";
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import {
     RiMailLine,
@@ -14,6 +15,8 @@ import {
     RiEyeOffLine,
     RiCheckLine,
     RiUserLine,
+    RiCameraLine,
+    RiLoader4Line,
 } from "react-icons/ri";
 
 function InfoRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
@@ -69,6 +72,81 @@ function PasswordField({
     );
 }
 
+function AvatarUpload() {
+    const { user } = useAuthStore();
+    const { upload, uploading } = useUploadProfileImage();
+    const fileRef = useRef<HTMLInputElement>(null);
+    const [preview, setPreview] = useState<string | null>(null);
+
+    const initials = user?.username.slice(0, 2).toUpperCase() ?? "??";
+    const src = preview ?? user?.image ?? null;
+
+    const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const objectUrl = URL.createObjectURL(file);
+        setPreview(objectUrl);
+
+        const ok = await upload(file);
+        if (!ok) setPreview(null);
+
+        URL.revokeObjectURL(objectUrl);
+        e.target.value = "";
+    };
+
+    return (
+        <div className="flex flex-col items-center gap-3">
+            <button
+                type="button"
+                onClick={() => !uploading && fileRef.current?.click()}
+                className="relative group focus:outline-none"
+                title="Change profile picture"
+                disabled={uploading}
+            >
+                <div className="h-24 w-24 rounded-full bg-linear-to-tr from-secondary to-secondary/40 p-1 shadow-xl shadow-secondary/20">
+                    {src ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                            src={src}
+                            alt={user?.username}
+                            className="h-full w-full rounded-full object-cover"
+                        />
+                    ) : (
+                        <div className="h-full w-full rounded-full bg-background flex items-center justify-center text-2xl font-black text-foreground">
+                            {initials}
+                        </div>
+                    )}
+                </div>
+
+                {/* Hover overlay */}
+                <div className={cn(
+                    "absolute inset-0 rounded-full flex items-center justify-center transition-opacity duration-200",
+                    "bg-black/50",
+                    uploading ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                )}>
+                    {uploading
+                        ? <RiLoader4Line className="h-5 w-5 text-white animate-spin" />
+                        : <RiCameraLine className="h-5 w-5 text-white" />
+                    }
+                </div>
+            </button>
+
+            <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
+                {uploading ? "Uploading..." : "Click to change"}
+            </p>
+
+            <input
+                ref={fileRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                className="hidden"
+                onChange={handleFile}
+            />
+        </div>
+    );
+}
+
 export default function ProfilePage() {
     const { user } = useAuthStore();
     const { changePassword, isLoading } = useAuth();
@@ -86,8 +164,6 @@ export default function ProfilePage() {
     }, []);
 
     if (!mounted || !user) return null;
-
-    const initials = user.username.slice(0, 2).toUpperCase();
 
     const handleChangePassword = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -112,11 +188,6 @@ export default function ProfilePage() {
         }
     };
 
-    const memberSince = (() => {
-        // The user object doesn't have createdAt, show a placeholder
-        return "Member";
-    })();
-
     return (
         <div className="w-full max-w-4xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div>
@@ -127,20 +198,7 @@ export default function ProfilePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="space-y-6">
                     <div className="p-6 rounded-2xl bg-secondary/5 border border-secondary/20 flex flex-col items-center text-center gap-4">
-                        <div className="h-24 w-24 rounded-full bg-linear-to-tr from-secondary to-secondary/40 p-1 shadow-xl shadow-secondary/20">
-                            {user.image ? (
-                                // eslint-disable-next-line @next/next/no-img-element
-                                <img
-                                    src={user.image}
-                                    alt={user.username}
-                                    className="h-full w-full rounded-full object-cover"
-                                />
-                            ) : (
-                                <div className="h-full w-full rounded-full bg-background flex items-center justify-center text-2xl font-black text-foreground">
-                                    {initials}
-                                </div>
-                            )}
-                        </div>
+                        <AvatarUpload />
                         <div className="space-y-1">
                             <p className="text-lg font-bold tracking-tight">{user.username}</p>
                             <p className="text-xs text-muted-foreground font-mono">{user.email}</p>
@@ -158,7 +216,7 @@ export default function ProfilePage() {
                     <div className="p-4 rounded-xl border border-border bg-muted/50">
                         <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest leading-relaxed">
                             Role: {user.isAdmin ? "ADMIN" : "USER"}<br />
-                            Status: {memberSince}<br />
+                            Status: Member<br />
                             Roles: {user.roles.join(", ")}
                         </p>
                     </div>

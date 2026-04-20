@@ -29,7 +29,7 @@ export function SidebarIdentity() {
         <div className="mb-6 px-1 lg:mb-0 lg:px-0">
             <div className="flex items-center gap-3">
                 <Link href="/profile" className="flex items-center gap-3">
-                    <div className="w-9 h-9 bg-secondary/15 border border-secondary/25 rounded-xl flex items-center justify-center text-secondary overflow-hidden shrink-0 lg:w-8 lg:h-8 lg:rounded-lg">
+                    <div className="relative w-9 h-9 bg-secondary/15 border border-secondary/25 rounded-xl flex items-center justify-center text-secondary overflow-hidden shrink-0 lg:w-8 lg:h-8 lg:rounded-lg">
                         {user.image ? (
                             <Image
                                 src={user.image}
