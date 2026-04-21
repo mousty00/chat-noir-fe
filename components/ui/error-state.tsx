@@ -4,7 +4,7 @@ import { AlertCircle } from "lucide-react";
 interface ErrorStateProps {
     title?: string;
     message: string;
-    onRetry: () => void;
+    onRetry?: () => void;
 }
 
 export const ErrorState = ({
@@ -28,13 +28,15 @@ export const ErrorState = ({
                 MSG: {message}
             </p>
 
-            <Button
-                onClick={onRetry}
-                variant="outline"
-                className="w-full h-12 rounded-none border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all uppercase tracking-widest font-bold"
-            >
-                Rescue_System
-            </Button>
+            {onRetry && (
+                <Button
+                    onClick={onRetry}
+                    variant="outline"
+                    className="w-full h-12 rounded-none border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all uppercase tracking-widest font-bold"
+                >
+                    Rescue_System
+                </Button>
+            )}
         </div>
     );
 };

@@ -1,9 +1,14 @@
 import { useMutation } from "@apollo/client/react";
 import { SEND_FRIEND_REQUEST, MY_FRIENDS, EXPLORE_USERS } from "@/graphql/friendship";
+import { FriendshipApiResponse } from "@/types/friendship";
 import { toast } from "sonner";
 
+interface SendFriendRequestData {
+  sendFriendRequest: FriendshipApiResponse;
+}
+
 export const useSendFriendRequest = () => {
-  const [mutate, { loading }] = useMutation(SEND_FRIEND_REQUEST, {
+  const [mutate, { loading }] = useMutation<SendFriendRequestData>(SEND_FRIEND_REQUEST, {
     refetchQueries: [MY_FRIENDS, EXPLORE_USERS],
     onCompleted: (data) => {
       if (data?.sendFriendRequest?.success) {

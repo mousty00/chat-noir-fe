@@ -1,9 +1,14 @@
 import { useMutation } from "@apollo/client/react";
 import { REMOVE_FRIEND, MY_FRIENDS } from "@/graphql/friendship";
+import { ApiResponse } from "@/types/cat";
 import { toast } from "sonner";
 
+interface RemoveFriendData {
+  removeFriend: ApiResponse<null>;
+}
+
 export const useRemoveFriend = () => {
-  const [mutate, { loading }] = useMutation(REMOVE_FRIEND, {
+  const [mutate, { loading }] = useMutation<RemoveFriendData>(REMOVE_FRIEND, {
     refetchQueries: [MY_FRIENDS],
     onCompleted: (data) => {
       if (data?.removeFriend?.success) {
