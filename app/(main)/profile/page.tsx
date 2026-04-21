@@ -89,8 +89,7 @@ function AvatarUpload() {
         setPreview(objectUrl);
 
         const ok = await upload(file);
-        if (!ok) setPreview(null);
-
+        setPreview(null);
         URL.revokeObjectURL(objectUrl);
         e.target.value = "";
     };

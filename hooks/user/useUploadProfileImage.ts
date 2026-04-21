@@ -11,7 +11,11 @@ export const useUploadProfileImage = () => {
 
   const upload = useCallback(async (file: File): Promise<boolean> => {
     const { user, token } = useAuthStore.getState();
-    if (!user?.id || !token) return false;
+    if (!token) return false;
+    if (!user?.id) {
+      toast.error("Session expired. Please log out and log in again.");
+      return false;
+    }
 
     const allowed = ["image/jpeg", "image/png", "image/webp", "image/gif"];
     if (!allowed.includes(file.type)) {
@@ -33,6 +37,13 @@ export const useUploadProfileImage = () => {
         headers: { Authorization: `Bearer ${token}` },
         body: form,
       });
+
+      if (!res.ok) {
+        const text = await res.text();
+        let msg = "Upload failed";
+        try { msg = JSON.parse(text).message ?? msg; } catch { /* non-JSON error body */ }
+        throw new Error(msg);
+      }
 
       const json = await res.json();
       if (!json.success) throw new Error(json.message || "Upload failed");
