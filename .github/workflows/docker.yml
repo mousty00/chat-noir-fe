@@ -58,6 +58,7 @@ jobs:
             type=sha,prefix=sha-,format=short
 
       - name: Build and push Docker image
+        id: docker_build
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -68,3 +69,18 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+
+      - name: Deploy to Railway
+        if: success()
+        run: |
+          curl -sf -X POST \
+            -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "query": "mutation redeploy($serviceId: String!, $environmentId: String!) { serviceInstanceRedeploy(serviceId: $serviceId, environmentId: $environmentId) }",
+              "variables": {
+                "serviceId": "${{ secrets.RAILWAY_SERVICE_ID }}",
+                "environmentId": "${{ secrets.RAILWAY_ENVIRONMENT_ID }}"
+              }
+            }' \
+            https://backboard.railway.com/graphql/v2

@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const APP_VERSION = process.env.npm_package_version ?? "0.0.0";
-const BUILD_SHA = (process.env.VERCEL_GIT_COMMIT_SHA ?? process.env.GITHUB_SHA ?? "local").slice(0, 7);
+const BUILD_SHA = (process.env.RAILWAY_GIT_COMMIT_SHA ?? process.env.GITHUB_SHA ?? "local").slice(0, 7);
 
 const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },

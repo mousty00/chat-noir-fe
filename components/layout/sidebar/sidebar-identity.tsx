@@ -5,9 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export function SidebarIdentity() {
+export function SidebarIdentity({ onNavigate }: { onNavigate: () => void }) {
     const { user } = useAuthStore();
     const { logout } = useAuth();
+
+
 
     if (!user) return (
         <div className="mb-6 px-1 lg:mb-0 lg:px-0">
@@ -28,7 +30,7 @@ export function SidebarIdentity() {
     return (
         <div className="mb-6 px-1 lg:mb-0 lg:px-0">
             <div className="flex items-center gap-3">
-                <Link href="/profile" className="flex items-center gap-3">
+                <Link href="/profile" onClick={onNavigate} className="flex items-center gap-3">
                     <div className="relative w-9 h-9 bg-secondary/15 border border-secondary/25 rounded-xl flex items-center justify-center text-secondary overflow-hidden shrink-0 lg:w-8 lg:h-8 lg:rounded-lg">
                         {user.image ? (
                             <Image

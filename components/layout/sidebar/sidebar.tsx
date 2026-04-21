@@ -44,7 +44,7 @@ export function Sidebar() {
           <div className="grow overflow-y-auto scrollbar-hide py-5 px-3 lg:overflow-visible lg:py-0 lg:px-0 lg:flex lg:items-center lg:gap-8 lg:grow">
             <SidebarRoutes onNavigate={closeSidebar} />
             <div className="lg:ml-auto">
-              <SidebarIdentity />
+              <SidebarIdentity onNavigate={closeSidebar} />
             </div>
           </div>
         </div>
