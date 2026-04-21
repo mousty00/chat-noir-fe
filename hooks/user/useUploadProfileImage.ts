@@ -10,9 +10,8 @@ export const useUploadProfileImage = () => {
   const { updateUserImage } = useAuthStore();
 
   const upload = useCallback(async (file: File): Promise<boolean> => {
-    const { user, token } = useAuthStore.getState();
-    if (!token) return false;
-    if (!user?.id) {
+    const { token } = useAuthStore.getState();
+    if (!token) {
       toast.error("Session expired. Please log out and log in again.");
       return false;
     }
@@ -32,7 +31,7 @@ export const useUploadProfileImage = () => {
       const form = new FormData();
       form.append("imageFile", file);
 
-      const res = await fetch(`${API_URL}/users/${user.id}/profile-image`, {
+      const res = await fetch(`${API_URL}/users/me/profile-image`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: form,
